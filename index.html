@@ -328,6 +328,61 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-周报4-6" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/01/周报4-6/" class="article-date">
+      <time datetime="2019-04-01T08:36:46.000Z" itemprop="datePublished">2019-04-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/01/周报4-6/">周报4.6</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>1.很多API函数,但都不是用于检测进程名的,可能这些重要的API函数被隐藏起来了,没有出现该列表中。<br>很显然如果程序不直接导入某些API的话,会使用GetProcAddress这个API 函数来获取这些API函数的地址进行间接调用。<br>使用GetProcAddress函数加载的一些API函数并不会出现该API函数列表中,我们给GetProcAddress设置一个断点，运行直到待获取的API是与检测进程名相关的为止。<br>GetModuleBaseNameA：该函数是获取指定进程模块的名称,lpBaseName这个参数是用来保存模块名称的缓冲区首地址。<br>2.算法题目练习，最近要参加校赛，在南阳acm上面刷题。</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-周报3-31" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -794,67 +849,6 @@
       
           
         <p>1.本周首先完成了组长分配的任务，完成了管理系统，比自己之前写的系统多了很多功能，之前只是写了链表的增删查改，而本周实现了更多的功能，将链表的信息存入文件，再从文件中输出，各科成绩的详细信息等等，总而言之，相对的完成了一个比较完善的管理系统，说一说体会吧，完成了增删查改之后，大约就不知道些什么功能了，在网上看的学生成绩管理系统，大都是这些功能，比较懵逼，最后联想到自己看过的管理系统使用时需要运用那些功能，就把他们增加上去了，并不是很难的内容，因为只要增删查改会了，基本上后边这些功能就不难实现，只需要遍历链表就可以，最后也完成了这个管理系统。<br>2.其次看了python的初步内容，学习了pycharm的用法，配置了pycharm的环境，学习了python的第一章节的内容，和c一样，很简单，比c语言的好处是，代码量少，容易理解，c语言用多行代码写出的东西，python用几行就可以写出来，这只是初体验，python的学习没有课本，在慕课上学习的python。<br>3.本周的数据结构和算法一书，看了第二章和第三章，第二章主要讲的是算法分析，数学基础，一些模型，运行时间的计算（真不知道这个能干哈。。。。），第三章讲的是表，栈，队列，表ADT。。下来讲的是链表的增删查改，循环链表等，这些内容由于已经差不多学习过了，就粗略的看了看，下来是基数排序，多重表，栈ADT。。栈的模型，实现，栈的数组等，队列ADT。。模型。。实现等。。。<br>4.本周主要进行了这三方面的学习，链表感觉也挺好写，python下周继续，数据结构与算法真的难。。。。也可能是枯燥。。有些许看不懂</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-周报12-28" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/12/28/周报12-28/" class="article-date">
-      <time datetime="2018-12-28T13:39:01.000Z" itemprop="datePublished">2018-12-28</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/28/周报12-28/">周报12.28</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>1，完成了我的链表学生成绩管理系统，实现了增 删 查 改 总成绩 平均成绩，用swich case 语句完成了功能选择，其中碰到的问题是不能更改或删除第一个学生的信息，最后也解决了。<br>2，完成了文件的基本练习，文件的建立写入，文件的读取，两个文件读取后存入另一个文件中等基本操作。<br>3，快期末考试了，复习是必不可少的，主要有回归了一下指针，高数在练习老师教的内容以及前面不太会的内容。<br>4，介绍一下我的这个成绩管理系统的主要部分函数吧！<br>…</p>
-<p><1> 首先是输入函数，就是简单的动态链表的建立，当输入的值为0时结束输入。</1></p>
-<p><2> 下来是信息增加函数，单链表的插入，开辟一个新的空间，使新节点指向首结点。</2></p>
-<p><3> 下来是信息删除函数，单链表的删除，遍历链表，找到要删除的节点，删除节点的信息，释放储存空间，减少节点个数。</3></p>
-<p><4> 查询函数有和删除函数类似的地方，就是遍历链表，找到需要查询的学生信息输出即可。</4></p>
-<p><5> 信息更改函数就是找到该学生的信息先开辟新的储存空间存临时变量，再用临时变量覆盖要更改的信息就好。</5></p>
-<p><6> 平均成绩和总成绩类似，遍历链表所有的成绩 求和 ，求平均数，在该函数里输出。<br>…</6></p>
 
       
       
