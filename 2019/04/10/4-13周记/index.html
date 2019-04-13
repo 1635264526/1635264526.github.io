@@ -3,19 +3,19 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>链表文件存入输出 | loser的博客</title>
+  <title>4.13周ji | loser的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869#include&amp;lt;stdio.h&amp;gt;#include&amp;lt;stdlib.h&amp;gt;#include&amp;lt;malloc.h&amp;gt;">
+  <meta name="description" content="1.前3天在南阳上和codevs刷题,大部分都是简单题，主要作用是回忆巩固一下c的知识哈哈哈。2.od学习记录：    1.缓冲区返回的是FFFFFFFF的话表示当前程序正在被调试,如果返回的是0的话,表示当前程序没有被调试。                2.SetUnhandledExceptionFilter：该函数的唯一一个参数为异常处理函数指针。                当程序发生">
 <meta property="og:type" content="article">
-<meta property="og:title" content="链表文件存入输出">
-<meta property="og:url" content="http://yoursite.com/2019/03/22/链表文件存入输出/index.html">
+<meta property="og:title" content="4.13周ji">
+<meta property="og:url" content="http://yoursite.com/2019/04/10/4-13周记/index.html">
 <meta property="og:site_name" content="loser的博客">
-<meta property="og:description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869#include&amp;lt;stdio.h&amp;gt;#include&amp;lt;stdlib.h&amp;gt;#include&amp;lt;malloc.h&amp;gt;">
+<meta property="og:description" content="1.前3天在南阳上和codevs刷题,大部分都是简单题，主要作用是回忆巩固一下c的知识哈哈哈。2.od学习记录：    1.缓冲区返回的是FFFFFFFF的话表示当前程序正在被调试,如果返回的是0的话,表示当前程序没有被调试。                2.SetUnhandledExceptionFilter：该函数的唯一一个参数为异常处理函数指针。                当程序发生">
 <meta property="og:locale" content="chinese">
-<meta property="og:updated_time" content="2019-03-22T04:13:27.422Z">
+<meta property="og:updated_time" content="2019-04-13T09:54:00.924Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="链表文件存入输出">
-<meta name="twitter:description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869#include&amp;lt;stdio.h&amp;gt;#include&amp;lt;stdlib.h&amp;gt;#include&amp;lt;malloc.h&amp;gt;">
+<meta name="twitter:title" content="4.13周ji">
+<meta name="twitter:description" content="1.前3天在南阳上和codevs刷题,大部分都是简单题，主要作用是回忆巩固一下c的知识哈哈哈。2.od学习记录：    1.缓冲区返回的是FFFFFFFF的话表示当前程序正在被调试,如果返回的是0的话,表示当前程序没有被调试。                2.SetUnhandledExceptionFilter：该函数的唯一一个参数为异常处理函数指针。                当程序发生">
   
     <link rel="alternative" href="/atom.xml" title="loser的博客" type="application/atom+xml">
   
@@ -327,11 +327,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-链表文件存入输出" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-4-13周记" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/03/22/链表文件存入输出/" class="article-date">
-      <time datetime="2019-03-22T04:08:39.000Z" itemprop="datePublished">2019-03-22</time>
+      <a href="/2019/04/10/4-13周记/" class="article-date">
+      <time datetime="2019-04-10T12:01:25.000Z" itemprop="datePublished">2019-04-10</time>
 </a>
     </div>
   
@@ -344,7 +344,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      链表文件存入输出
+      4.13周ji
     </h1>
   
 
@@ -361,7 +361,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include&lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include&lt;stdlib.h&gt;</span></span><br><span class="line"><span class="comment">#include&lt;malloc.h&gt;</span></span><br><span class="line">typedef struct node &#123;</span><br><span class="line">    int data;</span><br><span class="line">    struct node *next;       </span><br><span class="line">&#125;node;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">//从文件中读取数据存入链表 </span><br><span class="line">node *createlink()</span><br><span class="line">&#123;</span><br><span class="line">    node *head =(node*)malloc(sizeof(node));</span><br><span class="line">    int t;</span><br><span class="line">    node *p;</span><br><span class="line">    node *q;</span><br><span class="line">    p=q=head;</span><br><span class="line">    FILE * r= fopen(<span class="string">"input.txt"</span>,<span class="string">"r"</span>);</span><br><span class="line">    <span class="keyword">if</span>(r==NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"打开文件失败!"</span>);</span><br><span class="line">        <span class="built_in">return</span> NULL; </span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">while</span>(fscanf(r,<span class="string">"%d"</span>,&amp;t)!=EOF)</span><br><span class="line">    &#123;  </span><br><span class="line">       q= (node*)malloc(sizeof(node));</span><br><span class="line">       q-&gt;data=t;</span><br><span class="line">       p-&gt;next=q;</span><br><span class="line">       p=q;</span><br><span class="line">    &#125;</span><br><span class="line">    p-&gt;next=NULL;</span><br><span class="line">    <span class="built_in">return</span> head;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"> </span><br><span class="line">//输出链表到屏幕和文件output.txt </span><br><span class="line">void outlink(node *head)</span><br><span class="line">&#123;</span><br><span class="line">   node *p=head-&gt;next;</span><br><span class="line">   FILE *w =fopen(<span class="string">"output.txt"</span>,<span class="string">"w"</span>);</span><br><span class="line">   <span class="keyword">if</span>(w==NULL)</span><br><span class="line">   &#123;</span><br><span class="line">       <span class="built_in">printf</span>(<span class="string">"打开文件失败!"</span>);</span><br><span class="line">       <span class="built_in">return</span>; </span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">while</span>(p)</span><br><span class="line">   &#123;</span><br><span class="line">       //输出链表节点数据到屏幕 </span><br><span class="line">       <span class="built_in">printf</span>(<span class="string">"%d "</span>,p-&gt;data);</span><br><span class="line">       //输出链表节点数据到文件output.txt </span><br><span class="line">       fprintf(w,<span class="string">"%d "</span>,p-&gt;data);</span><br><span class="line">       p=p-&gt;next;        </span><br><span class="line">   &#125;     </span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">   fprintf(w,<span class="string">"\n"</span>);</span><br><span class="line">   fclose(w);</span><br><span class="line">   <span class="built_in">return</span>;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    node *head;</span><br><span class="line">    int n,m;</span><br><span class="line">    head=createlink();</span><br><span class="line">    outlink(head);</span><br><span class="line">    system(<span class="string">"pause"</span>);</span><br><span class="line">    <span class="built_in">return</span> 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>1.前3天在南阳上和codevs刷题,大部分都是简单题，主要作用是回忆巩固一下c的知识哈哈哈。<br>2.od学习记录：    1.缓冲区返回的是FFFFFFFF的话表示当前程序正在被调试,如果返回的是0的话,表示当前程序没有被调试。<br>                2.SetUnhandledExceptionFilter：该函数的唯一一个参数为异常处理函数指针。<br>                当程序发生异常是,且程序不处于调试模式(在VS或者其他调试器里运行)则首先调用该异常处理函数。<br>                因此,程序可以主动抛出一个异常来判断当前程序是否正在被调试。<br>                3.UnhandledExceptionFilter：这个API函数用来检测当前程序是否正在被调试。<br>                4.POPAD指令,该指令是从堆栈中恢复各个寄存器的值。<br>                5.加过壳的程序执行的整个流程：    1.执行解压/解密例程<br>                                                2.解压/解密原程序的各个区段的数据<br>                                                3.跳往OEP处<br>                                                4.执行原程序代码<br>3.ACM比赛：算法大法好啊，真的好啊，刷题千千万，比赛照不会，今天比赛和队友总共做出来两题，得了铜奖。。没想到没想到。。<br>            算法体会：比较锻炼思维，对自己能力可以有很大的提升，也可让自己对c语言有很好的体会，更加深入了解c语言。</p>
+
       
       
         <div class="page-reward">
@@ -416,13 +417,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/03/22/链表文件存入输出/">链表文件存入输出</a></p>
+        <p><span>本文标题:</span><a href="/2019/04/10/4-13周记/">4.13周ji</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 loser 的个人博客">loser</a></p>
-        <p><span>发布时间:</span>2019年03月22日 - 12时08分</p>
-        <p><span>最后更新:</span>2019年03月22日 - 12时13分</p>
+        <p><span>发布时间:</span>2019年04月10日 - 20时01分</p>
+        <p><span>最后更新:</span>2019年04月13日 - 17时54分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/03/22/链表文件存入输出/" title="链表文件存入输出">http://yoursite.com/2019/03/22/链表文件存入输出/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/03/22/链表文件存入输出/　　作者: loser" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/04/10/4-13周记/" title="4.13周ji">http://yoursite.com/2019/04/10/4-13周记/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/04/10/4-13周记/　　作者: loser" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -435,18 +436,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/03/22/较完善系统/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          较完善系统
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/03/04/成绩管理系统/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">成绩管理系统</div>
+    <a href="/2019/04/01/周报4-6/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">周报4.6</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -524,13 +516,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/03/22/较完善系统/" title="上一篇: 较完善系统">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2019/03/04/成绩管理系统/" title="下一篇: 成绩管理系统">
+            <a href="/2019/04/01/周报4-6/" title="下一篇: 周报4.6">
                 <i class="fa fa-angle-right"></i>
             </a>
         
