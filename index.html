@@ -328,6 +328,80 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-周报4-20" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/14/周报4-20/" class="article-date">
+      <time datetime="2019-04-14T02:34:28.000Z" itemprop="datePublished">2019-04-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/14/周报4-20/">周报4.20</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="OD学习记录"><a href="#OD学习记录" class="headerlink" title="OD学习记录"></a>OD学习记录</h1><pre><code>## 通常脱壳的基本步骤如下    
+                            1):寻找OEP
+                            2):转储(PS:传说中的dump)
+                            3):修复IAT(修复导入表)
+                            4):检查目标程序是否存在AntiDump等阻止程序被转储的保护措施,并尝试修复这些问题。以上是脱壳的经典步骤,可能具体到不同的壳的话会有细微的差别。
+## 寻找简单壳
+                搜索JMP或者CALL指令的机器码(即一步直达法,只适用于少数壳,包括UPX,ASPACK壳).
+                可以直接搜索长跳转JMP(0E9)或者CALL(0E8)这类长转移的机器码,一般情况下(理想情况)壳在解密完原程序各个区段以后,需要一个长JMP或者CALL跳转到原程序代码段中的OEP处开始执行原程序代码。
+                除了搜索JMP指令的机器码以外,还可以尝试搜索CALL EAX,CALL EBX,JMP EAX等指令的机器码,因为很多壳是将OEP的值存放在寄存器中,然后通过CALL 某寄存器或者JMP 某寄存器来跳往OEP的。
+## 定位OEP    
+            1).使用OllyDbg自带的功能定位OEP(SFX法)
+            2).使用Patch过的OD来定位OEP(即内存映像法)
+            3).堆栈平衡法(即ESP定律法) 适用于一些古老的壳
+            4).最后一次异常法 在脱壳的过程中发现目标程序产生大量异常的话,就可以使用最后一次异常法
+            5).利用壳最常用的API函数来定位OEP 壳最常用的API函数,比如GetProcAddress,LoadLibrary。ExitThread有些壳会用。
+            6).利用应用程序调用的第一个API函数来定位OEP  很多程序(VC++)一开始会调用GetVersion,GetModuleHandleA。
+## 什么是IAT
+            拿Cruehead的CrackMe中的MessageBoxA这个API函数来说吧,其入口地址为77D504EA,在我的机器上运行的很好,那些跟我操作系统版本以及User32.dll版本相同的童鞋的机器上该程序运行可能也很正常,但是如果在操作系统版本或者User32.dll的版本跟我的不同童鞋的机器上运行,可能就会出错。
+            为了解决以上兼容问题,操作系统就必须提供一些措施来确保该CrackMe可以在其他版本的Windows操作系统,以及DLL版本下也能正常运行。
+            这时IAT(Import Address Table:输入函数地址表)就应运而生了。
+</code></pre>
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-4-13周记" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
@@ -794,61 +868,6 @@
       
           
         <p>1.首先总结一下这周学了什么，主要学习了汇编语言的第六和第五章，第七章开了个头，还有就是加密与解密的视频，主要讲了od的实践教学。<br>2.第五章标题就是[bx]和loop指令，所以主要讲了内存单元[bx]的使用，还有就是循环loop指令的代码练习  用debug调试代码程序  t命令只能执行一步  遇到循环次数太多的程序时就过于麻烦  用p命令一步就可以执行好loop循环或者g命令  还有就是对masm不认识[0][1][2][3]的问题的解决主要有两种方法解决 第一种是mov al,ds:[0] 第二种是先执行mov ax,[0] 在执行mov al,ax 利用中间变量推入 段前缀就是用于显式的指明内存地址的段地址的“ds：””cs:“”ss:””es:”  安全空间由于我在dosbox里执行  没怎么看 然后练习使用了段前缀 编写了一个程序<br>3.第六章比较少  讲了多个段的程序  因为可能存在一个段不够使用的情况  所以将数据 代码 栈 放在不同的段中 在代码前加上start让机器能够认出代码代码段  然后在代码段中使用栈  在不同的段放入想要放入的数据  就可以编写大程序 不存在内存不够用的问题 然后进行实验 编写调试具有多个段的程序。<br>4.在b站上找到了讲解od实践教程的视频  也就学习了 看到了up主爆破程序的过程  同时也多次提到必须先学会汇编  自己也试着爆破了简单发程序  相比之前真的知道了很多  之前时用od完全不知道在干什么  现在差不多能看懂一些简单的了<br>5.接下来还有半个月，差不多应该能学完汇编语言这本书，加油!!!</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-周报2-2" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/02/周报2-2/" class="article-date">
-      <time datetime="2019-02-02T10:13:21.000Z" itemprop="datePublished">2019-02-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/02/周报2-2/">周报2.2</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>1,本周就只学习了汇编语言这本书，总共学习了4章多，第一章讲基础知识，第二章讲寄存器，第三章讲寄存器的内存访问，第四章为汇编语言第一个程序。<br>2,第一章讲的都是计算机内部的一些基础介绍主板 cpu什么的，和上课讲的计算机导论有很多相似之处，计算机内部的一些相连，主讲了8086cpu。<br>3,第二章的寄存器，通用寄存器AX     BX CX DX,字在存储器的存储，初次介绍汇编指令，接下来是物理地址  物理地址=段地址*16+偏移地址 段的概念 段寄存器  cs和ip 然后自行进行了实验一  在dosbox中进行了实验一的操作  r—查看改变寄存器内容 d—查看内存内容 e—改写内存内容  u—机器指令翻译成汇编指令  t—单步执行  a—在内存中写入命令 然后一一实验了各条命令。<br>4,第三章寄存器的内存访问在电脑上实践的就比较多了，一来记住命令，二来可以深入了解 前面主要讲的一些主要在电脑上实践 没什么可说的  下来学的是栈  机器内部的栈  简单就是先入后出 push入栈 pop出栈 每次入栈sp=sp-2  每次出栈sp=sp+2 接下来进行了实验二 用机器指令和汇编指令编程  实验主要进行了这些指令的实践  更加了解这些指令。<br>5,第四章的源程序介绍了一个例子 通过例子讲了一下汇编的程序怎么写出 在edit上写出代码 然后在dos环境下运行编译。<br>6，总结一下这周，总的来说还是比较懒散，学的不是很多，但基本也都懂了 一个是看书  另外是在b站上看视频 刚好也讲这个  两边同时进行  了解透彻一点。</p>
 
       
       
