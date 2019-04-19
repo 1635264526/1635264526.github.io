@@ -44,7 +44,7 @@
           isArchive: false,
           isTag: false,
           isCategory: false,
-          open_in_new: false
+          open_in_new: true
       }
   </script>
 </head></html>
@@ -166,7 +166,7 @@
                         
                             <li><a href="/archives">文章归档</a></li>
                         
-                            <li><a href="/CTFStudy">学习导航</a></li>
+                            <li><a href="/大一记载">学习导航</a></li>
                         
                             <li><a href="/PWNABLE">PWNABLE</a></li>
                         
@@ -185,7 +185,7 @@
                             
                                 <a class="fl weibo" target="_blank" href="https://weibo.com/p/1005055992637449/home?from=page_100505&mod=TAB&is_all=1#place" title="weibo">weibo</a>
                             
-                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                                <a class="fl rss" target="_blank" href="view-source:https://1635264526.github.io/" title="rss">rss</a>
                             
                         </ul>
                     </nav>
@@ -299,7 +299,7 @@
                 
                     <li><a href="/archives">文章归档</a></li>
                 
-                    <li><a href="/CTFStudy">学习导航</a></li>
+                    <li><a href="/大一记载">学习导航</a></li>
                 
                     <li><a href="/PWNABLE">PWNABLE</a></li>
                 
@@ -319,7 +319,7 @@
                     
                         <a class="weibo" target="_blank" href="https://weibo.com/p/1005055992637449/home?from=page_100505&mod=TAB&is_all=1#place" title="weibo">weibo</a>
                     
-                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                        <a class="rss" target="_blank" href="view-source:https://1635264526.github.io/" title="rss">rss</a>
                     
                 </div>
             </nav>
@@ -327,6 +327,119 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-插入图片" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/19/插入图片/" class="article-date">
+      <time datetime="2019-04-19T07:17:59.000Z" itemprop="datePublished">2019-04-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/19/插入图片/">插入图片</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="本地引用"><a href="#本地引用" class="headerlink" title="本地引用"></a>本地引用</h1><h2 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h2><p>当Hexo项目中只用到少量图片时，可以将图片统一放在source/images文件夹中，通过markdown语法访问它们。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](/images/image.jpg)</span><br></pre></td></tr></table></figure></p>
+<p>图片既可以在首页内容中访问到，也可以在文章正文中访问到</p>
+<h2 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h2><p>图片除了可以放在统一的images文件夹中，还可以放在文章自己的目录中。文章的目录可以通过配置_config.yml来生成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: true</span><br></pre></td></tr></table></figure></p>
+<p>将_config.yml文件中的配置项post_asset_folder设为true后，执行命令$ hexo new post_name，在source/_posts中会生<br>成文章post_name.md和同名文件夹post_name。将图片资源放在post_name中，文章就可以使用相对路径引用图片资源了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure></p>
+<p>上述图片只能在文章中显示，但无法在首页中正常显示。<br>如果希望图片在文章和首页中同时显示，可以使用标签插件语法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img image.jpg This is an image %&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-PE文件结构" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/17/PE文件结构/" class="article-date">
+      <time datetime="2019-04-17T12:01:19.000Z" itemprop="datePublished">2019-04-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/17/PE文件结构/">PE文件结构</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <img src="/2019/04/17/PE文件结构/PE宏观图.png" title="This is an image">
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-周报4-20" class="article article-type-post" itemscope="" itemprop="blogPost">
   
@@ -371,9 +484,23 @@
 5).利用壳最常用的API函数来定位OEP 壳最常用的API函数,比如GetProcAddress,LoadLibrary。ExitThread有些壳会用。
 6).利用应用程序调用的第一个API函数来定位OEP  很多程序(VC++)一开始会调用GetVersion,GetModuleHandleA。
 </code></pre><hr>
-<h2 id="什么是IAT"><a href="#什么是IAT" class="headerlink" title="什么是IAT"></a>什么是IAT</h2><pre><code>拿Cruehead的CrackMe中的MessageBoxA这个API函数来说吧,其入口地址为77D504EA,在我的机器上运行的很好,那些跟我操作系统版本以及User32.dll版本相同的童鞋的机器上该程序运行可能也很正常,但是如果在操作系统版本或者User32.dll的版本跟我的不同童鞋的机器上运行,可能就会出错。
+<h2 id="什么是IAT？"><a href="#什么是IAT？" class="headerlink" title="什么是IAT？"></a>什么是IAT？</h2><pre><code>拿Cruehead的CrackMe中的MessageBoxA这个API函数来说吧,其入口地址为77D504EA,在我的机器上运行的很好,那些跟我操作系统版本以及User32.dll版本相同的童鞋的机器上该程序运行可能也很正常,
+但是如果在操作系统版本或者User32.dll的版本跟我的不同童鞋的机器上运行,可能就会出错。
 为了解决以上兼容问题,操作系统就必须提供一些措施来确保该CrackMe可以在其他版本的Windows操作系统,以及DLL版本下也能正常运行。
 这时IAT(Import Address Table:输入函数地址表)就应运而生了。
+</code></pre><hr>
+<h2 id="手脱UPX-修复IAT"><a href="#手脱UPX-修复IAT" class="headerlink" title="手脱UPX 修复IAT"></a>手脱UPX 修复IAT</h2><pre><code>首先去定位OEP了，用的是加过壳的那个CrackMe的例子，刚好入口地址的函数是PUSHAD就F7单步执行 在寄存器中找到ESP 数据窗口跟随  设置硬件断点 F9运行 就会发现跳转的语句了
+call或者jmp语句 找到OEP之后 利用PE-TOOL　Dump程序 但是没有修复IAT所以并不能执行，用Import REConstructor修复 下来回到OD 找到IAT函数地址的跳转表 在数据窗口定位
+到IAT的地址 找到整个IAT的起始地址和终止地址 计算RVA起始地址-映像地址 计算IAT终止地址-起始地址 计算OEP虚拟地址-映像基质 输入到Import REConstructor 单击Get Imports
+看到Import REConstructor找到了IAT中的每项元素 然后就可以对之前DUMP出来的程序的IAT进行修复了 在用PE TOOL重建PE 之后的程序就可以正常运行啦 然后在OD里修改代码段的虚拟
+地址就和之前的程序一模一样啦。
+</code></pre><hr>
+<h2 id="手脱ASPack"><a href="#手脱ASPack" class="headerlink" title="手脱ASPack"></a>手脱ASPack</h2><pre><code>前面都和UPX壳一样 难点就在IAT这里吧 这两个壳难点都在这里  找到IAT的起始地址和终止地址 题外话  回到正题 不同感觉在于修复IAT那里需要删除垃圾文件 删除完就一样欧克啦。
+</code></pre><hr>
+<h2 id="IAT重定向"><a href="#IAT重定向" class="headerlink" title="IAT重定向"></a>IAT重定向</h2><pre><code>这里以telock这个壳为例子，首先还是找OEP  这个跟之前那两个有点不同的是虽是ESP定律 但不能用 说明壳可能有检测硬件断点的东东，然后我使用了OD自带的检测DEP的工具 在调试设置里
+找到了SFX选择块方式跟踪真正入口 就找到了OPE入口  这个程序的IAT被重新定义过了(这个程序和之前那个程序一样) 在反汇编窗口右键选择查看模块间所有函数调用 可以看到CALL被重新定
+义到了其他区段 但在里面仔细查看还是能找到直接调用的API函数的 右键跟随 然后找到跳转表 在数据窗口找到IAT 在定位IAT的起始和结束位置的时候,不仅仅要判断是否为系统DLL中的地址
+还是需要判断其是否为重定向过的地址。
 </code></pre><hr>
 
       
@@ -785,119 +912,9 @@
 
 
   
-    <article id="post-周报2-23" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/23/周报2-23/" class="article-date">
-      <time datetime="2019-02-23T11:08:20.000Z" itemprop="datePublished">2019-02-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/23/周报2-23/">周报2.23</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>1.本周还是围绕汇编语言学习，主要学习了7.8章两章，第九章学习了一点，主要进行的是看书 看视频 敲代码三个流程 比上周敲代码流畅多了 哈哈哈哈。<br>2.第七章 如标题所示 讲解了更加灵活的定位内存地址方法，不过开始的两节讲的是and 和 or指令和ascll码  由于之前都知道这些所以就看的快 下来练习存入字符串 然后在debug中查看存入的字符 下来进行字符串的大小转换问题主要是将ascll的第五位置0或者1 用and命令执行 接下来就讲了三种灵活的寻址方式 [bx+idata]比较直接 也容易理解 下来是[bx+si]和[bx+di]其实这两个都相似 就是内存单元加上偏移地址内的值 最后一个就是前两个综合 [bx+si+idata][bx+di+idata] 显而易见 这是把那两个合在了一起 最后练习了一下这几个 然后编程练习了一下7.10里的内容。<br>3.第八章 数据处理的两个基本问题 数据在什么地方？cpu内部 内存 端口这三个地方 数据有多长？寄存器就指明了是字操作还是字节操作 在没有寄存器名的情况下 用X（word byte） ptr指明 这章引进了重要的bp 在没有指明段地址的情况下 bp的段地址默认在ss中 而显性指出时 就另当别论 后面的div除法指令  也比较简单  就是要指明操作数的大小 伪指令dd就是double word  dup指令就是一个操作符 配合db dw dd使用 为了方便 实验7是真的不会。。。。<br>4.关于od 还是从b站上看视频 看到视频主人爆破后也去试了试 发现倒是发现了一些线索 就是不知道指令的上一条指令是什么 不知道什么时候该跳转 od里的汇编语言倒是能看不少了 比之前了解多了不少</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-周报2-16" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/16/周报2-16/" class="article-date">
-      <time datetime="2019-02-16T11:27:04.000Z" itemprop="datePublished">2019-02-16</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/16/周报2-16/">周报2.16</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>1.首先总结一下这周学了什么，主要学习了汇编语言的第六和第五章，第七章开了个头，还有就是加密与解密的视频，主要讲了od的实践教学。<br>2.第五章标题就是[bx]和loop指令，所以主要讲了内存单元[bx]的使用，还有就是循环loop指令的代码练习  用debug调试代码程序  t命令只能执行一步  遇到循环次数太多的程序时就过于麻烦  用p命令一步就可以执行好loop循环或者g命令  还有就是对masm不认识[0][1][2][3]的问题的解决主要有两种方法解决 第一种是mov al,ds:[0] 第二种是先执行mov ax,[0] 在执行mov al,ax 利用中间变量推入 段前缀就是用于显式的指明内存地址的段地址的“ds：””cs:“”ss:””es:”  安全空间由于我在dosbox里执行  没怎么看 然后练习使用了段前缀 编写了一个程序<br>3.第六章比较少  讲了多个段的程序  因为可能存在一个段不够使用的情况  所以将数据 代码 栈 放在不同的段中 在代码前加上start让机器能够认出代码代码段  然后在代码段中使用栈  在不同的段放入想要放入的数据  就可以编写大程序 不存在内存不够用的问题 然后进行实验 编写调试具有多个段的程序。<br>4.在b站上找到了讲解od实践教程的视频  也就学习了 看到了up主爆破程序的过程  同时也多次提到必须先学会汇编  自己也试着爆破了简单发程序  相比之前真的知道了很多  之前时用od完全不知道在干什么  现在差不多能看懂一些简单的了<br>5.接下来还有半个月，差不多应该能学完汇编语言这本书，加油!!!</p>
-
-      
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </div>
