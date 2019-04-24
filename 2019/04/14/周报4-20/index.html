@@ -5,17 +5,17 @@
   
   <title>周报4.20 | loser的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="OD学习记录通常脱壳的基本步骤如下1):寻找OEP 2):转储(PS:传说中的dump) 3):修复IAT(修复导入表) 4):检查目标程序是否存在AntiDump等阻止程序被转储的保护措施,并尝试修复这些问题。以上是脱壳的经典步骤,可能具体到不同的壳的话会有细微的差别。  寻找简单壳搜索JMP或者CALL指令的机器码(即一步直达法,只适用于少数壳,包括UPX,ASPACK壳). 可以直接搜索长跳">
+  <meta name="description" content="OD学习记录通常脱壳的基本步骤如下1):寻找OEP 2):转储(PS:传说中的dump) 3):修复IAT(修复导入表)  4):检查目标程序是否存在AntiDump等阻止程序被转储的保护措施,并尝试修复这些问题。以上是脱壳的经典步骤,可能具体到不同的壳的话会有细微的差别。  寻找简单壳搜索JMP或者CALL指令的机器码(即一步直达法,只适用于少数壳,包括UPX,ASPACK壳). 可以直接搜索长">
 <meta property="og:type" content="article">
 <meta property="og:title" content="周报4.20">
 <meta property="og:url" content="http://yoursite.com/2019/04/14/周报4-20/index.html">
 <meta property="og:site_name" content="loser的博客">
-<meta property="og:description" content="OD学习记录通常脱壳的基本步骤如下1):寻找OEP 2):转储(PS:传说中的dump) 3):修复IAT(修复导入表) 4):检查目标程序是否存在AntiDump等阻止程序被转储的保护措施,并尝试修复这些问题。以上是脱壳的经典步骤,可能具体到不同的壳的话会有细微的差别。  寻找简单壳搜索JMP或者CALL指令的机器码(即一步直达法,只适用于少数壳,包括UPX,ASPACK壳). 可以直接搜索长跳">
+<meta property="og:description" content="OD学习记录通常脱壳的基本步骤如下1):寻找OEP 2):转储(PS:传说中的dump) 3):修复IAT(修复导入表)  4):检查目标程序是否存在AntiDump等阻止程序被转储的保护措施,并尝试修复这些问题。以上是脱壳的经典步骤,可能具体到不同的壳的话会有细微的差别。  寻找简单壳搜索JMP或者CALL指令的机器码(即一步直达法,只适用于少数壳,包括UPX,ASPACK壳). 可以直接搜索长">
 <meta property="og:locale" content="chinese">
-<meta property="og:updated_time" content="2019-04-19T06:09:52.293Z">
+<meta property="og:updated_time" content="2019-04-21T02:02:05.660Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="周报4.20">
-<meta name="twitter:description" content="OD学习记录通常脱壳的基本步骤如下1):寻找OEP 2):转储(PS:传说中的dump) 3):修复IAT(修复导入表) 4):检查目标程序是否存在AntiDump等阻止程序被转储的保护措施,并尝试修复这些问题。以上是脱壳的经典步骤,可能具体到不同的壳的话会有细微的差别。  寻找简单壳搜索JMP或者CALL指令的机器码(即一步直达法,只适用于少数壳,包括UPX,ASPACK壳). 可以直接搜索长跳">
+<meta name="twitter:description" content="OD学习记录通常脱壳的基本步骤如下1):寻找OEP 2):转储(PS:传说中的dump) 3):修复IAT(修复导入表)  4):检查目标程序是否存在AntiDump等阻止程序被转储的保护措施,并尝试修复这些问题。以上是脱壳的经典步骤,可能具体到不同的壳的话会有细微的差别。  寻找简单壳搜索JMP或者CALL指令的机器码(即一步直达法,只适用于少数壳,包括UPX,ASPACK壳). 可以直接搜索长">
   
     <link rel="alternative" href="/atom.xml" title="loser的博客" type="application/atom+xml">
   
@@ -364,36 +364,30 @@
         <h1 id="OD学习记录"><a href="#OD学习记录" class="headerlink" title="OD学习记录"></a>OD学习记录</h1><h2 id="通常脱壳的基本步骤如下"><a href="#通常脱壳的基本步骤如下" class="headerlink" title="通常脱壳的基本步骤如下"></a>通常脱壳的基本步骤如下</h2><pre><code>1):寻找OEP
 2):转储(PS:传说中的dump)
 3):修复IAT(修复导入表)
+
 4):检查目标程序是否存在AntiDump等阻止程序被转储的保护措施,并尝试修复这些问题。以上是脱壳的经典步骤,可能具体到不同的壳的话会有细微的差别。
 </code></pre><hr>
 <h2 id="寻找简单壳"><a href="#寻找简单壳" class="headerlink" title="寻找简单壳"></a>寻找简单壳</h2><pre><code>搜索JMP或者CALL指令的机器码(即一步直达法,只适用于少数壳,包括UPX,ASPACK壳).
 可以直接搜索长跳转JMP(0E9)或者CALL(0E8)这类长转移的机器码,一般情况下(理想情况)壳在解密完原程序各个区段以后,需要一个长JMP或者CALL跳转到原程序代码段中的OEP处开始执行原程序代码。
+
 除了搜索JMP指令的机器码以外,还可以尝试搜索CALL EAX,CALL EBX,JMP EAX等指令的机器码,因为很多壳是将OEP的值存放在寄存器中,然后通过CALL 某寄存器或者JMP 某寄存器来跳往OEP的。
 </code></pre><hr>
 <h2 id="定位OEP"><a href="#定位OEP" class="headerlink" title="定位OEP"></a>定位OEP</h2><pre><code>1).使用OllyDbg自带的功能定位OEP(SFX法)
 2).使用Patch过的OD来定位OEP(即内存映像法)
 3).堆栈平衡法(即ESP定律法) 适用于一些古老的壳
 4).最后一次异常法 在脱壳的过程中发现目标程序产生大量异常的话,就可以使用最后一次异常法
+
 5).利用壳最常用的API函数来定位OEP 壳最常用的API函数,比如GetProcAddress,LoadLibrary。ExitThread有些壳会用。
+
 6).利用应用程序调用的第一个API函数来定位OEP  很多程序(VC++)一开始会调用GetVersion,GetModuleHandleA。
 </code></pre><hr>
-<h2 id="什么是IAT？"><a href="#什么是IAT？" class="headerlink" title="什么是IAT？"></a>什么是IAT？</h2><pre><code>拿Cruehead的CrackMe中的MessageBoxA这个API函数来说吧,其入口地址为77D504EA,在我的机器上运行的很好,那些跟我操作系统版本以及User32.dll版本相同的童鞋的机器上该程序运行可能也很正常,
-但是如果在操作系统版本或者User32.dll的版本跟我的不同童鞋的机器上运行,可能就会出错。
-为了解决以上兼容问题,操作系统就必须提供一些措施来确保该CrackMe可以在其他版本的Windows操作系统,以及DLL版本下也能正常运行。
-这时IAT(Import Address Table:输入函数地址表)就应运而生了。
+<h2 id="什么是IAT？"><a href="#什么是IAT？" class="headerlink" title="什么是IAT？"></a>什么是IAT？</h2><pre><code>拿Cruehead的CrackMe中的MessageBoxA这个API函数来说吧,其入口地址为77D504EA,在我的机器上运行的很好,那些跟我操作系统版本以及User32.dll版本相同的童鞋的机器上该程序运行可能也很正常,但是如果在操作系统版本或者User32.dll的版本跟我的不同童鞋的机器上运行,可能就会出错。为了解决以上兼容问题,操作系统就必须提供一些措施来确保该CrackMe可以在其他版本的Windows操作系统,以及DLL版本下也能正常运行。这时IAT(Import Address Table:输入函数地址表)就应运而生了。
 </code></pre><hr>
-<h2 id="手脱UPX-修复IAT"><a href="#手脱UPX-修复IAT" class="headerlink" title="手脱UPX 修复IAT"></a>手脱UPX 修复IAT</h2><pre><code>首先去定位OEP了，用的是加过壳的那个CrackMe的例子，刚好入口地址的函数是PUSHAD就F7单步执行 在寄存器中找到ESP 数据窗口跟随  设置硬件断点 F9运行 就会发现跳转的语句了
-call或者jmp语句 找到OEP之后 利用PE-TOOL　Dump程序 但是没有修复IAT所以并不能执行，用Import REConstructor修复 下来回到OD 找到IAT函数地址的跳转表 在数据窗口定位
-到IAT的地址 找到整个IAT的起始地址和终止地址 计算RVA起始地址-映像地址 计算IAT终止地址-起始地址 计算OEP虚拟地址-映像基质 输入到Import REConstructor 单击Get Imports
-看到Import REConstructor找到了IAT中的每项元素 然后就可以对之前DUMP出来的程序的IAT进行修复了 在用PE TOOL重建PE 之后的程序就可以正常运行啦 然后在OD里修改代码段的虚拟
-地址就和之前的程序一模一样啦。
+<h2 id="手脱UPX-修复IAT"><a href="#手脱UPX-修复IAT" class="headerlink" title="手脱UPX 修复IAT"></a>手脱UPX 修复IAT</h2><pre><code>首先去定位OEP了，用的是加过壳的那个CrackMe的例子，刚好入口地址的函数是PUSHAD就F7单步执行 在寄存器中找到ESP 数据窗口跟随  设置硬件断点 F9运行 就会发现跳转的语句了call或者jmp语句 找到OEP之后 利用PE-TOOL　Dump程序 但是没有修复IAT所以并不能执行，用Import REConstructor修复 下来回到OD 找到IAT函数地址的跳转表 在数据窗口定位到IAT的地址 找到整个IAT的起始地址和终止地址 计算RVA起始地址-映像地址 计算IAT终止地址-起始地址 计算OEP虚拟地址-映像基质 输入到Import REConstructor 单击Get Imports看到Import REConstructor找到了IAT中的每项元素 然后就可以对之前DUMP出来的程序的IAT进行修复了 在用PE TOOL重建PE 之后的程序就可以正常运行啦 然后在OD里修改代码段的虚拟地址就和之前的程序一模一样啦。
 </code></pre><hr>
 <h2 id="手脱ASPack"><a href="#手脱ASPack" class="headerlink" title="手脱ASPack"></a>手脱ASPack</h2><pre><code>前面都和UPX壳一样 难点就在IAT这里吧 这两个壳难点都在这里  找到IAT的起始地址和终止地址 题外话  回到正题 不同感觉在于修复IAT那里需要删除垃圾文件 删除完就一样欧克啦。
 </code></pre><hr>
-<h2 id="IAT重定向"><a href="#IAT重定向" class="headerlink" title="IAT重定向"></a>IAT重定向</h2><pre><code>这里以telock这个壳为例子，首先还是找OEP  这个跟之前那两个有点不同的是虽是ESP定律 但不能用 说明壳可能有检测硬件断点的东东，然后我使用了OD自带的检测DEP的工具 在调试设置里
-找到了SFX选择块方式跟踪真正入口 就找到了OPE入口  这个程序的IAT被重新定义过了(这个程序和之前那个程序一样) 在反汇编窗口右键选择查看模块间所有函数调用 可以看到CALL被重新定
-义到了其他区段 但在里面仔细查看还是能找到直接调用的API函数的 右键跟随 然后找到跳转表 在数据窗口找到IAT 在定位IAT的起始和结束位置的时候,不仅仅要判断是否为系统DLL中的地址
-还是需要判断其是否为重定向过的地址。
+<h2 id="IAT重定向"><a href="#IAT重定向" class="headerlink" title="IAT重定向"></a>IAT重定向</h2><pre><code>这里以telock这个壳为例子，首先还是找OEP  这个跟之前那两个有点不同的是虽是ESP定律 但不能用 说明壳可能有检测硬件断点的东东，然后我使用了OD自带的检测DEP的工具 在调试设置里找到了SFX选择块方式跟踪真正入口 就找到了OPE入口  这个程序的IAT被重新定义过了(这个程序和之前那个程序一样) 在反汇编窗口右键选择查看模块间所有函数调用 可以看到CALL被重新定义到了其他区段 但在里面仔细查看还是能找到直接调用的API函数的 右键跟随 然后找到跳转表 在数据窗口找到IAT 在定位IAT的起始和结束位置的时候,不仅仅要判断是否为系统DLL中的地址还是需要判断其是否为重定向过的地址。
 </code></pre><hr>
 
       
@@ -453,7 +447,7 @@ call或者jmp语句 找到OEP之后 利用PE-TOOL　Dump程序 但是没有修�
         <p><span>本文标题:</span><a href="/2019/04/14/周报4-20/">周报4.20</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 loser 的个人博客">loser</a></p>
         <p><span>发布时间:</span>2019年04月14日 - 10时34分</p>
-        <p><span>最后更新:</span>2019年04月19日 - 14时09分</p>
+        <p><span>最后更新:</span>2019年04月21日 - 10时02分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/04/14/周报4-20/" title="周报4.20">http://yoursite.com/2019/04/14/周报4-20/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/04/14/周报4-20/　　作者: loser" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
