@@ -3,19 +3,21 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>周报2.2 | loser的博客</title>
+  <title>周报4.27 | loser的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1,本周就只学习了汇编语言这本书，总共学习了4章多，第一章讲基础知识，第二章讲寄存器，第三章讲寄存器的内存访问，第四章为汇编语言第一个程序。2,第一章讲的都是计算机内部的一些基础介绍主板 cpu什么的，和上课讲的计算机导论有很多相似之处，计算机内部的一些相连，主讲了8086cpu。3,第二章的寄存器，通用寄存器AX     BX CX DX,字在存储器的存储，初次介绍汇编指令，接下来是物理地址">
+  <meta name="description" content="OD学习记录（真难啊~~~QAQ）手动修复IAT开始修复IAT。第一步还是先找到OEP，到达OEP后，OD和进程本身不能关掉。脱壳过程中不能把程序关掉。操作过程和之前相同，先选进程，右键，完整转存，脱壳完毕。双击脱壳后的程序，无法打开。第二步：使用importrec修复IAT。不是选择dump后的程序，而是到达OEP的加壳程序。为什么不选择脱壳后的程序呢？因为我们需要提取源文件里的信息，放到脱壳后">
 <meta property="og:type" content="article">
-<meta property="og:title" content="周报2.2">
-<meta property="og:url" content="http://yoursite.com/2019/02/02/周报2-2/index.html">
+<meta property="og:title" content="周报4.27">
+<meta property="og:url" content="http://yoursite.com/2019/04/27/周报4-27/index.html">
 <meta property="og:site_name" content="loser的博客">
-<meta property="og:description" content="1,本周就只学习了汇编语言这本书，总共学习了4章多，第一章讲基础知识，第二章讲寄存器，第三章讲寄存器的内存访问，第四章为汇编语言第一个程序。2,第一章讲的都是计算机内部的一些基础介绍主板 cpu什么的，和上课讲的计算机导论有很多相似之处，计算机内部的一些相连，主讲了8086cpu。3,第二章的寄存器，通用寄存器AX     BX CX DX,字在存储器的存储，初次介绍汇编指令，接下来是物理地址">
+<meta property="og:description" content="OD学习记录（真难啊~~~QAQ）手动修复IAT开始修复IAT。第一步还是先找到OEP，到达OEP后，OD和进程本身不能关掉。脱壳过程中不能把程序关掉。操作过程和之前相同，先选进程，右键，完整转存，脱壳完毕。双击脱壳后的程序，无法打开。第二步：使用importrec修复IAT。不是选择dump后的程序，而是到达OEP的加壳程序。为什么不选择脱壳后的程序呢？因为我们需要提取源文件里的信息，放到脱壳后">
 <meta property="og:locale" content="chinese">
-<meta property="og:updated_time" content="2019-02-02T12:34:44.485Z">
+<meta property="og:image" content="http://yoursite.com/2019/04/27/周报4-27/1.png">
+<meta property="og:updated_time" content="2019-04-27T12:23:58.883Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周报2.2">
-<meta name="twitter:description" content="1,本周就只学习了汇编语言这本书，总共学习了4章多，第一章讲基础知识，第二章讲寄存器，第三章讲寄存器的内存访问，第四章为汇编语言第一个程序。2,第一章讲的都是计算机内部的一些基础介绍主板 cpu什么的，和上课讲的计算机导论有很多相似之处，计算机内部的一些相连，主讲了8086cpu。3,第二章的寄存器，通用寄存器AX     BX CX DX,字在存储器的存储，初次介绍汇编指令，接下来是物理地址">
+<meta name="twitter:title" content="周报4.27">
+<meta name="twitter:description" content="OD学习记录（真难啊~~~QAQ）手动修复IAT开始修复IAT。第一步还是先找到OEP，到达OEP后，OD和进程本身不能关掉。脱壳过程中不能把程序关掉。操作过程和之前相同，先选进程，右键，完整转存，脱壳完毕。双击脱壳后的程序，无法打开。第二步：使用importrec修复IAT。不是选择dump后的程序，而是到达OEP的加壳程序。为什么不选择脱壳后的程序呢？因为我们需要提取源文件里的信息，放到脱壳后">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/27/周报4-27/1.png">
   
     <link rel="alternative" href="/atom.xml" title="loser的博客" type="application/atom+xml">
   
@@ -327,11 +329,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-周报2-2" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-周报4-27" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/02/02/周报2-2/" class="article-date">
-      <time datetime="2019-02-02T10:13:21.000Z" itemprop="datePublished">2019-02-02</time>
+      <a href="/2019/04/27/周报4-27/" class="article-date">
+      <time datetime="2019-04-27T12:18:19.000Z" itemprop="datePublished">2019-04-27</time>
 </a>
     </div>
   
@@ -344,7 +346,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      周报2.2
+      周报4.27
     </h1>
   
 
@@ -361,7 +363,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>1,本周就只学习了汇编语言这本书，总共学习了4章多，第一章讲基础知识，第二章讲寄存器，第三章讲寄存器的内存访问，第四章为汇编语言第一个程序。<br>2,第一章讲的都是计算机内部的一些基础介绍主板 cpu什么的，和上课讲的计算机导论有很多相似之处，计算机内部的一些相连，主讲了8086cpu。<br>3,第二章的寄存器，通用寄存器AX     BX CX DX,字在存储器的存储，初次介绍汇编指令，接下来是物理地址  物理地址=段地址*16+偏移地址 段的概念 段寄存器  cs和ip 然后自行进行了实验一  在dosbox中进行了实验一的操作  r—查看改变寄存器内容 d—查看内存内容 e—改写内存内容  u—机器指令翻译成汇编指令  t—单步执行  a—在内存中写入命令 然后一一实验了各条命令。<br>4,第三章寄存器的内存访问在电脑上实践的就比较多了，一来记住命令，二来可以深入了解 前面主要讲的一些主要在电脑上实践 没什么可说的  下来学的是栈  机器内部的栈  简单就是先入后出 push入栈 pop出栈 每次入栈sp=sp-2  每次出栈sp=sp+2 接下来进行了实验二 用机器指令和汇编指令编程  实验主要进行了这些指令的实践  更加了解这些指令。<br>5,第四章的源程序介绍了一个例子 通过例子讲了一下汇编的程序怎么写出 在edit上写出代码 然后在dos环境下运行编译。<br>6，总结一下这周，总的来说还是比较懒散，学的不是很多，但基本也都懂了 一个是看书  另外是在b站上看视频 刚好也讲这个  两边同时进行  了解透彻一点。</p>
+        <h1 id="OD学习记录（真难啊-QAQ）"><a href="#OD学习记录（真难啊-QAQ）" class="headerlink" title="OD学习记录（真难啊~~~QAQ）"></a>OD学习记录（真难啊~~~QAQ）</h1><h2 id="手动修复IAT"><a href="#手动修复IAT" class="headerlink" title="手动修复IAT"></a>手动修复IAT</h2><p>开始修复IAT。<br>第一步还是先找到OEP，到达OEP后，OD和进程本身不能关掉。脱壳过程中不能把程序关掉。<br>操作过程和之前相同，先选进程，右键，完整转存，脱壳完毕。<br>双击脱壳后的程序，无法打开。<br>第二步：使用importrec修复IAT。不是选择dump后的程序，而是到达OEP的加壳程序。为什么不选择脱壳后的程序呢？<br>因为我们需要提取源文件里的信息，放到脱壳后的文件里。然后放到脱壳后的程序 附件进程后，里面有个选项</p>
+<p>如何使用填写这几个数字呢：<br>第一个选项是OEP栏：这里填写OEP的相对偏移地址就行<br>第二个选项是RVA：虚拟内存地址，这里填IAT的起始位置<br>大小：填写导入表大小，需要用IAT的末地址减去首地址。哪个是首地址，哪个是尾部地址？<br>有一个小技巧，能帮我们快速定位到IAT的开始和末尾。怎么做呢，在数据窗口右击-长型-地址，那么它的起始位置<br>就非常直观了：<br><img src="1.png" alt=""><br>OEP：10000<br>RVA：3184<br>大小：尾部一定得是00000000才行。而且得是最后一个00000000。<br>接下来就是修复PE头了</p>
 
       
       
@@ -417,13 +420,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/02/02/周报2-2/">周报2.2</a></p>
+        <p><span>本文标题:</span><a href="/2019/04/27/周报4-27/">周报4.27</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 loser 的个人博客">loser</a></p>
-        <p><span>发布时间:</span>2019年02月02日 - 18时13分</p>
-        <p><span>最后更新:</span>2019年02月02日 - 20时34分</p>
+        <p><span>发布时间:</span>2019年04月27日 - 20时18分</p>
+        <p><span>最后更新:</span>2019年04月27日 - 20时23分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/02/02/周报2-2/" title="周报2.2">http://yoursite.com/2019/02/02/周报2-2/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/02/02/周报2-2/　　作者: loser" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/04/27/周报4-27/" title="周报4.27">http://yoursite.com/2019/04/27/周报4-27/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/04/27/周报4-27/　　作者: loser" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -436,18 +439,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/02/16/周报2-16/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          周报2.16
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/01/26/周报1-26/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">周报1.26</div>
+    <a href="/2019/04/19/插入图片/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">插入图片</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -458,7 +452,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#OD学习记录（真难啊-QAQ）"><span class="toc-number">1.</span> <span class="toc-text">OD学习记录（真难啊~~~QAQ）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#手动修复IAT"><span class="toc-number">1.1.</span> <span class="toc-text">手动修复IAT</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 
@@ -525,13 +519,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/02/16/周报2-16/" title="上一篇: 周报2.16">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2019/01/26/周报1-26/" title="下一篇: 周报1.26">
+            <a href="/2019/04/19/插入图片/" title="下一篇: 插入图片">
                 <i class="fa fa-angle-right"></i>
             </a>
         
