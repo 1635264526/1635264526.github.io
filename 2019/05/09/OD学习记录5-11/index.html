@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="chinese">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="API钩取api(application programming interface,应用程序编程接口）。windows系统资源都是由windows os系统直接管理的，用户不能直接访问。用户需要访问系统资源的时候，必须向系统内核（kernel)申请，申请的方法就是使用微软提供的win32api.为了实际运行相应的程序代码，需要加载许多系统库（DLL).所有的进程都会默认加载kernel32.dl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OD学习记录5.11">
+<meta property="og:url" content="http://yoursite.com/2019/05/09/OD学习记录5-11/index.html">
+<meta property="og:site_name" content="loser的博客">
+<meta property="og:description" content="API钩取api(application programming interface,应用程序编程接口）。windows系统资源都是由windows os系统直接管理的，用户不能直接访问。用户需要访问系统资源的时候，必须向系统内核（kernel)申请，申请的方法就是使用微软提供的win32api.为了实际运行相应的程序代码，需要加载许多系统库（DLL).所有的进程都会默认加载kernel32.dl">
+<meta property="og:locale" content="chinese">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/12.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/14.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/15.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/16.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/17.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/18.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/19.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/20.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/21.png">
+<meta property="og:updated_time" content="2019-05-09T13:27:18.729Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OD学习记录5.11">
+<meta name="twitter:description" content="API钩取api(application programming interface,应用程序编程接口）。windows系统资源都是由windows os系统直接管理的，用户不能直接访问。用户需要访问系统资源的时候，必须向系统内核（kernel)申请，申请的方法就是使用微软提供的win32api.为了实际运行相应的程序代码，需要加载许多系统库（DLL).所有的进程都会默认加载kernel32.dl">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/09/OD学习记录5-11/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/09/OD学习记录5-11/">
+
+
+
+
+
+  <title>OD学习记录5.11 | loser的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="chinese">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">loser的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/09/OD学习记录5-11/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">OD学习记录5.11</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-09T19:18:09+08:00">
+                2019-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="API钩取"><a href="#API钩取" class="headerlink" title="API钩取"></a>API钩取</h1><p>api(application programming interface,应用程序编程接口）。windows系统资源都是由windows os系统直接管理的，用户不能直接访问。用户需要访问系统资源的时候，必须向系统内核（kernel)申请，申请的方法就是使用微软提供的win32api.为了实际运行相应的程序代码，需要加载许多系统库（DLL).所有的进程都会默认加载kernel32.dll,kernel32.dll又会加载ntdll.dll库。</p>
+<p><img src="1.png" alt=""><br>用户模式中的应用程序访问系统资源的时候，由ntdll.dll向内核模式提出访问请求。一般常规系统资源的api会经由kernel32.dll与ntdll.dll不断向下调用，最后同故宫SYSENTRY命令进入内核模式。</p>
+<p>使用api钩取技术可以实现对某些win32API 的嗲用过程拦截，并获得相应的控制权限，使用api钩取技术的优势如下：<br>1）再api调用前/后运行用户的”钩子“代码。</p>
+<p>2）查看或操作传递给api的参数或者传递api的返回值</p>
+<p>3）取消对api的调用，或者更改执行流程，运行用户代码</p>
+<p>下表列出了api钩取的技术图表：<br><img src="2.png" alt=""><br> 根据对象的不同，api钩取可以分为静态方法与动态方法。静态方法是针对的是“文件”，而动态方法针对的是进程内存。根据钩取的位置不懂，可以分为：</p>
+<p>1)iat,将iad内部的api地址更改为钩取函数地址，该方法的优点是实现起来非常见到那，缺点是不能钩取不在iat中的api.</p>
+<p>2)代码：系统库（*.dll）映射到进程内存时，从中查找api的实际嗲hi，并直接修改代码，具体的方法分为以下几种：使用jmp指令修改起始代码，覆写函数局部，仅更改必须部分的局部</p>
+<p>3）eat:将记录在dll中的eat中的api起始地址更改为钩取函数地址也可以实现api钩取。</p>
+<p>根据对应的技术不同，可以分为以下几种技术：</p>
+<p>1）调试技术</p>
+<p>调试法通过调试目标继承钩取api.调试器拥有被调试者的所有权限（执行控制，内存访问），所以可以向被调试进程的内存任意位置设置钩取函数。这里的调试器是用户编写的用来钩取的程序。在用户编写的程序中使用调试api附加到目标进程，然后设置钩取函数，这样，重启运行时就能偶完全实现api钩取了。也可以向现有的调试器（od,ida,windbg)使用自动化脚本，自动钩取api.</p>
+<p>2)注入</p>
+<p>向目标进程内存区域进行渗透测试的技术，根据注入对象的不同，可以分为dll注入与代码注入两种技术。</p>
+<p>a)dll注入</p>
+<p>使用dll注入即使可以使目标进程强制加载用户指定的dll文件。使用该技术的时候需要先在注入的dll中创建钩取代码与设置钩代码，然后再dllmain()中调用设置代码，注入的同时即可完成api钩取。</p>
+<p>b）代码注入</p>
+<p>代码注入技术广泛用于恶意代码，代码注入技术比dll注入技术更发达。</p>
+<h1 id="记事本WriteFile（）API钩取"><a href="#记事本WriteFile（）API钩取" class="headerlink" title="记事本WriteFile（）API钩取"></a>记事本WriteFile（）API钩取</h1><h2 id="运行调试"><a href="#运行调试" class="headerlink" title="运行调试"></a>运行调试</h2><p>这次在windowsXP的虚拟机下调试程序 因为在自己的win10下有问题无法调试 所以就在winXP下去尝试了<br>首先运行notepad.exe 得到其PID 如图<br><img src="3.png" alt=""><br>然后运行hookdbg.exe 如图：<br><img src="4.png" alt=""><br>接下来像记事本里输入小写字母 随便输就行:<br><img src="5.png" alt=""><br>输入完后保存文件 发现刚才CMD黑框里的内容也变了：<br><img src="6.png" alt=""><br>发现刚好是刚才输入的内容和转变位大写的内容.<br>打开保存的记事本文件发现：<br><img src="7.png" alt=""><br>这就是钩取成功的表现了 下面看看其工作原理</p>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p>先来看看WriteFile()定义<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">BOOL WriteFile(</span><br><span class="line">HANDLE  hFile,//文件句柄</span><br><span class="line">LPCVOID lpBuffer,//数据缓存区指针</span><br><span class="line">DWORD   nNumberOfBytesToWrite,//你要写的字节数</span><br><span class="line">LPDWORD lpNumberOfBytesWritten,//用于保存实际写入字节数的存储区域的指针</span><br><span class="line">LPOVERLAPPED lpOverlapped//OVERLAPPED结构体指针</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>参数 类型及说明<br>hFile Long，一个文件的句柄</p>
+<p>lpBuffer Any，参数类型:指针,指向将写入文件的 数据缓冲区</p>
+<p>nNumberOfBytesToWrite Long，要写入数据的字节数量。如写入零字节，表示什么都不写入，但会更新文件的“上一次修改时间”。针对位于远程系统的命名管道，限制在65535个字节以内</p>
+<p>lpNumberOfBytesWritten Long，实际写入文件的字节数量（此变量是用来返回的 ）</p>
+<p>lpOverlapped OVERLAPPED，倘若在指定FILE_FLAG_OVERLAPPED的前提下打开文件，这个参数就必须引用一个特殊的结构。那个结构定义了一次异步写操作。否则，该参数应置为空（将声明变为ByVal As Long，并传递零值）</p>
+<p>用OD打开notepad 并在每个WriteFile上设置断点<br><img src="8.png" alt=""><br>运行程序并在记事本里输入内容 保存后发现 程序断在了WriteFile()处 并发现到了这4个重要的点<br><img src="9.png" alt=""><br>栈中有（ESP）1个返回值ESP+8中存在数据缓冲区的地址 直接跳转到此地址可以发现刚才输入的字符串 钩取Write/file（）API后 用指定字符串覆盖数据缓冲区的内容即可</p>
+<h2 id="源代码分析（hookdng-cpp源代码）"><a href="#源代码分析（hookdng-cpp源代码）" class="headerlink" title="源代码分析（hookdng.cpp源代码）"></a>源代码分析（hookdng.cpp源代码）</h2><h3 id="main"><a href="#main" class="headerlink" title="main()"></a>main()</h3><p><img src="10.png" alt=""><br>Main函数以程序运行参数的形式接收要钩取API的进程的PID，然后通过DebugActiveProcess()API将调试器附加到该运行的进程上，开始调试。然后进入DebugLoop()函数，处理来自被调试者的调试事件。（也可以通过CreateProcess()API，从一开始就直接以调试模式运行进程）</p>
+<h3 id="DebugLoop"><a href="#DebugLoop" class="headerlink" title="DebugLoop()"></a>DebugLoop()</h3><p><img src="11.png" alt=""><br>DebugLoop处理了三个DebugEvent，分别是</p>
+<p>CREATE_PROCESS_DEBUG_EVENT： 被调试进程启动/附加时触发该事件，调试器调用OnCreateProcessDebugEvent()</p>
+<p>EXCEPTION_DEBUG_EVENT：被调试进程遇到iNT 3指令时触发该事件，调试器调用OnExceptionDebugEvent()</p>
+<p>EXIT_PROCESS_DEBUG_EVENT：被调试进程终止时触发，在本代码中，调试器在被调试器终止时退出</p>
+<p>DebugL oop0函数的工作原理类似于窗口过程函数( WndProc ),它从被调试者处接收事件并处理，然后使被调试者继续运行。DebugLoop(函数代码比较简单，结合代码中的注释就能理解。下面看看其中比较重要的2个API。</p>
+<p>顾名思义，WaitForDebugEvent() API (出处: MSDN)是-一个等待被调试者发生调试事件的函数(行为动作类似于WaitForSingleObject() API )。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">WaitForDebugEvent(</span><br><span class="line"> </span><br><span class="line">    __in LPDEBUG_EVENT lpDebugEvent,</span><br><span class="line"> </span><br><span class="line">    __in DWORD dwMilliseconds</span><br><span class="line"> </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>DebugLoop(函数代码中,若发生调试事件, WaitForDebugEvent( API就会将相关事件信息设置到其第- -个参数的变量( DEBUG EVENT结构体对象), 然后立刻返回。DEBUG EVENT结构体定义(出处: MSDN)如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">typedef struct _DEBUG_EVENT &#123;</span><br><span class="line"> </span><br><span class="line">    DWORD dwDebugEventCode;</span><br><span class="line"> </span><br><span class="line">    DWORD dwProcessId;</span><br><span class="line"> </span><br><span class="line">    DWORD dwThreadId;</span><br><span class="line"> </span><br><span class="line">    union &#123;</span><br><span class="line"> </span><br><span class="line">        EXCEPTION_DEBUG_INFO Exception;</span><br><span class="line"> </span><br><span class="line">        CREATE_THREAD_DEBUG_INFO CreateThread;</span><br><span class="line"> </span><br><span class="line">        CREATE_PROCESS_DEBUG_INFO CreateProcessInfo;</span><br><span class="line"> </span><br><span class="line">        EXIT_THREAD_DEBUG_INFO ExitThread;</span><br><span class="line"> </span><br><span class="line">        EXIT_PROCESS_DEBUG_INFO ExitProcess;</span><br><span class="line"> </span><br><span class="line">        LOAD_DLL_DEBUG_INFO LoadDll;</span><br><span class="line"> </span><br><span class="line">        UNLOAD_DLL_DEBUG_INFO UnloadDll;</span><br><span class="line"> </span><br><span class="line">        OUTPUT_DEBUG_STRING_INFO DebugString;</span><br><span class="line"> </span><br><span class="line">        RIP_INFO RipInfo;</span><br><span class="line"> </span><br><span class="line">    &#125; u;</span><br><span class="line"> </span><br><span class="line">&#125; DEBUG_EVENT, *LPDEBUG_EVENT;</span><br></pre></td></tr></table></figure>
+<p>前面的讲解中已经提到过，共有9种调试事件。DEBUG_ EVENT.dwDebugEventCode成员 会被设置为9种事件中的一-种，根据相关事件的种类，也会设置适当的DEBUG_EVENTu(union)成员( DEBUG EVENT.u共用体成员内部也由9个结构体组成，它们对应于事件种类的个数)</p>
+<p>ContinueDebugEvent是一个使调试器继续运行的API</p>
+<p>定义如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ContinueDebugEvent(</span><br><span class="line"> </span><br><span class="line">    __in DWORD dwProcessId,</span><br><span class="line"> </span><br><span class="line">    __in DWORD dwThreadId,</span><br><span class="line"> </span><br><span class="line">    __in DWORD dwContinueStatus</span><br><span class="line"> </span><br><span class="line">    );</span><br></pre></td></tr></table></figure></p>
+<p>ContinueDebugEvent() API 的 最 后 一 个 参 数 dwContinueStatus 的 值 为 DBG_CONTINUE 或  DBG_EXCEPTION_NOT_HANDLED。若处理正常，则其值设置为DBG_CONTINUE;若无法处理，或希望在应用程序的SEH中处 理，则其值设置为DBG EXCEPTION NOT HANDLED</p>
+<p>DebugLoopO函数处理3种调试事件，如下所示。</p>
+<p>□ EXIT_PROCESS_DEBUG_EVENT</p>
+<p>□ CREATE_PROCESS_DEBUG_EVENT</p>
+<p>□ EXCEPTION_DEBUG_EVENT</p>
+<p>下面分别看看这3个事件。<br>EXIT_PROCESS_DEBUG_EVENT</p>
+<p>被调试进程终止时会触发该事件。本章的示例代码中发生该事件时，调试器与被调试者将一 起终止。</p>
+<p>CREATE_PROCESS_DEBUG_EVENT-OnCreateProcessDebugEvent()</p>
+<p>OnCreateProcessDebugEvent()是 CREATE_PROCESS_DEBUG_EVENT 事件句柄，被调试进程启动（或者附加）时即调用执行该函数。</p>
+<h3 id="OnCreateProcessDebugEvent"><a href="#OnCreateProcessDebugEvent" class="headerlink" title="OnCreateProcessDebugEvent()"></a>OnCreateProcessDebugEvent()</h3><p><img src="12.png" alt=""><br>代码首先获得WriteFile的内存地址,</p>
+<p>然后将函数地址处的第一个字节数据存放在g_chOrgByte变量中，之后将函数地址处第一个字节改为0xCC</p>
+<p>由于调试器拥有被调试进程的句柄（带有调试权限，DLL注入时也是首先将进程提升为调试权限[SE_DEBUG_NAME]）所以可以使用ReadProcessMemory和WriteProcessMemory对被调试进程的内存空间自由进行读写操作。</p>
+<h3 id="OnExceptionDebugEvent"><a href="#OnExceptionDebugEvent" class="headerlink" title="OnExceptionDebugEvent()"></a>OnExceptionDebugEvent()</h3><p><img src="13.png" alt=""><br><img src="14.png" alt=""><br><img src="15.png" alt=""><br><img src="16.png" alt=""><br>OnExceptionDebugEvent(函数代码有些多，接下来分析核心部分。首先，if语句用于检测异常是否为EXCEPTION_ BREAKPOINT异常(除此之外，还有大约19种异常,请参考前几节内容)。然后，用if语句检测发生断点的地址是否与kernel32!WriteFile(的起始地址一致( OnCreateProcessDebugEvent()已经事先获取了WriteFile()的起始地址)。若满足条件,则继续执行以下代码\</p>
+<h4 id="脱钩（恢复原代码）"><a href="#脱钩（恢复原代码）" class="headerlink" title="脱钩（恢复原代码）"></a>脱钩（恢复原代码）</h4><p><img src="17.png" alt=""></p>
+<h4 id="获取线程上下文"><a href="#获取线程上下文" class="headerlink" title=".获取线程上下文"></a>.获取线程上下文</h4><p>这是第1次提到“线程上下文”，所有程序在内存中都以进程为单位运行，而进程的实际指令代码以线程为单位运行。Windows OS是一个多线程 ( multi-thread )操作系统，同-进程中可以同时运行多个线程。多任务( multi-tasking )是将CPU资源划分为多个时间片( time-slice),然后平等地逐一 运行所有线程(考虑线程优先级)。 CPU运行完一 个线程的时间片而切换到其他线程时间片时，它必须将先前线程处理的内容准确备份下来，这样再次运行它时才能正常无误。</p>
+<p>再次运行先前线程时，必须有运行所需信息，这些重要信息指的就是CPU中各寄存器的值。通过这些值，才能保证CPU能够再次准确运行它(内存信息栈&amp;堆存在于相应进程的虚拟空间,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">WINBASEAPI</span><br><span class="line">BOOL</span><br><span class="line">WINAPI</span><br><span class="line">GetThreadContext(</span><br><span class="line">    __in    HANDLE hThread,</span><br><span class="line">    __inout LPCONTEXT lpContext</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>像这样调用GetThreadContext() API (出处: MSDN),即可将指定线程( g_ cpdi.hThread)的CONTEXT存储到ctx结构体变量( g_ cpdi.hThread是被调试者的主线程句柄)。</p>
+<h4 id="获取WriteFile-的param值"><a href="#获取WriteFile-的param值" class="headerlink" title="获取WriteFile()的param值"></a>获取WriteFile()的param值</h4><p>调用WriteFile()函数时,我们要在传递过来的参数中知道param2 (数据缓冲区地址)与param3(缓冲区大小)这2个参数。函数参数存储在栈中，通过#2中获取的CONTEXT.Esp成员可以分别获得它们的值</p>
+<p><img src="18.png" alt=""><br>存储在dwAddrOfBuffer中的数据缓冲区地址是被调试者（notepad.exe）虚拟内存空间中的地址</p>
+<h4 id="把小写字母转换为大写字母后覆写在WriteFile-缓冲区"><a href="#把小写字母转换为大写字母后覆写在WriteFile-缓冲区" class="headerlink" title="把小写字母转换为大写字母后覆写在WriteFile()缓冲区"></a>把小写字母转换为大写字母后覆写在WriteFile()缓冲区</h4><p>获取数据缓冲区的地址与大小后,将其内容读到调试器的内存空间，把小写字母转换为大写字母。然后将修改后的大写字母覆写到原位置(被调试者的虚拟内存)。整个代码不难，结合代码中的注释就能轻松理解</p>
+<p><img src="19.png" alt=""></p>
+<h4 id="把线程上下文的EIP修改为WriteFile-起始地址"><a href="#把线程上下文的EIP修改为WriteFile-起始地址" class="headerlink" title="把线程上下文的EIP修改为WriteFile()起始地址"></a>把线程上下文的EIP修改为WriteFile()起始地址</h4><p><img src="20.png" alt=""><br>将线程上下文的EIP更改为WriteFile()首地址(当前为WriteFile() + 1位置，int3命令之后)</p>
+<p>修改好CONTEXT.Eip成员后，调用SetThreadContext()API来修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SetThreadContext(</span><br><span class="line"> </span><br><span class="line">    __in HANDLE hThread,</span><br><span class="line"> </span><br><span class="line">    __in CONST CONTEXT *lpContext</span><br><span class="line"> </span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<h5 id="运行调试进程"><a href="#运行调试进程" class="headerlink" title="运行调试进程"></a>运行调试进程</h5><p> 全部准备完成后，接下来就正常调用WriteFile()API了，调用ContinueDebugEvent()API就可以重启被调试进程，使之继续运行。</p>
+<h4 id="继续HOOK（达到循环获取的目的）"><a href="#继续HOOK（达到循环获取的目的）" class="headerlink" title="继续HOOK（达到循环获取的目的）"></a>继续HOOK（达到循环获取的目的）</h4><p> 最后设置API“钩子”，方便下次钩取操作(若略去该操作，由于#1中已经“脱钩”, WriteFile()API钩取将完全处于“脱钩”状态)</p>
+<p><img src="21.png" alt=""><br>在 OnExceptionDebugEvent()函 数 中 调 用 了 ContinueDebugEvent()函 数 后 ，为 什 么 还 要  调 用Sleep(0)函 数 ？</p>
+<font color="#00ffff" size="3">调 用Sleep(0)函 数 可 以 释 放 当 前 线 程 的 剩 余 时 间 片 ， 即 放 弃 当 前 线 程 执 行 的CPU时 间 片。也 就 是 说 ， 调 用Sleep(0)函 数 后 ，CPU会 立 即 执 行 其 他 线 程 。 被 调 试 进 程（Notepad.exe) 的 主 线 程 处 于 运 行 状 态 时 ， 会 正 常 调 用WriteFiIe()API。然 后 经 过 一 定 时 间 ， 控 制 权 再 次 转 移 给HookDbg.exe, Sleep(0)后 面 的 “ 钩子 ” 代 码（WriteProcessMemory()API)会 被 调 用 执 行。若 没 有Sleep(0)语 句 ，Notepad.exe调 用WriteFile()API的 过 程 中 ，HookDbg.exe会尝试将WriteFile()API的首字节修改为OxCC。若运气不佳，这可能会导致内存访问异常。（避免notepad正在调用writefile()API的过程中，后面的钩子代码在调用成功之前执行完毕)</font>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/04/od学习5-4/" rel="next" title="od学习5.4">
+                <i class="fa fa-chevron-left"></i> od学习5.4
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">loser</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#API钩取"><span class="nav-number">1.</span> <span class="nav-text">API钩取</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#记事本WriteFile（）API钩取"><span class="nav-number">2.</span> <span class="nav-text">记事本WriteFile（）API钩取</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#运行调试"><span class="nav-number">2.1.</span> <span class="nav-text">运行调试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工作原理"><span class="nav-number">2.2.</span> <span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源代码分析（hookdng-cpp源代码）"><span class="nav-number">2.3.</span> <span class="nav-text">源代码分析（hookdng.cpp源代码）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#main"><span class="nav-number">2.3.1.</span> <span class="nav-text">main()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DebugLoop"><span class="nav-number">2.3.2.</span> <span class="nav-text">DebugLoop()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OnCreateProcessDebugEvent"><span class="nav-number">2.3.3.</span> <span class="nav-text">OnCreateProcessDebugEvent()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OnExceptionDebugEvent"><span class="nav-number">2.3.4.</span> <span class="nav-text">OnExceptionDebugEvent()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#脱钩（恢复原代码）"><span class="nav-number">2.3.4.1.</span> <span class="nav-text">脱钩（恢复原代码）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取线程上下文"><span class="nav-number">2.3.4.2.</span> <span class="nav-text">.获取线程上下文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取WriteFile-的param值"><span class="nav-number">2.3.4.3.</span> <span class="nav-text">获取WriteFile()的param值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#把小写字母转换为大写字母后覆写在WriteFile-缓冲区"><span class="nav-number">2.3.4.4.</span> <span class="nav-text">把小写字母转换为大写字母后覆写在WriteFile()缓冲区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#把线程上下文的EIP修改为WriteFile-起始地址"><span class="nav-number">2.3.4.5.</span> <span class="nav-text">把线程上下文的EIP修改为WriteFile()起始地址</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#运行调试进程"><span class="nav-number">2.3.4.5.1.</span> <span class="nav-text">运行调试进程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#继续HOOK（达到循环获取的目的）"><span class="nav-number">2.3.4.6.</span> <span class="nav-text">继续HOOK（达到循环获取的目的）</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">loser</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
