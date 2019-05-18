@@ -377,6 +377,22 @@
 <h3 id="使用热补丁进行Hook的缺点"><a href="#使用热补丁进行Hook的缺点" class="headerlink" title="使用热补丁进行Hook的缺点"></a>使用热补丁进行Hook的缺点</h3><p>热补丁钩取技术有个明显的缺点，即不符合钩取条件（7字节无用代码）的API无法使用热补丁钩取</p>
 <p>这样的API有，ntdll.dll提供的API 和kernel32.GetStartInfoA() 等</p>
 <p>并非所有API都能使用热补丁钩取，所以使用前需要先确认要钩取的API是否支持，若不支持则需使用前面的5字节代码修改技术</p>
+<h1 id="高级全局API钩取：IE连接控制"><a href="#高级全局API钩取：IE连接控制" class="headerlink" title="高级全局API钩取：IE连接控制"></a>高级全局API钩取：IE连接控制</h1><h2 id="调试IE进程"><a href="#调试IE进程" class="headerlink" title="调试IE进程"></a>调试IE进程</h2><p>常见网络连接库：ws2_32.dll（套接字），wininet.dll，winhttp.dll</p>
+<p>使用Process Explorer查看IE加载的DLL</p>
+<p>IE不仅加载了ws2_32.dll还加载了wininet.dll，wininet.dll中提供的API中有个名为InternetConnect()的API，这个API用来连接网站</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">HINTERNET InternetConnect(</span><br><span class="line">  _In_ HINTERNET     hInternet,</span><br><span class="line">  _In_ LPCTSTR       lpszServerName,</span><br><span class="line">  _In_ INTERNET_PORT nServerPort,</span><br><span class="line">  _In_ LPCTSTR       lpszUsername,</span><br><span class="line">  _In_ LPCTSTR       lpszPassword,</span><br><span class="line">  _In_ DWORD         dwService,</span><br><span class="line">  _In_ DWORD         dwFlags,</span><br><span class="line">  _In_ DWORD_PTR     dwContext</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>首先先打开IE浏览器 等待浏览器加载完：</p>
+<p><img src="7.png" alt=""><br>然后打开OD附加进程 这里发现有两个IE的进程 随便加载一个都行</p>
+<p><img src="8.png" alt=""><br>加载之后在反汇编窗口右击选择</p>
+<p><img src="9.png" alt=""><br>接下来找到InternetConnectW()API函数</p>
+<p><img src="10.png" alt=""><br>双击来到这里 设置断点</p>
+<p><img src="11.png" alt=""><br>点击F9运行一次 然后在浏览器中输入网址</p>
+<p><img src="12.png" alt=""><br>回车发现浏览器并没有跳转 OD处于暂停状态 右下角数据窗口是刚才输入的网址</p>
+<p><img src="13.png" alt=""><br>下来在数据窗口跟随 发现网址后更改为另外一个网址</p>
+<p><img src="14.png" alt=""><br>取消断点后F9运行程序<br><img src="15.png" alt=""><br>发现已经跳转到更改后的网址了 </p>
+<h2 id="IE的进程结构"><a href="#IE的进程结构" class="headerlink" title="IE的进程结构"></a>IE的进程结构</h2><p>IE的每个选项卡对应一个进程，统一由一个父进程管理。所以钩取API时需要使用全局钩取。</p>
+<p>这里通过钩取ntdll!ZwResumeThread钩取子进程</p>
+<h2 id="全局钩取ntdll-ResumeThread-API"><a href="#全局钩取ntdll-ResumeThread-API" class="headerlink" title="全局钩取ntdll!ResumeThread API"></a>全局钩取ntdll!ResumeThread API</h2><p>因为最终目的是控制IE的网络连接，所以dll注入时仅需向所有的iexplore.exe进程中注入即可，无需对其他无关进程注入dll</p>
 
           
         
