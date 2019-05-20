@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="chinese">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="高级全局API钩取：IE连接控制调试IE进程常见网络连接库：ws2_32.dll（套接字），wininet.dll，winhttp.dll 使用Process Explorer查看IE加载的DLL IE不仅加载了ws2_32.dll还加载了wininet.dll，wininet.dll中提供的API中有个名为InternetConnect()的API，这个API用来连接网站 12345678910">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OD学习5-25">
+<meta property="og:url" content="http://yoursite.com/2019/05/20/OD学习5-25/index.html">
+<meta property="og:site_name" content="loser的博客">
+<meta property="og:description" content="高级全局API钩取：IE连接控制调试IE进程常见网络连接库：ws2_32.dll（套接字），wininet.dll，winhttp.dll 使用Process Explorer查看IE加载的DLL IE不仅加载了ws2_32.dll还加载了wininet.dll，wininet.dll中提供的API中有个名为InternetConnect()的API，这个API用来连接网站 12345678910">
+<meta property="og:locale" content="chinese">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/12.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/14.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/15.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/16.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/17.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/18.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/19.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/20.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/21.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/51.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/52.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/53.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/54.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/20/OD学习5-25/55.png">
+<meta property="og:updated_time" content="2019-05-20T11:13:44.143Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OD学习5-25">
+<meta name="twitter:description" content="高级全局API钩取：IE连接控制调试IE进程常见网络连接库：ws2_32.dll（套接字），wininet.dll，winhttp.dll 使用Process Explorer查看IE加载的DLL IE不仅加载了ws2_32.dll还加载了wininet.dll，wininet.dll中提供的API中有个名为InternetConnect()的API，这个API用来连接网站 12345678910">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/20/OD学习5-25/7.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/20/OD学习5-25/">
+
+
+
+
+
+  <title>OD学习5-25 | loser的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="chinese">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">loser的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/OD学习5-25/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">OD学习5-25</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-20T19:12:10+08:00">
+                2019-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="高级全局API钩取：IE连接控制"><a href="#高级全局API钩取：IE连接控制" class="headerlink" title="高级全局API钩取：IE连接控制"></a>高级全局API钩取：IE连接控制</h1><h2 id="调试IE进程"><a href="#调试IE进程" class="headerlink" title="调试IE进程"></a>调试IE进程</h2><p>常见网络连接库：ws2_32.dll（套接字），wininet.dll，winhttp.dll</p>
+<p>使用Process Explorer查看IE加载的DLL</p>
+<p>IE不仅加载了ws2_32.dll还加载了wininet.dll，wininet.dll中提供的API中有个名为InternetConnect()的API，这个API用来连接网站</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">HINTERNET InternetConnect(</span><br><span class="line">  _In_ HINTERNET     hInternet,</span><br><span class="line">  _In_ LPCTSTR       lpszServerName,</span><br><span class="line">  _In_ INTERNET_PORT nServerPort,</span><br><span class="line">  _In_ LPCTSTR       lpszUsername,</span><br><span class="line">  _In_ LPCTSTR       lpszPassword,</span><br><span class="line">  _In_ DWORD         dwService,</span><br><span class="line">  _In_ DWORD         dwFlags,</span><br><span class="line">  _In_ DWORD_PTR     dwContext</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>首先先打开IE浏览器 等待浏览器加载完：</p>
+<p><img src="7.png" alt=""><br>然后打开OD附加进程 这里发现有两个IE的进程 随便加载一个都行</p>
+<p><img src="8.png" alt=""><br>加载之后在反汇编窗口右击选择</p>
+<p><img src="9.png" alt=""><br>接下来找到InternetConnectW()API函数</p>
+<p><img src="10.png" alt=""><br>双击来到这里 设置断点</p>
+<p><img src="11.png" alt=""><br>点击F9运行一次 然后在浏览器中输入网址</p>
+<p><img src="12.png" alt=""><br>回车发现浏览器并没有跳转 OD处于暂停状态 右下角数据窗口是刚才输入的网址</p>
+<p><img src="13.png" alt=""><br>下来在数据窗口跟随 发现网址后更改为另外一个网址</p>
+<p><img src="14.png" alt=""><br>取消断点后F9运行程序<br><img src="15.png" alt=""><br>发现已经跳转到更改后的网址了 </p>
+<h2 id="IE的进程结构"><a href="#IE的进程结构" class="headerlink" title="IE的进程结构"></a>IE的进程结构</h2><p>IE的每个选项卡对应一个进程，统一由一个父进程管理。所以钩取API时需要使用全局钩取。</p>
+<p>这里通过钩取ntdll!ZwResumeThread钩取子进程</p>
+<h2 id="全局钩取ntdll-ResumeThread-API"><a href="#全局钩取ntdll-ResumeThread-API" class="headerlink" title="全局钩取ntdll!ResumeThread API"></a>全局钩取ntdll!ResumeThread API</h2><p>因为最终目的是控制IE的网络连接，所以dll注入时仅需向所有的iexplore.exe进程中注入即可，无需对其他无关进程注入dll</p>
+<p>我们首先想想创建子进程的API有哪些 创建进程API中最具代表性的绝对是kernel32！CreateProcess{}API 下面调试一个简单的程序来测试CreateProcess（）API ：</p>
+<h3 id="cptest-exe"><a href="#cptest-exe" class="headerlink" title="cptest.exe"></a>cptest.exe</h3><p>用OD载入cptest程序 发现这个程序和载入ie程序的一样 反汇编窗口右击查找所有模块名称 然后进入kernel32！CreateProcessW() 发现在内部又调用了kernel32！CreateProcessInternelW()：</p>
+<p><img src="16.png" alt=""><br>给kernel32！CreateProcessW()设置断点F9运行 接下来单步跟踪进入kernel32！CreateProcessInternelW()：</p>
+<p><img src="17.png" alt=""><br>kernel32！CreateProcessInternelW()是一个相当大的函数 滚动条往下翻就会找到ntdll!ZwCreateUserProcess（） API：</p>
+<p><img src="18.png" alt=""><br>查看图中栈中出现了字符串notepad.exe同时在数据窗口也可以看到</p>
+<p><img src="19.png" alt=""><br>在process Explorer中可以看到notepad被暂时挂起 分配了PID却没有运行程序<br><img src="20.png" alt=""><br>在OD中继续单步运行程序 可以看到调用ntdll.ZwResumeThread（）API的代码<br><img src="21.png" alt=""><br>而ntdll.ZwResumeThread（）API函数就是用来恢复运行线程的 该线程是子进程（notepad.exe）的主进程 所以运行此代码时 子进程的EP代码才会执行 我们可以看见进程中的Suspended（挂起）已经不见了</p>
+<p><img src="51.png" alt=""><br>综上所述 CreateProcessW（）API的调用流程如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kernel32！CreateProcessW()</span><br><span class="line">	kernel32！CreateProcessInternelW()</span><br><span class="line">		ntdll!ZwCreateUserProcess（） //创建进程（主线程处于挂起状态）</span><br><span class="line">		ntdll.ZwResumeThread（）	//主线程被恢复运行（运行进程）</span><br></pre></td></tr></table></figure></p>
+<p>创建子进程最后调用的是ntdll.ZwResumeThread（）API 所以钩取该API 在子进程的EP代码运行之前 拦截获取控制权 然后钩取指定API </p>
+<p>前面的4个API都能实现实现我们的目标—全局API钩取</p>
+<h2 id="控制IE浏览器"><a href="#控制IE浏览器" class="headerlink" title="控制IE浏览器"></a>控制IE浏览器</h2><h3 id="运行IE"><a href="#运行IE" class="headerlink" title="运行IE"></a>运行IE</h3><p>首先运行IE浏览器 然后使用process Explorer查看运行中的IE进程的结构</p>
+<p>我们可以看到 IE进程以父子进程的形式进行 只要钩取夫进程的ntdll.ZwResumeThread（）API 那么后面的所有子进程都会被钩取</p>
+<p><img src="52.png" alt=""></p>
+<h3 id="注入DLL"><a href="#注入DLL" class="headerlink" title="注入DLL"></a>注入DLL</h3><p>使用如图InjDll.exe命令 将redirect.dll文件注入IE进程<br><img src="53.png" alt=""><br>查看DLL注入成功<br><img src="54.png" alt=""></p>
+<h3 id="卸载DLL"><a href="#卸载DLL" class="headerlink" title="卸载DLL"></a>卸载DLL</h3><p>我们可以看到DLL已经卸载成功<br><img src="55.png" alt=""></p>
+<h2 id="源代码分析"><a href="#源代码分析" class="headerlink" title="源代码分析"></a>源代码分析</h2><h3 id="DllMain"><a href="#DllMain" class="headerlink" title="DllMain"></a>DllMain</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)</span><br><span class="line">&#123;</span><br><span class="line">    char            szCurProc[MAX_PATH] = &#123;0,&#125;;</span><br><span class="line">    char            *p = NULL;</span><br><span class="line"></span><br><span class="line">    switch( fdwReason )</span><br><span class="line">    &#123;</span><br><span class="line">        case DLL_PROCESS_ATTACH : </span><br><span class="line">            DebugLog(&quot;DllMain() : DLL_PROCESS_ATTACH\n&quot;);</span><br><span class="line"></span><br><span class="line">            GetModuleFileNameA(NULL, szCurProc, MAX_PATH);</span><br><span class="line">            p = strrchr(szCurProc, &apos;\\&apos;);</span><br><span class="line">            if( (p != NULL) &amp;&amp; !_stricmp(p+1, &quot;iexplore.exe&quot;) )</span><br><span class="line">            &#123;</span><br><span class="line">                DebugLog(&quot;DllMain() : current process is [iexplore.exe]\n&quot;);</span><br><span class="line"></span><br><span class="line">                //为了防止在Dll注入时wininet.dll还未被加载，所以手动加载一下wininet.dll</span><br><span class="line">                if( NULL == LoadLibrary(L&quot;wininet.dll&quot;) )</span><br><span class="line">                &#123;</span><br><span class="line">                    DebugLog(&quot;DllMain() : LoadLibrary() failed!!! [%d]\n&quot;,</span><br><span class="line">                             GetLastError());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // hook</span><br><span class="line">            hook_by_code(&quot;ntdll.dll&quot;, &quot;ZwResumeThread&quot;, </span><br><span class="line">                         (PROC)NewZwResumeThread, g_pZWRT);</span><br><span class="line">            hook_by_code(&quot;wininet.dll&quot;, &quot;InternetConnectW&quot;, </span><br><span class="line">                         (PROC)NewInternetConnectW, g_pICW);</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        case DLL_PROCESS_DETACH :</span><br><span class="line">            DebugLog(&quot;DllMain() : DLL_PROCESS_DETACH\n&quot;);</span><br><span class="line"></span><br><span class="line">            // unhook</span><br><span class="line">            unhook_by_code(&quot;ntdll.dll&quot;, &quot;ZwResumeThread&quot;, </span><br><span class="line">                           g_pZWRT);</span><br><span class="line">            unhook_by_code(&quot;wininet.dll&quot;, &quot;InternetConnectW&quot;, </span><br><span class="line">                           g_pICW);</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该函数的核心功能是ZwResumeThread()和InternetConnectW()API的“挂钩/脱钩”功能 其中有条语句特别明显 若加载进程名为IE.exe时 则加载wininet.dll文件 这和全局API钩取的特性有关 钩取ZwResumeThread（）API时 需要在相关进程开始之前就获得拦截权 此时我们钩取的wininet.dll可能还未加载</p>
+<h3 id="NewInternetConnectW"><a href="#NewInternetConnectW" class="headerlink" title="NewInternetConnectW"></a>NewInternetConnectW</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">HINTERNET WINAPI NewInternetConnectW</span><br><span class="line">(</span><br><span class="line">    HINTERNET hInternet,</span><br><span class="line">    LPCWSTR lpszServerName,</span><br><span class="line">    INTERNET_PORT nServerPort,</span><br><span class="line">    LPCTSTR lpszUsername,</span><br><span class="line">    LPCTSTR lpszPassword,</span><br><span class="line">    DWORD dwService,</span><br><span class="line">    DWORD dwFlags,</span><br><span class="line">    DWORD_PTR dwContext</span><br><span class="line">)</span><br><span class="line">&#123;</span><br><span class="line">    HINTERNET hInt = NULL;</span><br><span class="line">    FARPROC pFunc = NULL;</span><br><span class="line">    HMODULE hMod = NULL;</span><br><span class="line"></span><br><span class="line">    // unhook</span><br><span class="line">    if( !unhook_by_code(&quot;wininet.dll&quot;, &quot;InternetConnectW&quot;, g_pICW) )</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;NewInternetConnectW() : unhook_by_code() failed!!!\n&quot;);</span><br><span class="line">        return NULL;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // call original API</span><br><span class="line">    hMod = GetModuleHandle(L&quot;wininet.dll&quot;);</span><br><span class="line">    if( hMod == NULL )</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;NewInternetConnectW() : GetModuleHandle() failed!!! [%d]\n&quot;,</span><br><span class="line">                  GetLastError());</span><br><span class="line">        goto __INTERNETCONNECT_EXIT;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    pFunc = GetProcAddress(hMod, &quot;InternetConnectW&quot;);</span><br><span class="line">    if( pFunc == NULL )</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;NewInternetConnectW() : GetProcAddress() failed!!! [%d]\n&quot;,</span><br><span class="line">                  GetLastError());</span><br><span class="line">        goto __INTERNETCONNECT_EXIT;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //修改原API调用时的第二个参数</span><br><span class="line">    if( !_tcsicmp(lpszServerName, L&quot;www.naver.com&quot;) ||</span><br><span class="line">        !_tcsicmp(lpszServerName, L&quot;www.daum.net&quot;) ||</span><br><span class="line">        !_tcsicmp(lpszServerName, L&quot;www.nate.com&quot;) || </span><br><span class="line">        !_tcsicmp(lpszServerName, L&quot;www.yahoo.com&quot;) )</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;[redirect] naver, daum, nate, yahoo =&gt; reversecore\n&quot;);</span><br><span class="line">        hInt = ((PFINTERNETCONNECTW)pFunc)(hInternet,</span><br><span class="line">                                           L&quot;www.reversecore.com&quot;,</span><br><span class="line">                                           nServerPort,</span><br><span class="line">                                           lpszUsername,</span><br><span class="line">                                           lpszPassword,</span><br><span class="line">                                           dwService,</span><br><span class="line">                                           dwFlags,</span><br><span class="line">                                           dwContext);</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;[no redirect]\n&quot;);</span><br><span class="line">        hInt = ((PFINTERNETCONNECTW)pFunc)(hInternet,</span><br><span class="line">                                           lpszServerName,</span><br><span class="line">                                           nServerPort,</span><br><span class="line">                                           lpszUsername,</span><br><span class="line">                                           lpszPassword,</span><br><span class="line">                                           dwService,</span><br><span class="line">                                           dwFlags,</span><br><span class="line">                                           dwContext);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">__INTERNETCONNECT_EXIT:</span><br><span class="line"></span><br><span class="line">    // hook</span><br><span class="line">    if( !hook_by_code(&quot;wininet.dll&quot;, &quot;InternetConnectW&quot;, </span><br><span class="line">                      (PROC)NewInternetConnectW, g_pICW) )</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;NewInternetConnectW() : hook_by_code() failed!!!\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return hInt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>InternetConnectW()的钩取函数为NewInternetConnectW()函数 他负责监视IE的连接地址 IE连接到特定网站时 将其转到我们的指定网站</p>
+<h3 id="NewZwResumeThread"><a href="#NewZwResumeThread" class="headerlink" title="NewZwResumeThread"></a>NewZwResumeThread</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">//ThreadHandle是要恢复运行的线程的句柄(即子进程的主线程)</span><br><span class="line">NTSTATUS WINAPI NewZwResumeThread(HANDLE ThreadHandle, PULONG SuspendCount)</span><br><span class="line">&#123;</span><br><span class="line">    NTSTATUS status, statusThread;</span><br><span class="line">    FARPROC pFunc = NULL, pFuncThread = NULL;</span><br><span class="line">    DWORD dwPID = 0;</span><br><span class="line">    static DWORD dwPrevPID = 0;</span><br><span class="line">    THREAD_BASIC_INFORMATION tbi;</span><br><span class="line">    HMODULE hMod = NULL;</span><br><span class="line">    TCHAR szModPath[MAX_PATH] = &#123;0,&#125;;</span><br><span class="line"></span><br><span class="line">    DebugLog(&quot;NewZwResumeThread() : start!!!\n&quot;);</span><br><span class="line"></span><br><span class="line">    hMod = GetModuleHandle(L&quot;ntdll.dll&quot;);</span><br><span class="line">    if( hMod == NULL )</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;NewZwResumeThread() : GetModuleHandle() failed!!! [%d]\n&quot;,</span><br><span class="line">                  GetLastError());</span><br><span class="line">        return NULL;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 调用ntdll!ZwQueryInformationThread()，通过线程句柄获取其对应进程PID</span><br><span class="line">    pFuncThread = GetProcAddress(hMod, &quot;ZwQueryInformationThread&quot;);</span><br><span class="line">    if( pFuncThread == NULL )</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;NewZwResumeThread() : GetProcAddress() failed!!! [%d]\n&quot;,</span><br><span class="line">                  GetLastError());</span><br><span class="line">        return NULL;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    statusThread = ((PFZWQUERYINFORMATIONTHREAD)pFuncThread)</span><br><span class="line">                   (ThreadHandle, 0, &amp;tbi, sizeof(tbi), NULL);</span><br><span class="line">    if( statusThread != STATUS_SUCCESS )</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;NewZwResumeThread() : pFuncThread() failed!!! [%d]\n&quot;, </span><br><span class="line">                 GetLastError());</span><br><span class="line">        return NULL;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //子进程PID</span><br><span class="line">    dwPID = (DWORD)tbi.ClientId.UniqueProcess;</span><br><span class="line">    if ( (dwPID != GetCurrentProcessId()) &amp;&amp; (dwPID != dwPrevPID) )</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;NewZwResumeThread() =&gt; call InjectDll()\n&quot;);</span><br><span class="line"></span><br><span class="line">        dwPrevPID = dwPID;</span><br><span class="line"></span><br><span class="line">        // change privilege</span><br><span class="line">        // 打开SeDebugPrivilege特权</span><br><span class="line">        if( !SetPrivilege(SE_DEBUG_NAME, TRUE) )</span><br><span class="line">            DebugLog(&quot;NewZwResumeThread() : SetPrivilege() failed!!!\n&quot;);</span><br><span class="line"></span><br><span class="line">        // 获取要注入的dll的路径</span><br><span class="line">        GetModuleFileName(GetModuleHandle(STR_MODULE_NAME), </span><br><span class="line">                          szModPath, </span><br><span class="line">                          MAX_PATH);</span><br><span class="line">        // 注入dll</span><br><span class="line">        if( !InjectDll(dwPID, szModPath) )</span><br><span class="line">            DebugLog(&quot;NewZwResumeThread() : InjectDll(%d) failed!!!\n&quot;, dwPID);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // call ntdll!ZwResumeThread()</span><br><span class="line">    if( !unhook_by_code(&quot;ntdll.dll&quot;, &quot;ZwResumeThread&quot;, g_pZWRT) )</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;NewZwResumeThread() : unhook_by_code() failed!!!\n&quot;);</span><br><span class="line">        return NULL;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    pFunc = GetProcAddress(hMod, &quot;ZwResumeThread&quot;);</span><br><span class="line">    if( pFunc == NULL )</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;NewZwResumeThread() : GetProcAddress() failed!!! [%d]\n&quot;,</span><br><span class="line">                  GetLastError());</span><br><span class="line">        goto __NTRESUMETHREAD_END;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    status = ((PFZWRESUMETHREAD)pFunc)(ThreadHandle, SuspendCount);</span><br><span class="line">    if( status != STATUS_SUCCESS )</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;NewZwResumeThread() : pFunc() failed!!! [%d]\n&quot;, GetLastError());</span><br><span class="line">        goto __NTRESUMETHREAD_END;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">__NTRESUMETHREAD_END:</span><br><span class="line"></span><br><span class="line">    if( !hook_by_code(&quot;ntdll.dll&quot;, &quot;ZwResumeThread&quot;, </span><br><span class="line">                      (PROC)NewZwResumeThread, g_pZWRT) )</span><br><span class="line">    &#123;</span><br><span class="line">        DebugLog(&quot;NewZwResumeThread() : hook_by_code() failed!!!\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    DebugLog(&quot;NewZwResumeThread() : end!!!\n&quot;);</span><br><span class="line"></span><br><span class="line">    return status;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个函数负责对ntdll.ZwResumeThread（）API进行全局钩取</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/15/OD学习5-18/" rel="next" title="OD学习5-18">
+                <i class="fa fa-chevron-left"></i> OD学习5-18
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">loser</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#高级全局API钩取：IE连接控制"><span class="nav-number">1.</span> <span class="nav-text">高级全局API钩取：IE连接控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#调试IE进程"><span class="nav-number">1.1.</span> <span class="nav-text">调试IE进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IE的进程结构"><span class="nav-number">1.2.</span> <span class="nav-text">IE的进程结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全局钩取ntdll-ResumeThread-API"><span class="nav-number">1.3.</span> <span class="nav-text">全局钩取ntdll!ResumeThread API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cptest-exe"><span class="nav-number">1.3.1.</span> <span class="nav-text">cptest.exe</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制IE浏览器"><span class="nav-number">1.4.</span> <span class="nav-text">控制IE浏览器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行IE"><span class="nav-number">1.4.1.</span> <span class="nav-text">运行IE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注入DLL"><span class="nav-number">1.4.2.</span> <span class="nav-text">注入DLL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卸载DLL"><span class="nav-number">1.4.3.</span> <span class="nav-text">卸载DLL</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源代码分析"><span class="nav-number">1.5.</span> <span class="nav-text">源代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DllMain"><span class="nav-number">1.5.1.</span> <span class="nav-text">DllMain</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NewInternetConnectW"><span class="nav-number">1.5.2.</span> <span class="nav-text">NewInternetConnectW</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NewZwResumeThread"><span class="nav-number">1.5.3.</span> <span class="nav-text">NewZwResumeThread</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">loser</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
