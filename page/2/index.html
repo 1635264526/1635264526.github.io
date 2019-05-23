@@ -229,6 +229,126 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/01/周报4-6/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/01/周报4-6/" itemprop="url">周报4.6</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-01T16:36:46+08:00">
+                2019-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.很多API函数,但都不是用于检测进程名的,可能这些重要的API函数被隐藏起来了,没有出现该列表中。<br>很显然如果程序不直接导入某些API的话,会使用GetProcAddress这个API 函数来获取这些API函数的地址进行间接调用。<br>使用GetProcAddress函数加载的一些API函数并不会出现该API函数列表中,我们给GetProcAddress设置一个断点，运行直到待获取的API是与检测进程名相关的为止。<br>GetModuleBaseNameA：该函数是获取指定进程模块的名称,lpBaseName这个参数是用来保存模块名称的缓冲区首地址。<br>2.算法题目练习，最近要参加校赛，在南阳acm上面刷题。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/31/周报3-31/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1294,132 +1414,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/28/周报12-28/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="loser">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="loser的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/28/周报12-28/" itemprop="url">周报12.28</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-28T21:39:01+08:00">
-                2018-12-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1，完成了我的链表学生成绩管理系统，实现了增 删 查 改 总成绩 平均成绩，用swich case 语句完成了功能选择，其中碰到的问题是不能更改或删除第一个学生的信息，最后也解决了。<br>2，完成了文件的基本练习，文件的建立写入，文件的读取，两个文件读取后存入另一个文件中等基本操作。<br>3，快期末考试了，复习是必不可少的，主要有回归了一下指针，高数在练习老师教的内容以及前面不太会的内容。<br>4，介绍一下我的这个成绩管理系统的主要部分函数吧！<br>…</p>
-<p><1> 首先是输入函数，就是简单的动态链表的建立，当输入的值为0时结束输入。</1></p>
-<p><2> 下来是信息增加函数，单链表的插入，开辟一个新的空间，使新节点指向首结点。</2></p>
-<p><3> 下来是信息删除函数，单链表的删除，遍历链表，找到要删除的节点，删除节点的信息，释放储存空间，减少节点个数。</3></p>
-<p><4> 查询函数有和删除函数类似的地方，就是遍历链表，找到需要查询的学生信息输出即可。</4></p>
-<p><5> 信息更改函数就是找到该学生的信息先开辟新的储存空间存临时变量，再用临时变量覆盖要更改的信息就好。</5></p>
-<p><6> 平均成绩和总成绩类似，遍历链表所有的成绩 求和 ，求平均数，在该函数里输出。<br>…</6></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1470,7 +1464,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

@@ -79,17 +79,27 @@
 
 
 
-<meta name="description" content="1.本周牵扯到来学校，所以可能耽误了点时间，学习了第九 十 十一（一半）章这些内容。2.第九章讲的转移指令原理，就是控制cpu执行某处代码的指令 第一个重要指令就是jmp  无条件跳转指令  有段内短转移jmp short和段间转移jmp far ptr 然后就是在内存中使用jmp指令 下来是jcxz指令 为有条件跳转指令 判断条件为cx=0就跳转 而与之相反的loop指令为cx不等于0就跳转。3">
+<meta name="description" content="概念ASLR是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击者直接定位攻击代码位置，达到阻止溢出攻击的目的的一种技术。 ASLR（Address space layout randomization）是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击">
 <meta property="og:type" content="article">
-<meta property="og:title" content="周报3.2">
-<meta property="og:url" content="http://yoursite.com/2019/02/27/周报3-2/index.html">
+<meta property="og:title" content="ASLR">
+<meta property="og:url" content="http://yoursite.com/2019/05/23/ASLR/index.html">
 <meta property="og:site_name" content="loser的博客">
-<meta property="og:description" content="1.本周牵扯到来学校，所以可能耽误了点时间，学习了第九 十 十一（一半）章这些内容。2.第九章讲的转移指令原理，就是控制cpu执行某处代码的指令 第一个重要指令就是jmp  无条件跳转指令  有段内短转移jmp short和段间转移jmp far ptr 然后就是在内存中使用jmp指令 下来是jcxz指令 为有条件跳转指令 判断条件为cx=0就跳转 而与之相反的loop指令为cx不等于0就跳转。3">
+<meta property="og:description" content="概念ASLR是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击者直接定位攻击代码位置，达到阻止溢出攻击的目的的一种技术。 ASLR（Address space layout randomization）是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击">
 <meta property="og:locale" content="chinese">
-<meta property="og:updated_time" content="2019-03-04T07:22:16.172Z">
+<meta property="og:image" content="http://yoursite.com/2019/05/23/ASLR/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/23/ASLR/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/23/ASLR/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/23/ASLR/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/23/ASLR/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/23/ASLR/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/23/ASLR/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/23/ASLR/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/23/ASLR/9.png">
+<meta property="og:updated_time" content="2019-05-23T12:59:43.559Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周报3.2">
-<meta name="twitter:description" content="1.本周牵扯到来学校，所以可能耽误了点时间，学习了第九 十 十一（一半）章这些内容。2.第九章讲的转移指令原理，就是控制cpu执行某处代码的指令 第一个重要指令就是jmp  无条件跳转指令  有段内短转移jmp short和段间转移jmp far ptr 然后就是在内存中使用jmp指令 下来是jcxz指令 为有条件跳转指令 判断条件为cx=0就跳转 而与之相反的loop指令为cx不等于0就跳转。3">
+<meta name="twitter:title" content="ASLR">
+<meta name="twitter:description" content="概念ASLR是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击者直接定位攻击代码位置，达到阻止溢出攻击的目的的一种技术。 ASLR（Address space layout randomization）是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/23/ASLR/1.png">
 
 
 
@@ -119,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/27/周报3-2/">
+  <link rel="canonical" href="http://yoursite.com/2019/05/23/ASLR/">
 
 
 
 
 
-  <title>周报3.2 | loser的博客</title>
+  <title>ASLR | loser的博客</title>
   
 
 
@@ -232,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/27/周报3-2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/23/ASLR/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="loser">
@@ -249,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">周报3.2</h1>
+          <h1 class="post-title" itemprop="name headline">ASLR</h1>
         
 
         <div class="post-meta">
@@ -261,8 +271,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-27T18:40:07+08:00">
-                2019-02-27
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-23T20:08:14+08:00">
+                2019-05-23
               </time>
             
 
@@ -299,7 +309,12 @@
       
 
       
-        <p>1.本周牵扯到来学校，所以可能耽误了点时间，学习了第九 十 十一（一半）章这些内容。<br>2.第九章讲的转移指令原理，就是控制cpu执行某处代码的指令 第一个重要指令就是jmp  无条件跳转指令  有段内短转移jmp short和段间转移jmp far ptr 然后就是在内存中使用jmp指令 下来是jcxz指令 为有条件跳转指令 判断条件为cx=0就跳转 而与之相反的loop指令为cx不等于0就跳转。<br>3.第十章是call和ret指令的讲解，首先先讲解了ret和retf指令 区别就是ret指令执行相当于pop IP 而retf是pop IP pop CS 接下来call也是进行转移的指令 基本和jmp相同  除了不能实现短转移 将call和ret配合使用可以实现在一个函数里调用一个小函数 实现之后再返回回来 接下来是mul乘法指令与除法指令的要求不同 乘法指令相乘的两个数都得是8位或者16位 结果8位存储在ax中 16位乘法结果高位dx中低位ax中 接下来还是实践了字符串转变问题 编写了几个程序。<br>4.第十一章到了标志寄存器，zf 0标志位结果是否为0 pf奇偶标志位 结果中bit位1的个数 偶数pf=1奇数pf=0 sf标志位 符号标志位 判断结果是否为负 为负sf=1非负为0 cf标志位 是进位标志位 记录运算结果的最高有效位向更高位的进位值 of标志位是溢出标志 对于有符号位用of记录是否溢出 溢出of=1 否则为0.</p>
+        <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>ASLR是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击者直接定位攻击代码位置，达到阻止溢出攻击的目的的一种技术。</p>
+<p>ASLR（Address space layout randomization）是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击者直接定位攻击代码位置，达到阻止溢出攻击的目的。据研究表明ASLR可以有效的降低缓冲区溢出攻击的成功率，如今Linux、FreeBSD、Windows等主流操作系统都已采用了该技术。</p>
+<h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>用OD载入ASLR和ASLR_no两个程序<br><img src="1.png" alt=""><br><img src="8.png" alt=""><br>看起来基址不一样的 这就是ALSR文件的区别 每次载入都会改变基址 我们用PEView载入程序看看<br><img src="2.png" alt=""><br>节区信息<br>对于普通的EXE文件不存在.reloc文件 只有用了ASLR技术的应用才会有 被加载在内存时 被用作重定位的参考 它不是必须部分 可以删除 </p>
+<p>再来看看这两部分 ASLR的characteristics属性字段并不存在这一段 因为ASLR.exe文件中多出来1个.reloc节区 所以Number of Sections值增1</p>
+<p><img src="3.png" alt=""><br>ASLR文件的DLL Characteristics中设有这一段 这也就是ASLR文件的标志了<br><img src="4.png" alt=""></p>
+<h1 id="删除ALSR功能"><a href="#删除ALSR功能" class="headerlink" title="删除ALSR功能"></a>删除ALSR功能</h1><p>我们使用Stud_PE工具修改ASLR.exe文件 载入可以看到应用的相关信息 并点击这里可以看到<br><img src="5.png" alt=""><br>我们找到DLL Characteristics的地方 并看到他在内存中的值 我们将属性值由8140改成8100 然后保存文件<br><img src="6.png" alt=""><br><img src="7.png" alt=""><br>再次载入ASLR文件 可以看到基址和ASLR_no文件一样了 这样就将文件删除ALSR功能了<br><img src="9.png" alt=""></p>
 
       
     </div>
@@ -324,8 +339,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/02/23/周报2-23/" rel="next" title="周报2.23">
-                <i class="fa fa-chevron-left"></i> 周报2.23
+              <a href="/2019/05/20/OD学习5-25/" rel="next" title="OD学习5-25">
+                <i class="fa fa-chevron-left"></i> OD学习5-25
               </a>
             
           </div>
@@ -333,10 +348,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/04/成绩管理系统/" rel="prev" title="成绩管理系统">
-                成绩管理系统 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -388,8 +399,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -431,6 +451,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概念"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调试"><span class="nav-number">2.</span> <span class="nav-text">调试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#删除ALSR功能"><span class="nav-number">3.</span> <span class="nav-text">删除ALSR功能</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
