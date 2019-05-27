@@ -229,6 +229,274 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/TLS回调函数/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/26/TLS回调函数/" itemprop="url">TLS回调函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-26T17:11:45+08:00">
+                2019-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="练习-1"><a href="#练习-1" class="headerlink" title="练习#1"></a>练习#1</h1><p>运行练习文件（HelloTls.exe）弹出消息框 单击 确定 结束程序</p>
+<p><img src="1.png" alt=""><br>接下来使用OD打开程序并运行TLS文件 出现如图对话框</p>
+<p><img src="2.png" alt=""><br>我们发现对话框与源程序的内容不同 单击 确定 终止程序 如图</p>
+<p><img src="3.png" alt=""><br>出现这种情况的原因在于程序运行EP代码前先调用了TLS回调函数 而这一函数中含有反调试代码</p>
+<h1 id="TLS"><a href="#TLS" class="headerlink" title="TLS"></a>TLS</h1><h2 id="IMAGE-DATA-DIRECTORY-9"><a href="#IMAGE-DATA-DIRECTORY-9" class="headerlink" title="IMAGE_DATA_DIRECTORY[9]"></a>IMAGE_DATA_DIRECTORY[9]</h2><p>如果在编程中用了TLS回调函数 PE头文件就会设置TLS表项目 如下图</p>
+<p><img src="4.png" alt=""></p>
+<h2 id="IMAGE-TLS-DIRECTORY"><a href="#IMAGE-TLS-DIRECTORY" class="headerlink" title="IMAGE_TLS_DIRECTORY"></a>IMAGE_TLS_DIRECTORY</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">IMAGE_DATA_DIRECTORY[9]:IMAGE_TLS_DIRECTOR</span><br><span class="line">Y</span><br><span class="line">typedef struct _IMAGE_TLS_DIRECTORY64 &#123;</span><br><span class="line">ULONGLONG StartAddressOfRawData;</span><br><span class="line">ULONGLONG EndAddressOfRawData;</span><br><span class="line">ULONGLONG AddressOfIndex; // PDWORD</span><br><span class="line">ULONGLONG AddressOfCallBacks; //</span><br><span class="line">PIMAGE_TLS_CALLBACK *;</span><br><span class="line">DWORD SizeOfZeroFill;</span><br><span class="line">DWORD Characteristics;</span><br><span class="line">&#125; IMAGE_TLS_DIRECTORY64;</span><br><span class="line">typedef IMAGE_TLS_DIRECTORY64*PIMAGE_TLS_DIRECTORY64;</span><br><span class="line"></span><br><span class="line">typedef struct_IMAGE_TLS_DIRECTORY32 &#123;</span><br><span class="line">DWORD StartAddressOfRawData;</span><br><span class="line">DWORD EndAddressOfRawData;</span><br><span class="line">DWORD AddressOfIndex; // PDWORD</span><br><span class="line">DWORD AddressOfCallBacks; //</span><br><span class="line">PIMAGE_TLS_CALLBACK *;</span><br><span class="line">DWORD SizeOfZeroFill;</span><br><span class="line">DWORD Characteristics;</span><br><span class="line">&#125; IMAGE_TLS_DIRECTORY32;</span><br><span class="line">typedef IMAGE_TLS_DIRECTORY32*PIMAGE_TLS_DIRECTORY32;</span><br><span class="line">#ifdef _WIN64</span><br><span class="line">typedef IMAGE_TLS_DIRECTORY64	IMAGE_TLS_DIRECTORY;</span><br><span class="line">typedef PIMAGE_TLS_DIRECTORY64	PIMAGE_TLS_DIRECTORY;</span><br><span class="line">#else</span><br><span class="line">typedef IMAGE_TLS_DIRECTORY32	IMAGE_TLS_DIRECTORY;</span><br><span class="line">typedef PIMAGE_TLS_DIRECTORY32	PIMAGE_TLS_DIRECTORY;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p>IMAGE_TLS_DIRECTORY结构体有两种版本 分别为32位版本和64位版本 我们用PEView查看IMAGE_TLS_DIRECTORY结构体 成员如图</p>
+<p><img src="5.png" alt=""><br>代码逆向中最重要的时Address of Callbacks 该值指向含有TLS回调函数地址的数组 这意味着可以向同一程序注册多个TLS回调函数</p>
+<h2 id="回调函数地址数组"><a href="#回调函数地址数组" class="headerlink" title="回调函数地址数组"></a>回调函数地址数组</h2><p>回调函数地址数组<br><img src="6.png" alt=""><br>数组中实际储存的是TLS回调函数的地址 进程启动运行时 逐一调用储存在该数组的函数</p>
+<h1 id="TLS回调函数"><a href="#TLS回调函数" class="headerlink" title="TLS回调函数"></a>TLS回调函数</h1><p>TLS(Thread Local Storage,线程局部储存)，主要用于给线程独立的传值，由于线程不拥有进程的资源，所以几个同一进程的几个线程需要独立赋值时的需要通过TLS技术。每个线程创建时都会分配一个index所以，这个索引index是全局变量，线程根据index来获取其他线程传过来的返回值。TLS有一个特点，就是它通常在程序EP前就要运行，所以起始TLS才是个程序真正的开始。利用这一特点，可以用来进行的程序的反调试。</p>
+<p>创建和终止某线程时 TLS回调函数都会自动调用执行 前后共两次 执行EP代码前 TLS回调函数会先被执行 常用于反调试技术</p>
+<h1 id="练习-2"><a href="#练习-2" class="headerlink" title="练习#2"></a>练习#2</h1><p>TlsTest.exe程序使用VC++编写的 充分展现了TLS回调函数的方法 源代码如图：</p>
+<p><img src="7.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;windows.h&gt;</span><br><span class="line"></span><br><span class="line">#pragma comment(linker, &quot;/INCLUDE:__tls_used&quot;)</span><br><span class="line"></span><br><span class="line">void print_console(char* szMsg)</span><br><span class="line">&#123;</span><br><span class="line">    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);</span><br><span class="line">    </span><br><span class="line">    WriteConsoleA(hStdout, szMsg, strlen(szMsg), NULL, NULL);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void NTAPI TLS_CALLBACK1(PVOID DllHandle, DWORD Reason, PVOID Reserved)</span><br><span class="line">&#123;</span><br><span class="line">    char szMsg[80] = &#123;0,&#125;;</span><br><span class="line">    wsprintfA(szMsg, &quot;TLS_CALLBACK1() : DllHandle = %X, Reason = %d\n&quot;,</span><br><span class="line">                DllHandle, Reason);</span><br><span class="line">    print_console(szMsg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void NTAPI TLS_CALLBACK2(PVOID DllHandle, DWORD Reason, PVOID Reserved)</span><br><span class="line">&#123;</span><br><span class="line">    char szMsg[80] = &#123;0,&#125;;</span><br><span class="line">    wsprintfA(szMsg, &quot;TLS_CALLBACK2() : DllHandle = %X, Reason = %d\n&quot;,</span><br><span class="line">                DllHandle, Reason);</span><br><span class="line">    print_console(szMsg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma data_seg(&quot;.CRT$XLX&quot;)</span><br><span class="line">    PIMAGE_TLS_CALLBACK pTLS_CALLBACKs[] = &#123;TLS_CALLBACK1, TLS_CALLBACK2, 0&#125;;</span><br><span class="line">#pragma data_seg()</span><br><span class="line"></span><br><span class="line">DWORD WINAPI ThreadProc(LPVOID lParam)</span><br><span class="line">&#123;</span><br><span class="line">    print_console(&quot;ThreadProc() start\n&quot;);</span><br><span class="line">    </span><br><span class="line">    print_console(&quot;ThreadProc() end\n&quot;);</span><br><span class="line">    </span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    HANDLE hThread = NULL;</span><br><span class="line">    print_console(&quot;main() start\n&quot;);</span><br><span class="line">    </span><br><span class="line">    hThread = CreateThread(NULL, 0, ThreadProc, NULL, 0, NULL);</span><br><span class="line">    WaitForSingleObject(hThread, 60*1000);</span><br><span class="line">    CloseHandle(hThread);</span><br><span class="line">    </span><br><span class="line">    print_console(&quot;main() end\n&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>TlsTest.cpp源代码中注册了2个TLS回调函数（TLS_CALLBACK1 TLS_CALLBACK2）他们也非常简单 只是将DllHandle与Reason这2个参数输出到控制台 然后终止退出 mian（）函数也是 创建用户线程（ThreadProc）后终止 main{}函数与ThreadProc（）内部分别将函数分开/终止日志输出到控制台 程序运行画面</p>
+<p><img src="7.png" alt=""><br>接下来时各函数调用顺序</p>
+<h2 id="DLL-PROCESS-ATTACH"><a href="#DLL-PROCESS-ATTACH" class="headerlink" title="DLL_PROCESS_ATTACH"></a>DLL_PROCESS_ATTACH</h2><p>进程的主线程调用main()函数前 已经注册的TLS回调函数（TLS_CALLBACK1 TLS_CALLBACK2）会先被执行 此时Reason的值为1（DLL_PROCESS_ATTACH）</p>
+<h2 id="DLL-THREAD-ATTACH"><a href="#DLL-THREAD-ATTACH" class="headerlink" title="DLL_THREAD_ATTACH"></a>DLL_THREAD_ATTACH</h2><p>所有TLS回调函数完成调用后 mian（）函数开始执行 创建用户线程（ThreadProc）前 TLS回调函数会被再次执行 此时此时Reason的值为2（DLL_THREAD_ATTACH）</p>
+<h2 id="DLL-THREAD-DETACH"><a href="#DLL-THREAD-DETACH" class="headerlink" title="DLL_THREAD_DETACH"></a>DLL_THREAD_DETACH</h2><p>TLS回调函数全部被执行完毕后 ThreadProc（）线程函数开始调用执行 执行完毕后Reason=3（DLL_THREAD_DETACH） TLS回调函数被调用执行</p>
+<h2 id="DLL-PROCESS-DETACH"><a href="#DLL-PROCESS-DETACH" class="headerlink" title="DLL_PROCESS_DETACH"></a>DLL_PROCESS_DETACH</h2><p>ThreadProc（）线程函数执行完毕后 一直在等待线程终止的main（）函数也会终止 此时Reason的值为0（DLL_PROCESS_DETACH）TLS回调函数最后一次被调用执行 以上TlsTest.exe中 2个TLS回调函数分别被调用了4次 总共为8次 接下来看看调试方法</p>
+<h1 id="调式TLS回调函数"><a href="#调式TLS回调函数" class="headerlink" title="调式TLS回调函数"></a>调式TLS回调函数</h1><p>若直接在调试器中打开有TLS回调函数的程序 则无法打开TLS函数 因为在EP代码执行之前就被调用执行了 使用特定插件存在一个“暂停在TLS回调函数”的选项 使用起来更加方便</p>
+<p><img src="10.png" alt=""><br>这样就可以调试TLS回调函数了 这个函数很简单 运行的代码也不多</p>
+<h1 id="手动添加TLS回调函数"><a href="#手动添加TLS回调函数" class="headerlink" title="手动添加TLS回调函数"></a>手动添加TLS回调函数</h1><p>首先确定IMAGE_TLS_DIRECTORY结构体与TLS回调函数要放在哪个位置 向某个PE文件添加代码或数据时 有3种方法</p>
+<p>1）添加到节区末尾的空白区域<br>2）增加最后一个节区的大小<br>3）在最后添加新节区<br>这里我们采用第二种方法 使用PEView查看Hello.exe文件的最后一个节区（.rsrc）的节区头<br><img src="9.png" alt=""><br>可以看到最后一个节区（.rsrc）的Pointer to Raw Data=9000 Size of Raw Data=200 所以 PE头中定义的文件整体大小为9200 考虑到要添加代码和数据的大小 我们将最后一个节区的大小增加200 使用HXD工具打开文件 光标移至最后一个节区的菜单栏选择编辑-插入字节 如图所示 向字节数中输入200 单击ok后 就可以看到增加了200个字节<br><img src="10.png" alt=""><br><img src="11.png" alt=""></p>
+<h2 id="编辑PE文件头"><a href="#编辑PE文件头" class="headerlink" title="编辑PE文件头"></a>编辑PE文件头</h2><h3 id="rsrc节区头"><a href="#rsrc节区头" class="headerlink" title=".rsrc节区头"></a>.rsrc节区头</h3><p>对比图9 分别修改.rsrc节区头中的Size of Raw Data和Characteristics的值 即Size of Raw Data=400 Characteristics=E0000060 如下图<br><img src="12.png" alt=""><br>Characteristics=E0000060的含义如图<br><img src="13.png" alt=""><br>在原有的属性上增加了这三个属性</p>
+<h3 id="IMAGE-DATA-DIRECTORY-9-1"><a href="#IMAGE-DATA-DIRECTORY-9-1" class="headerlink" title="IMAGE_DATA_DIRECTORY[9]"></a>IMAGE_DATA_DIRECTORY[9]</h3><p>接下来设置TLS表（IMAGE_NT_HEADERS—IMAGE_OPTIONAL_HEADER—IMAGE_DATA_DIRECTORY[9]）的值 我们可以从图9中看到扩展程序的起始地址为9200（文件偏移） 在PEView在查看该地址为C200 我们将在该地址处创建IMAGE_TLS_DIRECTORY结构体 因此修改PE头中的IMAGE_DATA_DIRECTORY[9] 如图所示</p>
+<p><img src="14.png" alt=""><br>完成后保存文件用PEView查看文件<br><img src="15.png" alt=""></p>
+<h2 id="设置IMAGE-TLS-DIRECTORY结构体"><a href="#设置IMAGE-TLS-DIRECTORY结构体" class="headerlink" title="设置IMAGE_TLS_DIRECTORY结构体"></a>设置IMAGE_TLS_DIRECTORY结构体</h2><p>接下来设置IMAGE_TLS_DIRECTORY结构体 只要把TLS回调函数注册其中即可 编辑结构体<br><img src="16.png" alt=""><br>我们在文件偏移9200地址处创建了IMAGE_TLS_DIRECTORY结构体 AddressOfCallBacks成员的值为40c224 他是TLS回调函数数组的起始地址 只要把TLS回调函数的地址放入该数组 即可注册成功 使用PEView查看<br><img src="17.png" alt=""></p>
+<h2 id="编写TLS回调函数"><a href="#编写TLS回调函数" class="headerlink" title="编写TLS回调函数"></a>编写TLS回调函数</h2><p>上述工作全部完成后 下来开始编写函数 我们在OD中编写如图代码 从40c230处开始<br><img src="18.png" alt=""><br>完成后保存修改都文件即可</p>
+<h2 id="最终完成"><a href="#最终完成" class="headerlink" title="最终完成"></a>最终完成</h2><p>打开刚才的文件 就会发现已经ok了 表明已经成功（虽然我这个出了点小差错 但表明TLS回调函数添加成功了哈哈哈哈）<br><img src="19.png" alt=""><br>反正我成功了哈哈哈哈哈哈哈哈哈 我不管！！！</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/内核6中的DLL注入/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/26/内核6中的DLL注入/" itemprop="url">内核6中的DLL注入</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-26T13:31:36+08:00">
+                2019-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/23/ASLR/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1473,266 +1741,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/14/周报4-20/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="loser">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="loser的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/14/周报4-20/" itemprop="url">周报4.20</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-14T10:34:28+08:00">
-                2019-04-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="OD学习记录"><a href="#OD学习记录" class="headerlink" title="OD学习记录"></a>OD学习记录</h1><h2 id="通常脱壳的基本步骤如下"><a href="#通常脱壳的基本步骤如下" class="headerlink" title="通常脱壳的基本步骤如下"></a>通常脱壳的基本步骤如下</h2><pre><code>1):寻找OEP
-2):转储(PS:传说中的dump)
-3):修复IAT(修复导入表)
-
-4):检查目标程序是否存在AntiDump等阻止程序被转储的保护措施,并尝试修复这些问题。以上是脱壳的经典步骤,可能具体到不同的壳的话会有细微的差别。
-</code></pre><h2 id="寻找简单壳"><a href="#寻找简单壳" class="headerlink" title="寻找简单壳"></a>寻找简单壳</h2><pre><code>搜索JMP或者CALL指令的机器码(即一步直达法,只适用于少数壳,包括UPX,ASPACK壳).
-可以直接搜索长跳转JMP(0E9)或者CALL(0E8)这类长转移的机器码,一般情况下(理想情况)壳在解密完原程序各个区段以后,需要一个长JMP或者CALL跳转到原程序代码段中的OEP处开始执行原程序代码。
-
-除了搜索JMP指令的机器码以外,还可以尝试搜索CALL EAX,CALL EBX,JMP EAX等指令的机器码,因为很多壳是将OEP的值存放在寄存器中,然后通过CALL 某寄存器或者JMP 某寄存器来跳往OEP的。
-</code></pre><h2 id="定位OEP"><a href="#定位OEP" class="headerlink" title="定位OEP"></a>定位OEP</h2><pre><code>1).使用OllyDbg自带的功能定位OEP(SFX法)
-2).使用Patch过的OD来定位OEP(即内存映像法)
-3).堆栈平衡法(即ESP定律法) 适用于一些古老的壳
-4).最后一次异常法 在脱壳的过程中发现目标程序产生大量异常的话,就可以使用最后一次异常法
-
-5).利用壳最常用的API函数来定位OEP 壳最常用的API函数,比如GetProcAddress,LoadLibrary。ExitThread有些壳会用。
-
-6).利用应用程序调用的第一个API函数来定位OEP  很多程序(VC++)一开始会调用GetVersion,GetModuleHandleA。
-</code></pre><h2 id="什么是IAT？"><a href="#什么是IAT？" class="headerlink" title="什么是IAT？"></a>什么是IAT？</h2><pre><code>拿Cruehead的CrackMe中的MessageBoxA这个API函数来说吧,其入口地址为77D504EA,在我的机器上运行的很好,那些跟我操作系统版本以及User32.dll版本相同的童鞋的机器上该程序运行可能也很正常,但是如果在操作系统版本或者User32.dll的版本跟我的不同童鞋的机器上运行,可能就会出错。为了解决以上兼容问题,操作系统就必须提供一些措施来确保该CrackMe可以在其他版本的Windows操作系统,以及DLL版本下也能正常运行。这时IAT(Import Address Table:输入函数地址表)就应运而生了。
-</code></pre><h2 id="手脱UPX-修复IAT"><a href="#手脱UPX-修复IAT" class="headerlink" title="手脱UPX 修复IAT"></a>手脱UPX 修复IAT</h2><pre><code>首先去定位OEP了，用的是加过壳的那个CrackMe的例子，刚好入口地址的函数是PUSHAD就F7单步执行 在寄存器中找到ESP 数据窗口跟随  设置硬件断点 F9运行 就会发现跳转的语句了call或者jmp语句 找到OEP之后 利用PE-TOOL　Dump程序 但是没有修复IAT所以并不能执行，用Import REConstructor修复 下来回到OD 找到IAT函数地址的跳转表 在数据窗口定位到IAT的地址 找到整个IAT的起始地址和终止地址 计算RVA起始地址-映像地址 计算IAT终止地址-起始地址 计算OEP虚拟地址-映像基质 输入到Import REConstructor 单击Get Imports看到Import REConstructor找到了IAT中的每项元素 然后就可以对之前DUMP出来的程序的IAT进行修复了 在用PE TOOL重建PE 之后的程序就可以正常运行啦 然后在OD里修改代码段的虚拟地址就和之前的程序一模一样啦。
-</code></pre><h2 id="手脱ASPack"><a href="#手脱ASPack" class="headerlink" title="手脱ASPack"></a>手脱ASPack</h2><pre><code>前面都和UPX壳一样 难点就在IAT这里吧 这两个壳难点都在这里  找到IAT的起始地址和终止地址 题外话  回到正题 不同感觉在于修复IAT那里需要删除垃圾文件 删除完就一样欧克啦。
-</code></pre><h2 id="IAT重定向"><a href="#IAT重定向" class="headerlink" title="IAT重定向"></a>IAT重定向</h2><pre><code>这里以telock这个壳为例子，首先还是找OEP  这个跟之前那两个有点不同的是虽是ESP定律 但不能用 说明壳可能有检测硬件断点的东东，然后我使用了OD自带的检测DEP的工具 在调试设置里找到了SFX选择块方式跟踪真正入口 就找到了OPE入口  这个程序的IAT被重新定义过了(这个程序和之前那个程序一样) 在反汇编窗口右键选择查看模块间所有函数调用 可以看到CALL被重新定义到了其他区段 但在里面仔细查看还是能找到直接调用的API函数的 右键跟随 然后找到跳转表 在数据窗口找到IAT 在定位IAT的起始和结束位置的时候,不仅仅要判断是否为系统DLL中的地址还是需要判断其是否为重定向过的地址。
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/10/4-13周记/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="loser">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="loser的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/10/4-13周记/" itemprop="url">4.13周ji</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-10T20:01:25+08:00">
-                2019-04-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.前3天在南阳上和codevs刷题,大部分都是简单题，主要作用是回忆巩固一下c的知识哈哈哈。<br>2.od学习记录：    1.缓冲区返回的是FFFFFFFF的话表示当前程序正在被调试,如果返回的是0的话,表示当前程序没有被调试。<br>                2.SetUnhandledExceptionFilter：该函数的唯一一个参数为异常处理函数指针。<br>                当程序发生异常是,且程序不处于调试模式(在VS或者其他调试器里运行)则首先调用该异常处理函数。<br>                因此,程序可以主动抛出一个异常来判断当前程序是否正在被调试。<br>                3.UnhandledExceptionFilter：这个API函数用来检测当前程序是否正在被调试。<br>                4.POPAD指令,该指令是从堆栈中恢复各个寄存器的值。<br>                5.加过壳的程序执行的整个流程：    1.执行解压/解密例程<br>                                                2.解压/解密原程序的各个区段的数据<br>                                                3.跳往OEP处<br>                                                4.执行原程序代码<br>3.ACM比赛：算法大法好啊，真的好啊，刷题千千万，比赛照不会，今天比赛和队友总共做出来两题，得了铜奖。。没想到没想到。。<br>            算法体会：比较锻炼思维，对自己能力可以有很大的提升，也可让自己对c语言有很好的体会，更加深入了解c语言。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1783,7 +1791,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
