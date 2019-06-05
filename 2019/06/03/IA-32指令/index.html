@@ -79,14 +79,44 @@
 
 
 
+<meta name="description" content="IA-32指令简言之 指令是指CPU能够认读的机器语言 IA-32指令指IA-32系列CPU使用的指令如图 粗线框中的每一行都是一条指令 编程人员使用程序语言（C/C++ java python等）编写程序 而CPU则使用机器语言 编程人员编写的程序源代码需要编译/链接后转换为CPU可以读懂的机器语言 指令格式如图IA-32指令由三部分组成下来对部分指令进行说明 指令前缀指令前缀（可选项）：指令前">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IA-32指令">
 <meta property="og:url" content="http://yoursite.com/2019/06/03/IA-32指令/index.html">
 <meta property="og:site_name" content="loser的博客">
+<meta property="og:description" content="IA-32指令简言之 指令是指CPU能够认读的机器语言 IA-32指令指IA-32系列CPU使用的指令如图 粗线框中的每一行都是一条指令 编程人员使用程序语言（C/C++ java python等）编写程序 而CPU则使用机器语言 编程人员编写的程序源代码需要编译/链接后转换为CPU可以读懂的机器语言 指令格式如图IA-32指令由三部分组成下来对部分指令进行说明 指令前缀指令前缀（可选项）：指令前">
 <meta property="og:locale" content="chinese">
-<meta property="og:updated_time" content="2019-06-03T12:12:38.901Z">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/12.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/14.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/15.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/16.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/17.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/18.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/19.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/20.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/21.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/22.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/23.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/24.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/25.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/03/IA-32指令/26.png">
+<meta property="og:updated_time" content="2019-06-05T12:40:02.761Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IA-32指令">
+<meta name="twitter:description" content="IA-32指令简言之 指令是指CPU能够认读的机器语言 IA-32指令指IA-32系列CPU使用的指令如图 粗线框中的每一行都是一条指令 编程人员使用程序语言（C/C++ java python等）编写程序 而CPU则使用机器语言 编程人员编写的程序源代码需要编译/链接后转换为CPU可以读懂的机器语言 指令格式如图IA-32指令由三部分组成下来对部分指令进行说明 指令前缀指令前缀（可选项）：指令前">
+<meta name="twitter:image" content="http://yoursite.com/2019/06/03/IA-32指令/1.png">
 
 
 
@@ -296,7 +326,64 @@
       
 
       
-        
+        <h1 id="IA-32指令"><a href="#IA-32指令" class="headerlink" title="IA-32指令"></a>IA-32指令</h1><p>简言之 指令是指CPU能够认读的机器语言 IA-32指令指IA-32系列CPU使用的指令<br><img src="1.png" alt=""><br>如图 粗线框中的每一行都是一条指令 编程人员使用程序语言（C/C++ java python等）编写程序 而CPU则使用机器语言 编程人员编写的程序源代码需要编译/链接后转换为CPU可以读懂的机器语言</p>
+<h1 id="指令格式"><a href="#指令格式" class="headerlink" title="指令格式"></a>指令格式</h1><p>如图IA-32指令由三部分组成<br><img src="2.png" alt=""><br>下来对部分指令进行说明</p>
+<h2 id="指令前缀"><a href="#指令前缀" class="headerlink" title="指令前缀"></a>指令前缀</h2><p>指令前缀（可选项）：指令前缀prefix大小为一个字节，用来辅助说明指令的具体功能，可选项</p>
+<p>例如：<strong>66</strong>：81FE 4746 CMP SI,474加粗字体就是指令前缀，后面跟一个：。</p>
+<h2 id="操作码"><a href="#操作码" class="headerlink" title="操作码"></a>操作码</h2><p>opand，这个没啥好说的，必选项,大小为1到3字节，通常为一个字节，多字节后面会有说明.例如：66：<strong>81</strong>FE 4746 CMP SI,474</p>
+<h2 id="ModR-M"><a href="#ModR-M" class="headerlink" title="ModR/M"></a>ModR/M</h2><p>Mod R/M 大小为一个字节，由三部分组成，分别为 Mod（字节前两位），Reg（字节中间三位），R/M(字节后三位)。Mod R/M的主要功能就是说明操作数的寻址方式，包括寄存器选择，内存操作数的偏移等等。例如：66：81<strong>FE</strong> 4746 CMP SI,474</p>
+<h2 id="SIB"><a href="#SIB" class="headerlink" title="SIB"></a>SIB</h2><p>SIB，大小为一个字节，也是用来辅助操作数寻址的，一般用于辅助Mod R/M,当出现基址加变址寻址或者基址寻址时要用到。8984<strong>24</strong>  50020000 Mov [ESP+250]，EAX.</p>
+<h2 id="位移"><a href="#位移" class="headerlink" title="位移"></a>位移</h2><p>位移也是可选项 操作码的操作数为内存地址时 用来表示位移操作 C705 <strong>A8A04000</strong> 02000000   mov     dword ptr ds:[<strong>0x40A0A8</strong>], 0x2</p>
+<h2 id="立即数"><a href="#立即数" class="headerlink" title="立即数"></a>立即数</h2><p>立即数也是一个可选项 操作码的操作数为常量时 该常量就被称为立即数 C705 A8A04000 <strong>02000000</strong>   mov     dword ptr ds:[0x40A0A8], <strong>0x2</strong></p>
+<h1 id="指令解析手册"><a href="#指令解析手册" class="headerlink" title="指令解析手册"></a>指令解析手册</h1><h2 id="下载IA-32用户手册"><a href="#下载IA-32用户手册" class="headerlink" title="下载IA-32用户手册"></a>下载IA-32用户手册</h2><p>为了能够顺利解析IA-32的机器码，我们应该下载Intel的开发手册，然后打印出有关指令解析的图表。下载网址为：<a href="http://www.intel.com/products/processor/manuals" target="_blank" rel="noopener">http://www.intel.com/products/processor/manuals</a></p>
+<h2 id="打印指令解析手册"><a href="#打印指令解析手册" class="headerlink" title="打印指令解析手册"></a>打印指令解析手册</h2><p>table 2-2 32-bit Addressing forms with the ModR/M Byte， page 510</p>
+<p>table 2-3 32-bit Addressing forms with the SIB Bytes， page 511</p>
+<p>APPENDIX A ，page 487</p>
+<p>A.2.1 Codes for Addressing Method</p>
+<p>A.2.2 Code for Operand Type</p>
+<p>Table A-2 .one –byte Opcode Maps</p>
+<p>Table A-3.two-bytes Opcode Maps</p>
+<p>pages ：2519-2530</p>
+<p>Table A-6 Opcode Extension for one-and Two Opcodes by Group Number</p>
+<p>pages：2535-2537</p>
+<h1 id="指令解析练习"><a href="#指令解析练习" class="headerlink" title="指令解析练习"></a>指令解析练习</h1><h2 id="操作码映射"><a href="#操作码映射" class="headerlink" title="操作码映射"></a>操作码映射</h2><p>首先我们解析一个长度为一的操作码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">41	INC ECx</span><br></pre></td></tr></table></figure></p>
+<p>对应的表是Table A-2 .one –byte Opcode Maps<br>指令：41，将指令拆成4和1，4对应表的行向量，1对应表列向量，如下图:</p>
+<p><img src="3.png" alt=""><br>由上图可知41对应的指令为INC ECX,我们可以使用od来印证正确性。如下图：</p>
+<p><img src="4.png" alt=""><br>至于为什么用寄存器ECX,是因为IA-32默认使用32位寄存器。</p>
+<h2 id="操作数"><a href="#操作数" class="headerlink" title="操作数"></a>操作数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">68 A0B44000</span><br></pre></td></tr></table></figure>
+<p>我们先拆分68为6和8还是使用表Table A-2 .one –byte Opcode Maps</p>
+<p>来查找操作指令。如下图：<br><img src="5.png" alt=""><br>上图可知是push指令，操作数的寻址方式有Iz规定，我们接下来来使用code for Addressing Method和表code for opcode type 来查看具体信息，第一个大写字符I规定了寻址方式，在code for Addressing Method查找对应含义，如下图:</p>
+<p><img src="6.png" alt=""><br>表示这是一个立即数。第二个小写字符z在表code for opcode type 中查找，如下图：<br><img src="7.png" alt=""><br>z表示使用的字符大小为字或者双字，由于是在32位系统中默认使用双字（使用单字的情况是使用前缀来说明），故这里是个双字，Iz一起就是表明使用双字立即数，表明指令68 A0B44000中A0B44000就是使用的双字立即数。完整的指令翻译过来就是：</p>
+<p>Push 0004B4A0（注意汇编中的数据存储），我们也来使用od验证一下。如下图：<br><img src="8.png" alt=""></p>
+<h2 id="带有Mod-R-M的指令"><a href="#带有Mod-R-M的指令" class="headerlink" title="带有Mod R/M的指令"></a>带有Mod R/M的指令</h2><p>上面两个指令都很简单，除了操作码就是操作数本身，下面来解析带有Mod R/M的指令，现在来看指令89C1。先解析89如下图：</p>
+<p><img src="9.png" alt=""><br>上图可知指令是OR指令，两个操作数的说明分别是Ev和Gv，这两个使用表A.2.1 Codes for Addressing Method和表A.2.2 Code for Operand Type来查看。Ev的查询结果如下图：</p>
+<p><img src="10.png" alt=""><br>这里应该主义的是，E中已经说明了要使用通用寄存器或者内存操作数，并且要使用Mod R/M来进行辅助说明，所以在操作码89后的C1就是ModR/M,Ev统一起来就是可以使用双子寄存器操作数或者双子内存操作数，具体的要使用ModR/M字段来辅助说明。我们把ModR/M字段的内容c1（1100，0001）拆成三部分：Mod：11，Reg：000，R/M：001，下面根据这个信息来查询表table 2-2 32-bit Addressing forms with the ModR/M Byte，如下图：</p>
+<p><img src="11.png" alt=""><br>使用三个字段分别找到Ev对应的寄存器是ECX，Gv使用的寄存器是EAX，因此完整指令应该为89C1 OR ECX,EAX,用od验证如下图:</p>
+<p><img src="12.png" alt=""></p>
+<h2 id="带有Group指令解析"><a href="#带有Group指令解析" class="headerlink" title="带有Group指令解析"></a>带有Group指令解析</h2><p>Group指令与ModR/M结合使用。Group给指令带来了更为丰富的变化，也是的指令解析更为复杂。例如：83C3 12,先解析83，如下图：</p>
+<p><img src="13.png" alt=""><br>上图可以看出该指令带group指令。对于group指令我们还需查询表Table A-6 Opcode Extension for one-and Two Opcodes by Group Number。我们使用ModR/M（C3=1100,0011）的第二个字段Reg(000)来查询，如下图：</p>
+<p><img src="14.png" alt=""><br>对应的指令为ADD，结合来看指令大致为ADD Ev，Ib，再根据ModR/M字段值C3得出指令为ADD EBX,12。</p>
+<h2 id="指令前缀的使用"><a href="#指令前缀的使用" class="headerlink" title="指令前缀的使用"></a>指令前缀的使用</h2><p>指令前缀主要来辅助说明操作码的，比如前缀66就会规定指令为16位形式。前缀的形式一般都是：前缀：操作码（这里是显示形式，其实在od中编写不用写符号：但是显示会出现符号：）。</p>
+<p>接下来来示范解析带有前缀的指令 66：81FE 3412。前缀66的信息查询也是在表</p>
+<p>Table A-2 .one –byte Opcode Maps（单字节操作码查询表）中如下图：</p>
+<p><img src="15.png" alt=""><br>上图表示操作码的size位16位，接下来继续解析81，如下图：<br><img src="16.png" alt=""><br>说明还要使用ModR/M（FE=1111，1110）的字段Reg（111）表Table A-6 Opcode Extension for one-and Two Opcodes by Group Number来查询Group信息。如下图：</p>
+<p>因此指令的形式是CMP Ev,Ib，由于前缀规定使用16位操作数，所以指令解析为：</p>
+<p>66：81FE 3412 CMP SI,1234(指令为16位的)。</p>
+<h2 id="双字节操作码的解析"><a href="#双字节操作码的解析" class="headerlink" title="双字节操作码的解析"></a>双字节操作码的解析</h2><p>双字节操作码很好分辨，指令的第一个字节为0F，指令映射参考表Table A-3.two-bytes Opcode Maps。接下来我们来解析指令0F85 FA1F0000。先解析0F,查询表Table A-2 .one –byte Opcode Maps可得下图：</p>
+<p><img src="17.png" alt=""><br>可知这是一个双字节操作数，其实双操作数的第一个字节都是0F，再来查询85，我们使用表Table A-3.two-bytes Opcode Maps。如下图：</p>
+<p><img src="18.png" alt=""><br>由上图可知这是一个条件跳转指令，而且是长跳转，JCC +NE/NZ=JNE指令。Long型表明跳转地址为四个字节。这里还需特别注意的是：机器码0F85 FA1F0000的四个字节是相对地址，要正确解析出指令还需算出实际的跳转地址。公式为：实际地址=当前地址+指令大小+相对地址。我们用OD实际的运算一下：选定当前的地址是010073ee，则解析后的实际跳转地址=010073ee+6（指令大小为五个字节）+00001FFA= 01008EEE,所以完整的指令解析为：</p>
+<p>JNZ 01008EEE。如下图：<br><img src="19.png" alt=""></p>
+<h2 id="同时含有位移值和立即数的情况"><a href="#同时含有位移值和立即数的情况" class="headerlink" title="同时含有位移值和立即数的情况"></a>同时含有位移值和立即数的情况</h2><p>例如指令：C705 00CF4000 01000100</p>
+<p>首先解析C7，如下图：<br><img src="20.png" alt=""><br>这是一个含有group的指令，ModR/M为05（0000，0101），其中Reg值为：000，根据Reg值查询group表，如下图：</p>
+<p><img src="21.png" alt=""><br>由此可见指令的形式为MOV  Ev，Iz,Ev表示使用ModR/M规定的寄存器双字或者内存双字。Iz表示立即数双字。下面使用ModR/M来确定具体的寻址方式，查询ModR/M表，如下图：</p>
+<p><img src="22.png" alt=""><br>因此第一个操作数使用的32位内存操作数，默认的段寄存器是DS，第二个操作数是立即数。完整解析指令为：Mov DWORD DS:[40CF00],10001.</p>
+<h2 id="使用SIB的情况"><a href="#使用SIB的情况" class="headerlink" title="使用SIB的情况"></a>使用SIB的情况</h2><p>SIB也是用来辅助寻址的，主要针对基址寻址和基址加变址寻址。</p>
+<p>那如何来判断指令是否使用了SIB呢？</p>
+<p>且看指令8B0C01 ,先解析8B，如下图：<br><img src="23.png" alt=""><br>指令形式为MOV Gv,Ev。Gv表示ModR/M规定的双字寄存器数，Ev表示使用ModR/M规定的双子寄存器数或者双字内存数。接下俩解析ModR/M，字段值为0C（00001100），查询ModR/M表可得下图：</p>
+<p><img src="24.png" alt=""><br>由上图可得指令的基本结构为MOV ECX,[Reg.A+Reg.B]。对于这种结构的寻址方式就要用到SIB辅助寻址，指令中的SIB=01，拆成三个字段scale=00，Index=000，base=001，查询表table 2-3 32-bit Addressing forms with the SIB Bytes如下图:</p>
+<p><img src="25.png" alt=""><br>因此完整的解析指令为：8B0C01 MOV ECX,DWORD PTR DS:[ECX,EAX],使用OD验证一下，如下图：</p>
+<p><img src="26.png" alt=""><br>以上就是解析IA-32机器码时会遇到的所有情况，掌握了这些解析机器码不成问题。</p>
+
       
     </div>
     
@@ -380,8 +467,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -423,6 +519,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IA-32指令"><span class="nav-number">1.</span> <span class="nav-text">IA-32指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#指令格式"><span class="nav-number">2.</span> <span class="nav-text">指令格式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#指令前缀"><span class="nav-number">2.1.</span> <span class="nav-text">指令前缀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作码"><span class="nav-number">2.2.</span> <span class="nav-text">操作码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ModR-M"><span class="nav-number">2.3.</span> <span class="nav-text">ModR/M</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SIB"><span class="nav-number">2.4.</span> <span class="nav-text">SIB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#位移"><span class="nav-number">2.5.</span> <span class="nav-text">位移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#立即数"><span class="nav-number">2.6.</span> <span class="nav-text">立即数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#指令解析手册"><span class="nav-number">3.</span> <span class="nav-text">指令解析手册</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载IA-32用户手册"><span class="nav-number">3.1.</span> <span class="nav-text">下载IA-32用户手册</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打印指令解析手册"><span class="nav-number">3.2.</span> <span class="nav-text">打印指令解析手册</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#指令解析练习"><span class="nav-number">4.</span> <span class="nav-text">指令解析练习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#操作码映射"><span class="nav-number">4.1.</span> <span class="nav-text">操作码映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作数"><span class="nav-number">4.2.</span> <span class="nav-text">操作数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#带有Mod-R-M的指令"><span class="nav-number">4.3.</span> <span class="nav-text">带有Mod R/M的指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#带有Group指令解析"><span class="nav-number">4.4.</span> <span class="nav-text">带有Group指令解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指令前缀的使用"><span class="nav-number">4.5.</span> <span class="nav-text">指令前缀的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双字节操作码的解析"><span class="nav-number">4.6.</span> <span class="nav-text">双字节操作码的解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同时含有位移值和立即数的情况"><span class="nav-number">4.7.</span> <span class="nav-text">同时含有位移值和立即数的情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用SIB的情况"><span class="nav-number">4.8.</span> <span class="nav-text">使用SIB的情况</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
