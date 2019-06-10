@@ -229,6 +229,126 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/27/周报3-2/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/27/周报3-2/" itemprop="url">周报3.2</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-02-27T18:40:07+08:00">
+                2019-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.本周牵扯到来学校，所以可能耽误了点时间，学习了第九 十 十一（一半）章这些内容。<br>2.第九章讲的转移指令原理，就是控制cpu执行某处代码的指令 第一个重要指令就是jmp  无条件跳转指令  有段内短转移jmp short和段间转移jmp far ptr 然后就是在内存中使用jmp指令 下来是jcxz指令 为有条件跳转指令 判断条件为cx=0就跳转 而与之相反的loop指令为cx不等于0就跳转。<br>3.第十章是call和ret指令的讲解，首先先讲解了ret和retf指令 区别就是ret指令执行相当于pop IP 而retf是pop IP pop CS 接下来call也是进行转移的指令 基本和jmp相同  除了不能实现短转移 将call和ret配合使用可以实现在一个函数里调用一个小函数 实现之后再返回回来 接下来是mul乘法指令与除法指令的要求不同 乘法指令相乘的两个数都得是8位或者16位 结果8位存储在ax中 16位乘法结果高位dx中低位ax中 接下来还是实践了字符串转变问题 编写了几个程序。<br>4.第十一章到了标志寄存器，zf 0标志位结果是否为0 pf奇偶标志位 结果中bit位1的个数 偶数pf=1奇数pf=0 sf标志位 符号标志位 判断结果是否为负 为负sf=1非负为0 cf标志位 是进位标志位 记录运算结果的最高有效位向更高位的进位值 of标志位是溢出标志 对于有符号位用of记录是否溢出 溢出of=1 否则为0.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/23/周报2-23/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1300,125 +1420,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/22/linux简单指令/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="loser">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="loser的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/22/linux简单指令/" itemprop="url">linux简单指令</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-22T17:14:27+08:00">
-                2018-12-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">1. ls ----&gt;列出文件夹下文件和文件夹的相关信息</span><br><span class="line"></span><br><span class="line">     格式：ls [选项] [文件或文件夹]     </span><br><span class="line"></span><br><span class="line">     常用选项：-a 显示隐藏文件</span><br><span class="line"></span><br><span class="line">               -l 显示文件/文件夹的详细信息</span><br><span class="line"></span><br><span class="line">               -R递归地显示文件夹中各个子文件夹中的文件</span><br><span class="line"></span><br><span class="line">2.cp-----&gt;复制文件或文件夹</span><br><span class="line"></span><br><span class="line">    格式：cp [选项] [源文件或文件夹] [目标文件或文件夹]</span><br><span class="line"></span><br><span class="line">    常用选项：-a 通常在复制文件夹时使用，保留链接，文件属性，并递归地复制文件夹</span><br><span class="line"></span><br><span class="line">              -r 此时的目标文件必须是文件夹，递归复制所有文件夹及文件</span><br><span class="line"></span><br><span class="line">              -f 覆盖已经存在的目标文件而不提示</span><br><span class="line"></span><br><span class="line">              -i 覆盖前给出相应提示</span><br><span class="line"></span><br><span class="line">3.rm----&gt;删除一个或多个文件或文件夹（删除多个时，可使用空格分隔，或者使用通配符）</span><br><span class="line"></span><br><span class="line">     格式：rm [选项] [文件或文件夹]</span><br><span class="line"></span><br><span class="line">     常用选项：-r 递归删除</span><br><span class="line"></span><br><span class="line">               -f 不给出任何提示</span><br><span class="line"></span><br><span class="line">               -i 在提示信息下，交互式删除</span><br><span class="line"></span><br><span class="line">4.mv----&gt;移动/重命名文件或文件夹</span><br><span class="line"></span><br><span class="line">    格式：mv [选项] [源文件或文件夹] [目标文件或文件夹]</span><br><span class="line"></span><br><span class="line">    常用选项：-i 交互方式操作</span><br><span class="line"></span><br><span class="line">              -f 禁止交互操作</span><br><span class="line"></span><br><span class="line">              -p 移动时保持权限</span><br><span class="line"></span><br><span class="line">5.mkdir----&gt;创建文件夹</span><br><span class="line"></span><br><span class="line">    格式：mkdir [选项] [文件夹名称]</span><br><span class="line"></span><br><span class="line">    常用选项：-p 参数可以是一个路径名称，将自动创建中间不存在的文件夹。 </span><br><span class="line">         </span><br><span class="line"></span><br><span class="line">6.rmdir----&gt;删除空文件夹</span><br><span class="line"></span><br><span class="line">    格式：rmdir [选项] [文件夹名称]</span><br><span class="line"></span><br><span class="line">    常用选项：-p 参数可以是一个路径名称，mkdir -p的反过程</span><br><span class="line">           </span><br><span class="line">7.cd ----&gt;切换目录</span><br><span class="line"></span><br><span class="line">    格式：<span class="built_in">cd</span> [绝对路径或相对路径]</span><br><span class="line"></span><br><span class="line">    常用命令：<span class="built_in">cd</span> 切换到用户主目录</span><br><span class="line"></span><br><span class="line">              <span class="built_in">cd</span> / 切换到根目录</span><br><span class="line"></span><br><span class="line">              <span class="built_in">cd</span> ~ 切换到用户主目录</span><br><span class="line"></span><br><span class="line">              <span class="built_in">cd</span> .. 切换到上一层目录</span><br><span class="line"></span><br><span class="line">              <span class="built_in">cd</span> - 返回上次访问的目录</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1469,7 +1470,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

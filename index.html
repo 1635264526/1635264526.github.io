@@ -229,6 +229,196 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/09/静态反调试技术/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/09/静态反调试技术/" itemprop="url">静态反调试技术</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-09T21:10:44+08:00">
+                2019-06-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="PEB"><a href="#PEB" class="headerlink" title="PEB"></a>PEB</h1><p>PEB中与反调试技术密切相关的成员有如下几个<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">+0x002 BeingDebugged; UChar</span><br><span class="line">+0x00c Ldr          ; Ptr32 _PEB_LDR_DATA</span><br><span class="line">+0X018 ProcessHeap  ; Ptr32 Void</span><br><span class="line">+0x068 NtGlobalFlag ; Uint4B</span><br></pre></td></tr></table></figure></p>
+<p>BeingDebugged成员是一个标志，用来表示进程是否处于被调试状态</p>
+<p>Ldr, ProcessHeap, NtGloabFlag成员与被调试进程的堆内存特性相关<br><strong>获取PEB结构体的地址</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 第一种方法</span><br><span class="line">MOV EAX, DWORD PTR FS:[0x30]</span><br><span class="line"># 第二种方法</span><br><span class="line">MOV EAX, DWORD PTR FS:[0x18]</span><br><span class="line">MOV EAX, DWORD PTR DS:[EAX+0x30]</span><br></pre></td></tr></table></figure></p>
+<h2 id="BeingDebugged-0x2"><a href="#BeingDebugged-0x2" class="headerlink" title="BeingDebugged(+0x2)"></a>BeingDebugged(+0x2)</h2><p>通过IsDebuggerPresent() API可以获取PEB.BeingDebugged的值，若为1则表示进程处于被调试状态</p>
+<p><strong>IsDebuggerPresent()</strong><br>IsDebuggerPresent()API获取PEB.BeingDebugged的值来判断进程是否处于被调试状态 </p>
+<p><img src="1.png" alt=""><br>破解方法：只要借助OD，将PEB.BeingDebugged的值修改为0即可</p>
+<h2 id="Ldr-0xC"><a href="#Ldr-0xC" class="headerlink" title="Ldr(+0xC)"></a>Ldr(+0xC)</h2><p>调试进程时其堆内存就会出现一些特殊标识，表示它正处于被调试状态</p>
+<p>其中最醒目的是，未使用的堆内存区域全部填充着0xFEEEFEEE，这证明正在调试进程</p>
+<p>PEB.Ldr成员是一个指向_PEB_LDR_DATA结构体的指针，而_PEB_LDR_DATA结构体恰好是在堆内存区域中创建的，所以扫描该区域即可轻松查找是否存在0xFEEEFEEE区域</p>
+<p><img src="2.png" alt=""><br>进入PEB.Ldr地址（251ea0）向下拖动滚动条<br><img src="3.png" alt=""><br>破解方法：只要将填充着0xFEEEFEEE的区域全部覆写为NULL即可</p>
+<p>注意：该方法只适用于WindowsXP，而在Windows Vista以后的系统中则无法使用。另外，利用附加功能将运行中的进程附加到调试器时，堆内存中并不出现上述标识。</p>
+<h2 id="ProcessHeap-0x18"><a href="#ProcessHeap-0x18" class="headerlink" title="ProcessHeap(+0x18)"></a>ProcessHeap(+0x18)</h2><p>PEB.ProcessHeap成员是指向HEAP结构体的指针</p>
+<p>GetProcessHeap() API可以获取PEB.ProcessHeap结构体的地址</p>
+<p><img src="4.png" alt=""><br>HEAP结构体中Flags(+0xC)和ForceFlags(+0x10)和反调试相关，进程正常运行时，Heap.Flags的值为0x2，Heap.ForceFlags的值为0x0，进程处于调试状态时这些值会改变。</p>
+<p><img src="5.png" alt=""><br>破解方法：修改HEAP.Flags =2, HEAP.ForceFlags=0</p>
+<p>注意：该方法只适用于WindowsXP，而在Windows Vista以后的系统中则无法使用。另外，利用附加功能将运行中的进程附加到调试器时，也不会有上述特征</p>
+<h2 id="NtGlobalFlag-0x68"><a href="#NtGlobalFlag-0x68" class="headerlink" title="NtGlobalFlag(0x68)"></a>NtGlobalFlag(0x68)</h2><p>调试进程时，PEB.NtGlobalFlag会被设置为0x70 检测该成员的值就可以判断进程是否处于调试状态</p>
+<p><img src="6.png" alt=""><br>注意：利用附加功能将运行中的进程附加到调试器时，不会有上述特征。</p>
+<h2 id="练习：StaAD-PEB-exe（在WIN-XP下测试）"><a href="#练习：StaAD-PEB-exe（在WIN-XP下测试）" class="headerlink" title="练习：StaAD_PEB.exe（在WIN XP下测试）"></a>练习：StaAD_PEB.exe（在WIN XP下测试）</h2><p>下面调试StaAD_PEB.exe来学习基于PEB的反调试技术 以及相应的破解之法 在OD中按下F9运行程序  所有项目都显示处于调试之中</p>
+<p><img src="7.png" alt=""></p>
+<h2 id="破解之法"><a href="#破解之法" class="headerlink" title="破解之法"></a>破解之法</h2><p><strong>PEB.BeingDebugged</strong><br>跟踪代码 401036地址处遇到调用IsDebuggerPresent（）API代码 如图所示 F7进入代码 只要将EB.BeingDebugged值修改为0就可以破解</p>
+<p><img src="8.png" alt=""><br><img src="9.png" alt=""><br><strong>PEB.Ldr</strong><br>继续调试会遇到PEB.Ldr反调试代码<br><img src="10.png" alt=""><br>40107b处的CALL EAX指令用来调用ntdll.NtCurrentTeb（）API 40107d地址处的MOV指令将PEB保存到EBX寄存器 地址401090~40109e间的指令用来将局部变量（[EBP-20]~[EBP-2C]）初始化为EEFEEEFE值 而4010A1地址处的MOV指令用来将PEB.Ldr地址储存到ESI寄存器 继续跟踪到4010C7处：</p>
+<p><img src="11.png" alt=""><br>EDI寄存器中储存着PEB.Ldr地址读取4个字节值 我们看到ECX中的值为EEFEEEFE 我们转到EDX的数据窗口 并将EEFEEEFE区域用NULL覆盖 F2在4010FB地址处设置断点 F9跳出循环</p>
+<p><img src="12.png" alt=""><br><strong>PEB.ProcessHeap</strong><br>继续调试 看到代码：<br><img src="13.png" alt=""><br>以上代码检测PEB.ProcessHeap.Flags和PEB.ProcessHeap.ForceFlags的值来反调试 将他们分别修改为2和0破解反调试</p>
+<p><img src="14.png" alt=""><br><strong>PEB.NtGlobalFlag</strong><br>继续运行 遇到基于PEB.NtGlobalFlag的反调试代码<br><img src="15.png" alt=""><br>将401168处的[EBX+68]即为PEB.NtGlobalFlag 将其值修改为0即可</p>
+<p>运行完的窗口<br><img src="16.png" alt=""></p>
+<h1 id="NtQueryInformationProcess-API"><a href="#NtQueryInformationProcess-API" class="headerlink" title="NtQueryInformationProcess API"></a>NtQueryInformationProcess API</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NTSTATUS WINAPI NtQueryInformationProcess(</span><br><span class="line">  _In_      HANDLE           ProcessHandle,</span><br><span class="line">  _In_      PROCESSINFOCLASS ProcessInformationClass,</span><br><span class="line">  _Out_     PVOID            ProcessInformation,</span><br><span class="line">  _In_      ULONG            ProcessInformationLength,</span><br><span class="line">  _Out_opt_ PULONG           ReturnLength</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>为该函数第二个参数ProcessInformationClass设定特定的值，函数执行结果会保存在第三个参数ProcessInformation中</p>
+<p>第二个参数为枚举类型，其中与反调试相关的参数有<strong>ProcessDebugPort（0x07）,ProcessDebugObject-Handle(0x1E),ProcessDebugFlags(0x1F)</strong></p>
+<h2 id="ProcessDebugPort（0x07）"><a href="#ProcessDebugPort（0x07）" class="headerlink" title="ProcessDebugPort（0x07）"></a>ProcessDebugPort（0x07）</h2><p>非调试状态下debugport == 0<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// ProcessDebugPort (0x7)</span><br><span class="line">    DWORD dwDebugPort = 0;</span><br><span class="line">    pNtQueryInformationProcess(GetCurrentProcess(),</span><br><span class="line">                               ProcessDebugPort,</span><br><span class="line">                               &amp;dwDebugPort,</span><br><span class="line">                               sizeof(dwDebugPort),</span><br><span class="line">                               NULL);</span><br><span class="line">    printf(&quot;NtQueryInformationProcess(ProcessDebugPort) = 0x%X\n&quot;, dwDebugPort);</span><br><span class="line">    if( dwDebugPort != 0x0  )  printf(&quot;  =&gt; Debugging!!!\n\n&quot;);</span><br><span class="line">    else                       printf(&quot;  =&gt; Not debugging...\n\n&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>checkRemoteDebuggerPresent()API可以用来检测进程是否处于被调试状态，与IsDebuggerPresent API不同的是，它不仅可以检测当前进程是否处于被调试状态，也可检测其他进程。该函数的实现中使用了NtQueryInformationProcess(ProcessDebugPort) API</p>
+<p><img src="17.png" alt=""></p>
+<h2 id="ProcessDebugObjectHandle-0x1E"><a href="#ProcessDebugObjectHandle-0x1E" class="headerlink" title="ProcessDebugObjectHandle(0x1E)"></a>ProcessDebugObjectHandle(0x1E)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// ProcessDebugObjectHandle (0x1E)</span><br><span class="line">    HANDLE hDebugObject = NULL;</span><br><span class="line">    pNtQueryInformationProcess(GetCurrentProcess(),</span><br><span class="line">                               ProcessDebugObjectHandle,</span><br><span class="line">                               &amp;hDebugObject,</span><br><span class="line">                               sizeof(hDebugObject),</span><br><span class="line">                               NULL);</span><br><span class="line">    printf(&quot;NtQueryInformationProcess(ProcessDebugObjectHandle) = 0x%X\n&quot;, hDebugObject);</span><br><span class="line">    if( hDebugObject != 0x0  )  printf(&quot;  =&gt; Debugging!!!\n\n&quot;);</span><br><span class="line">    else                        printf(&quot;  =&gt; Not debugging...\n\n&quot;);</span><br></pre></td></tr></table></figure>
+<p>第二个参数为ProcessDebugObjectHandle时，第三个参数返回为被调试对象句柄，当返回NULL时说明进程处于非调试状态</p>
+<h2 id="ProcessDebugFlags-0x1F"><a href="#ProcessDebugFlags-0x1F" class="headerlink" title="ProcessDebugFlags(0x1F)"></a>ProcessDebugFlags(0x1F)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// ProcessDebugFlags (0x1F)</span><br><span class="line">BOOL bDebugFlag = TRUE;</span><br><span class="line">pNtQueryInformationProcess(GetCurrentProcess(),</span><br><span class="line">                           ProcessDebugFlags,</span><br><span class="line">                           &amp;bDebugFlag,</span><br><span class="line">                           sizeof(bDebugFlag),</span><br><span class="line">                           NULL);</span><br><span class="line">printf(&quot;NtQueryInformationProcess(ProcessDebugFlags) = 0x%X\n&quot;, bDebugFlag);</span><br><span class="line">if( bDebugFlag == 0x0  )  printf(&quot;  =&gt; Debugging!!!\n\n&quot;);</span><br><span class="line">else                      printf(&quot;  =&gt; Not debugging...\n\n&quot;);</span><br></pre></td></tr></table></figure>
+<p>ProcessDebugFlags参数用于获取调试标识，DebugFlag的值若为0则处于调试状态，若为1则处于非调试状态</p>
+<h1 id="NtQuerySytemInformation-API"><a href="#NtQuerySytemInformation-API" class="headerlink" title="NtQuerySytemInformation API"></a>NtQuerySytemInformation API</h1><p>检测系统是否以调试模式运行（WinDbg调试需要）</p>
+<p>之前进程隐藏的章节中使用过ZwQuerySytemInformation API来获取进程列表，用户层Zw和Nt没什么区别，所以这里使用Zw也是可以的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NTSTATUS WINAPI NtQuerySystemInformation(</span><br><span class="line">  _In_      SYSTEM_INFORMATION_CLASS SystemInformationClass,</span><br><span class="line">  _Inout_   PVOID                    SystemInformation,</span><br><span class="line">  _In_      ULONG                    SystemInformationLength,</span><br><span class="line">  _Out_opt_ PULONG                   ReturnLength</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>SystemInformationClass参数中指定需要的系统信息类型，将某结构体的地址传递给SystemInformation参数，API结束时，该结构体中就填充着相关的信息</p>
+<h2 id="SystemKernelDebuggerInformation-0x23"><a href="#SystemKernelDebuggerInformation-0x23" class="headerlink" title="SystemKernelDebuggerInformation(0x23)"></a>SystemKernelDebuggerInformation(0x23)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">NtQuerySystemInformation = (NTQUERYSYSTEMINFORMATION)  </span><br><span class="line">                                GetProcAddress(GetModuleHandle(L&quot;ntdll&quot;), </span><br><span class="line">                                               &quot;NtQuerySystemInformation&quot;);</span><br><span class="line"></span><br><span class="line">    ULONG SystemKernelDebuggerInformation = 0x23;</span><br><span class="line">    ULONG ulReturnedLength = 0;</span><br><span class="line">    SYSTEM_KERNEL_DEBUGGER_INFORMATION DebuggerInfo = &#123;0,&#125;;</span><br><span class="line"></span><br><span class="line">    NtQuerySystemInformation(SystemKernelDebuggerInformation, </span><br><span class="line">                             (PVOID) &amp;DebuggerInfo, </span><br><span class="line">                             sizeof(DebuggerInfo),      // 2 bytes</span><br><span class="line">                             &amp;ulReturnedLength);</span><br><span class="line"></span><br><span class="line">    printf(&quot;NtQuerySystemInformation(SystemKernelDebuggerInformation) = 0x%X 0x%X\n&quot;, </span><br><span class="line">           DebuggerInfo.DebuggerEnabled, DebuggerInfo.DebuggerNotPresent);</span><br><span class="line">    if( DebuggerInfo.DebuggerEnabled )  printf(&quot;  =&gt; Debugging!!!\n\n&quot;);</span><br><span class="line">    else                                printf(&quot;  =&gt; Not debugging...\n\n&quot;);</span><br></pre></td></tr></table></figure>
+<p>DebuggerInfo.DebuggerEnabled==1时为调试状态</p>
+<p>破解方法：Win XP: 编辑boot.ini 删除/debugport=com1 /baudrate=115200 /Debug</p>
+<p>​ Win7: cmd执行 bcdedit /debug off</p>
+<h1 id="NtQueryObject-API"><a href="#NtQueryObject-API" class="headerlink" title="NtQueryObject API"></a>NtQueryObject API</h1><p>系统中某个调试器调试进程时，会创建一个调试对象类型的内核对象。检测该对象是否存在即可判断是否有进程正在被调试</p>
+<p>ntdll!NtQueryObject可获得系统各种内核对象信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NTSTATUS NtQueryObject(</span><br><span class="line">  _In_opt_  HANDLE                   Handle,</span><br><span class="line">  _In_      OBJECT_INFORMATION_CLASS ObjectInformationClass,</span><br><span class="line">  _Out_opt_ PVOID                    ObjectInformation,</span><br><span class="line">  _In_      ULONG                    ObjectInformationLength,</span><br><span class="line">  _Out_opt_ PULONG                   ReturnLength</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>调用NtQueryObject（）API时 先向第二个参数OBJECT_INFORMATION_CLASS ObjectInformationClass赋予某个值 调用API后 包含相关信息的结构体指针就被返回第三个参数PVOID ObjectInformation</p>
+<p>OBJECT_INFORMATION_CLASS是枚举类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef enum _OBJECT_INFORMATION_CLASS &#123; </span><br><span class="line">  ObjectBasicInformation,</span><br><span class="line">  ObjectTypeInformation,</span><br><span class="line">  ObjectNameInformation,</span><br><span class="line">  ObjectAllInformation, //3</span><br><span class="line">  ObjectHandleInformation</span><br><span class="line">&#125; OBJECT_INFORMATION_CLASS;</span><br></pre></td></tr></table></figure></p>
+<p>ObjectAllInformation(0x3)<br>使用ObjectAllInformation可获得系统所有对象信息，然后从中检测是否存在调试对象</p>
+<h2 id="练习：StaAD-NtQO-exe"><a href="#练习：StaAD-NtQO-exe" class="headerlink" title="练习：StaAD_NtQO.exe"></a>练习：StaAD_NtQO.exe</h2><p>在OD中按下F9运行程序StaAD_NtQO.exe<br><img src="19.png" alt=""><br><strong>破解之法</strong><br>重新载入 在401059处设置断点<br><img src="18.png" alt=""><br>位于401059处的代码是调用ntdll!NtQueryObject（）API 查看栈可以发现第二个参数的值为3 将其修改为0后运行程序  就无法探测到调试器的存在</p>
+<p><img src="20.png" alt=""></p>
+<h1 id="ZwSetInformationThread-API"><a href="#ZwSetInformationThread-API" class="headerlink" title="ZwSetInformationThread API"></a>ZwSetInformationThread API</h1><p>强制分离被调试者与调试者的技术，使用该API被调试者可将自身从调试器中分离出来（使调试进程终止运行，同时终止自身进程），该API不会对正常运行的程序(非调试运行)产生任何影响。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">typedef enum _THREAD_INFORMATION_CLASS &#123;</span><br><span class="line">        ThreadBasicInformation,</span><br><span class="line">        ThreadTimes,</span><br><span class="line">        ThreadPriority,</span><br><span class="line">        ThreadBasePriority,</span><br><span class="line">        ThreadAffinityMask,</span><br><span class="line">        ThreadImpersonationToken,</span><br><span class="line">        ThreadDescriptorTableEntry,</span><br><span class="line">        ThreadEnableAlignmentFaultFixup,</span><br><span class="line">        ThreadEventPair,</span><br><span class="line">        ThreadQuerySetWin32StartAddress,</span><br><span class="line">        ThreadZeroTlsCell,</span><br><span class="line">        ThreadPerformanceCount,</span><br><span class="line">        ThreadAmILastThread,</span><br><span class="line">        ThreadIdealProcessor,</span><br><span class="line">        ThreadPriorityBoost,</span><br><span class="line">        ThreadSetTlsArrayAddress,</span><br><span class="line">        ThreadIsIoPending,</span><br><span class="line">        ThreadHideFromDebugger           // 17 (0x11)</span><br><span class="line">    &#125; THREAD_INFORMATION_CLASS, *PTHREAD_INFORMATION_CLASS;</span><br><span class="line">	</span><br><span class="line">NTSTATUS ZwSetInformationThread(</span><br><span class="line">        HANDLE ThreadHandle,</span><br><span class="line">        THREAD_INFORMATION_CLASS ThreadInformationClass,</span><br><span class="line">        PVOID ThreadInformation,</span><br><span class="line">        ULONG ThreadInformationLength</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>ZwSetInformationThread(函数是一个系统原生API ( System Native API)，顾名思义，它是用来为线程设置信息的。该函数拥有2个参数，第一个参数ThreadHandle用来接收当前线程的句柄，第二个参数ThreadInformationClass表示线程信息类型，若其值设置为ThreadHideFrom-Debugger(0x11)，调用该函数后，调试进程就会被分离出来。ZwSetInformationThread( API不会对正常运行的程序(非调试运行)产生任何影响，但若运行的是调试器程序，调用该API将使调试器终止运行，同时终止自身进程。</p>
+<h2 id="练习：StaAD-ZwSIT-exe"><a href="#练习：StaAD-ZwSIT-exe" class="headerlink" title="练习：StaAD_ZwSIT.exe"></a>练习：StaAD_ZwSIT.exe</h2><p>首先在OllyDbg调试器中打开示例程序StaAD_ ZwSIT.exe, 然后分别在401027与401029地址处按F2键设置断点，按F9运行程序。<br>如图所示，调试器在401027地址的断点处暂停，位于该地址处( 401027 )的CALL ESI 指令用来调用ntdll.ZwSetInformationThread( API。按F9键继续执行401027地址处的指令，这样就会分离出被调试进程并终止运行。而且，OllyDbg调试器将无法正常调试401029地址处的指令，出现运行错误。</p>
+<p><img src="21.png" alt=""></p>
+<h2 id="破解之法-1"><a href="#破解之法-1" class="headerlink" title="破解之法"></a>破解之法</h2><p>简单的破解思路是:调用401027地址处的ZwSetInformationThread() API前，查找存储在栈中的第二个参数ThreadInformationClass值,若其值为ThreadHideFromDebugger(0x11),则修改为0后继续运行即可</p>
+<p><img src="22.png" alt=""></p>
+<h1 id="TLS回调函数"><a href="#TLS回调函数" class="headerlink" title="TLS回调函数"></a>TLS回调函数</h1><p>TLS回调函数是反调试技术中常用的函数,像前面介绍的技术一样,如果不明白其工作原理，使用时就会束手无策。</p>
+<p>其实，我们并不能将TLS回调本身看作- -种反调试技术，但是由于回调函数会先于EP代码执行，所以反调试技术中经常使用它。在TLS回调函数内部使用IsDebuggerPresent()等函数判断调试与否 然后再决定是否继续运行程序</p>
+<h1 id="ETC"><a href="#ETC" class="headerlink" title="ETC"></a>ETC</h1><p>首先，要明白我们应用反调试技术的目的在于防止程序遭受逆向分析。不必非得为此费力判断自身进程是否处于被调试状态。-个更简单、更好的方法是,判断当前系统是否为逆向分析专用系统( 非常规系统),若是，则直接停止程序。这样就出现了各种各样的反调试技术，这些技术都能从系统中轻松获取各种信息( 进程、文件、窗口、注册表、主机名、计算机名、用户名、环境变量等)。这些反调试技术通常借助Win32API获取系统信息来具体实现。下面简单介绍几个例子</p>
+<p>(1)检测OllyDbg窗口&lt;—FindWindow().</p>
+<p>(2)检测OllyDbg进程&lt;—CreateToolhelp32Snapshot()</p>
+<p>(3)检查计算机名称是否为“TEST” “ANALYSIS”等&lt;—GetComputerName()</p>
+<p>(4)检查程序运行路径中是否存在“TEST”、“SAMPLE”等名称&lt;—GetCommandLine()。</p>
+<p>(5)检测虚拟机是否处于运行状态(查看虚拟机特有的进程名称&lt;—VMWareService.exe、VMWareTray.exe、VMWareUser.exe等)</p>
+<h2 id="练习：StaAD-FindWindow-exe"><a href="#练习：StaAD-FindWindow-exe" class="headerlink" title="练习：StaAD_FindWindow.exe"></a>练习：StaAD_FindWindow.exe</h2><p>首先在OllyDbg调试器中打开示例程序StaAD_FindWindow.exe F9运行</p>
+<p><img src="23.png" alt=""></p>
+<h2 id="破解之法-2"><a href="#破解之法-2" class="headerlink" title="破解之法"></a>破解之法</h2><p>在401023处设置断点运行<br><img src="24.png" alt=""><br>图中的代码中共有3处调用FindWindow() API。40101 E地址处的PUSH 409D10指令中，地址409D10指向Window Class名称字符串，它是FindWindow( API的第一个参数。 转到409D10地址处，使用NULL覆盖Window Class名 称字符串缓冲区，那么FindWindow( API将无法探测到相应调试器。</p>
+<p>接下来使GetWindowText()API失效 在401093地址处设置好断点并运行程序</p>
+<p><img src="25.png" alt=""><br>调用GetWindow TextWO API的代码在4010B4地址处。若想正常调用GetWindowTextW() API,就不能执行4010AD地址处的条件跳转指令 修改标志位的值实现跳转。要实现这一点， 可以直接操作条件跳转语句，也可以将其上GetDesktopWindow()与GetWindow() API的返回值( EAX寄存器)修改为NULL值。当然，钩取FindWindow() API与GetWindowText() API也是非常棒的方法。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/03/IA-32指令/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1719,129 +1909,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/27/周报4-27/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="loser">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="loser的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/27/周报4-27/" itemprop="url">周报4.27</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-27T20:18:19+08:00">
-                2019-04-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="OD学习记录（真难啊-QAQ）"><a href="#OD学习记录（真难啊-QAQ）" class="headerlink" title="OD学习记录（真难啊~~~QAQ）"></a>OD学习记录（真难啊~~~QAQ）</h1><h2 id="手动修复IAT"><a href="#手动修复IAT" class="headerlink" title="手动修复IAT"></a>手动修复IAT</h2><p>开始修复IAT。<br>第一步还是先找到OEP，到达OEP后，OD和进程本身不能关掉。脱壳过程中不能把程序关掉。<br>操作过程和之前相同，先选进程，右键，完整转存，脱壳完毕。<br>双击脱壳后的程序，无法打开。<br>第二步：使用importrec修复IAT。不是选择dump后的程序，而是到达OEP的加壳程序。为什么不选择脱壳后的程序呢？<br>因为我们需要提取源文件里的信息，放到脱壳后的文件里。然后放到脱壳后的程序 附件进程后，里面有个选项</p>
-<p>如何使用填写这几个数字呢：<br>第一个选项是OEP栏：这里填写OEP的相对偏移地址就行<br>第二个选项是RVA：虚拟内存地址，这里填IAT的起始位置<br>大小：填写导入表大小，需要用IAT的末地址减去首地址。哪个是首地址，哪个是尾部地址？<br>有一个小技巧，能帮我们快速定位到IAT的开始和末尾。怎么做呢，在数据窗口右击-长型-地址，那么它的起始位置<br>就非常直观了：<br><img src="1.jpg" alt=""><br>OEP：10000<br>RVA：3184<br>大小：尾部一定得是00000000才行。而且得是最后一个00000000。<br>接下来就是修复PE头了</p>
-<h2 id="打补丁"><a href="#打补丁" class="headerlink" title="打补丁"></a>打补丁</h2><p>程序很简单，只有两个窗口<br><img src="13.png" alt=""><img src="14.png" alt=""><br>（一）、使用OD载入程序，按F9跳转到入口点<br><img src="1.png" alt=""><br>（二）步入第一个call调用<br><img src="2.png" alt=""><br>（三）按f8步进来到40109B处<br>仔细分析这段代码，会发现这段代码的是第一轮解密代码，对004010F5到00401249（004010F5+0x154）这个区段的数据异或0x44<br><img src="3.png" alt=""><br>（四）继续按f8步进来到40109B处，可以发现两个循环，这个两个循环都负责解密<br><img src="4.png" alt=""><br>（五）继续按f8步进程序会返回到00401038处，此处需要主意的校验和计算和比较校验和的值。<br><img src="5.png" alt=""><br>（六）继续运行程序，会发现OEP，如下图<br><img src="6.png" alt=""><br>还有下面的跳转表的啦。。。。<br><img src="7.png" alt=""><br>（七）通过查找DialogBoxParamA的api手册，会发现4010F5是指向对话框的指针，跳转到4010F5这个地址之后，在往下滚动，发现字符串（x32dbg将这个区段解析为指令了，ascii码对的上，只能在内存窗口中查看）。</p>
-<p><img src="8.png" alt=""><br>通过分析pe结构，我们会发现.text头会有很多代码洞空白区域<br><img src="9.png" alt=""><br>插入代码。.。。<br><img src="10.png" alt=""><br>修改JMP指令<br>修改前：<br><img src="11.png" alt=""><br>修改后：<br><img src="12.png" alt=""><br>然后就成功了。。。。。。不晓得我为啥有点问题QAQ。。。<br>中途想过之前的方法是直接修改数据窗口的内容来让实现修改  尝试以后发现程序有检测的  不能用 就只能用打补丁的方法咯</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1892,7 +1959,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
