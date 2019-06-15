@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="chinese">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="目的利用动态反调试技术可以不断阻止对程序代码的跟踪调试，目的就是隐藏和保护程序代码与数据，使之无法进行逆向分析。 异常SEHEXCEPTION_BREAKPOINTwindows操作系统中常见的使断点异常。BreakPoint指令触发异常时，若程序处于正常运行状态，则自动调用已经注册过的SEH，若程序处于调试运行状态，则系统会立刻停止运行程序，并将控制权转给调试器，一般而言异常处理器中都含有修改E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态反调试技术">
+<meta property="og:url" content="http://yoursite.com/2019/06/12/动态反调试技术/index.html">
+<meta property="og:site_name" content="loser的博客">
+<meta property="og:description" content="目的利用动态反调试技术可以不断阻止对程序代码的跟踪调试，目的就是隐藏和保护程序代码与数据，使之无法进行逆向分析。 异常SEHEXCEPTION_BREAKPOINTwindows操作系统中常见的使断点异常。BreakPoint指令触发异常时，若程序处于正常运行状态，则自动调用已经注册过的SEH，若程序处于调试运行状态，则系统会立刻停止运行程序，并将控制权转给调试器，一般而言异常处理器中都含有修改E">
+<meta property="og:locale" content="chinese">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/12.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/14.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/15.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/16.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/17.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/18.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/19.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/20.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/21.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/22.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/12/动态反调试技术/23.png">
+<meta property="og:updated_time" content="2019-06-15T17:27:22.302Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="动态反调试技术">
+<meta name="twitter:description" content="目的利用动态反调试技术可以不断阻止对程序代码的跟踪调试，目的就是隐藏和保护程序代码与数据，使之无法进行逆向分析。 异常SEHEXCEPTION_BREAKPOINTwindows操作系统中常见的使断点异常。BreakPoint指令触发异常时，若程序处于正常运行状态，则自动调用已经注册过的SEH，若程序处于调试运行状态，则系统会立刻停止运行程序，并将控制权转给调试器，一般而言异常处理器中都含有修改E">
+<meta name="twitter:image" content="http://yoursite.com/2019/06/12/动态反调试技术/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/12/动态反调试技术/">
+
+
+
+
+
+  <title>动态反调试技术 | loser的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="chinese">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">loser的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/12/动态反调试技术/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">动态反调试技术</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-12T15:33:18+08:00">
+                2019-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><p>利用动态反调试技术可以不断阻止对程序代码的跟踪调试，目的就是隐藏和保护程序代码与数据，使之无法进行逆向分析。</p>
+<h1 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h1><h2 id="SEH"><a href="#SEH" class="headerlink" title="SEH"></a>SEH</h2><p><strong>EXCEPTION_BREAKPOINT</strong><br>windows操作系统中常见的使断点异常。BreakPoint指令触发异常时，若程序处于正常运行状态，则自动调用已经注册过的SEH，若程序处于调试运行状态，则系统会立刻停止运行程序，并将控制权转给调试器，一般而言异常处理器中都含有修改EIP值的代码，修改调试器选项可以把处于调试中进程产生的相关异常转给操作系统，自动调用SEH处理，但即便如此，在异常处理中增加适当的静态反调试技术，也能够轻松判断进程是否处于调试状态，此外，EIP值在异常处理内部如何变化也不得而知，这意味着，必须跟进如异常处理器才能继续调试。</p>
+<h3 id="练习DynAD-SEH-exe"><a href="#练习DynAD-SEH-exe" class="headerlink" title="练习DynAD_SEH.exe"></a>练习DynAD_SEH.exe</h3><p>用OD打开程序 然后在401000地址处设置好断点<br><img src="1.png" alt=""><br>下来看看代码执行过程<br><img src="2.png" alt=""><br>逐个分析代码<br><strong>#1 安装SEH</strong><br>首先以下代码安装SEH（40102C）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">00401011 PUSH 40102C</span><br><span class="line">00401016 PUSH DWORD PTR FS:[0]</span><br><span class="line">0040101D MOV DWORD PTR FS:[0],ESP</span><br></pre></td></tr></table></figure></p>
+<p><strong>#2 发生INT3异常</strong><br>以下代码用来触发INT3异常<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00401024 INT3</span><br></pre></td></tr></table></figure></p>
+<p><strong>#3-1调试运行-终止调试</strong><br>若进程处于调试状态 则需要用调试器处理异常 INT3指令是CPU中断指令 在用户模式下什么也不做 继续执行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">00401025 MOV EAX,-1</span><br><span class="line">0040102A JMP EAX</span><br></pre></td></tr></table></figure>
+<p>由于处在调试中 所以跳转到非法地址 无法继续调试<br>**#3-2正常运行-运行SEH<br>如果进程处于非调试状态 那么执行到INT3指令时就会调用前面已经注册的SEH<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">0040102C MOV EAX,DWORD PTR SS:[ESP+0C]</span><br><span class="line">00401031 MOV EBX,401040</span><br><span class="line">00401036 MOV DWORD PTR DS:[EAX+0B8],EBX</span><br><span class="line">0040103D XOR EAX,EAX</span><br><span class="line">0040103F RETN</span><br></pre></td></tr></table></figure></p>
+<p>SS:[ESP+0C]是CONTEXT<em>pContext结构体的指针 而CONTEXT</em>pContext结构体正是SEH的第三个参数 它是一个发生异常的线程CONTEXT结构体 DS:[EAX+0B8]指向pContext–&gt;Eip成员 所以401036地址处的MOV指令用来将结构体的EIP值修改为401040 然后 异常处理器返回为0 接下来 发生异常的线程再次从修改后的EIP地址处（401040）开始运行</p>
+<p><strong>#4 删除SEH</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">00401040 POP DWORD PTR FS:[0]</span><br><span class="line">00401047 ADD ESP,4</span><br></pre></td></tr></table></figure></p>
+<p>进程正常运行时 #1中注册的SEH（40102C）就会被删除<br><strong>破解之法</strong><br>破解的办法：在od 调试选项exception选项中，选择int3 breaks后，调试器就会忽略被调试进程中发生的int3异常，由自身SEH处理。</p>
+<p><img src="3.png" alt=""></p>
+<h2 id="SetUnhandledExceptionFilter"><a href="#SetUnhandledExceptionFilter" class="headerlink" title="SetUnhandledExceptionFilter()"></a>SetUnhandledExceptionFilter()</h2><p>进程中发生异常的时候，若SEH未处理或注册的SEH不存在就会调用kernel32!UnhandledExceptionFilter()API.会运行系统的最后一个异常处理器，弹出错误框，终止进程运行。</p>
+<p>值得注意的是 kernel32!UnhandledExceptionFilter() 内部调用了ntdll!NtQueryInformationProcess(ProcessDebugPort)API(静态反调试及时），来判断进程是否正在调试进程。若进程正常运行（非调试运行），则运行系统最后的异常处理器；若进程处于调试中，则将异常派送给调试器。通过kernel32!SetUnHandledException()API可以修改系统最后的异常处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LPTOP_LEVEL_EXCEPTION_FILTER WINAPI SetUnhandledExceptionFilter ( _In_LPTOP_LEVEL_EXCEPTION_FILTER lpTopLevelExceptionFilter</span><br><span class="line">) ;</span><br></pre></td></tr></table></figure>
+<p>lpTopLevelExceptionFilter ，函数指针。当异常发生时，且程序不处于调试模式（在vs或者别的调试器里运行）则首先调用该函数。调用该函数修改系统最后异常处理器时，只要将新得Top Level Exception Filter函数地址传递给函数的 lp TopLecelException参数即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedef struct  EXCEPTION POINTERS &#123;</span><br><span class="line"></span><br><span class="line">      PEXCEPTION RECORD ExceptionRecord;PCONTEXT  ContextRecord;</span><br><span class="line"></span><br><span class="line">&#125; EXCEPTION POINTERS, *PEXCEPTION POINTERS;</span><br><span class="line"></span><br><span class="line">LONG TopLevelExceptionFilter(</span><br><span class="line"></span><br><span class="line">      PEXCEPTION_ POINTERS pExcept);</span><br></pre></td></tr></table></figure>
+<p>基于异常的反调试技术中，通常先特意触发异常，然后再新注册的Last Exception Filter内部判断进程正常运行还是调试运行，并根据判断结果修改EIP值，系统在此过程中自行判断调试与否。</p>
+<h3 id="练习DynAD-SUEF-exe"><a href="#练习DynAD-SUEF-exe" class="headerlink" title="练习DynAD_SUEF.exe"></a>练习DynAD_SUEF.exe</h3><p>在OD打开程序 在401030处设置断点 下面边调试代码边了解程序执行流 首先调用printf（）函数输出字符串 代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">00401030  /$  55            PUSH EBP</span><br><span class="line">00401031  |.  8BEC          MOV EBP,ESP</span><br><span class="line">00401033  |.  68 A0994000   PUSH OFFSET 004099A0                     ; ASCII &quot;SEH : SetUnhandledExceptionFilter()</span><br><span class="line">00401038  |.  E8 4A000000   CALL 00401087</span><br><span class="line">0040103D  |.  83C4 04       ADD ESP,4</span><br></pre></td></tr></table></figure></p>
+<p>利用的思路如下：<br>1）调用新的SetUnhandledExceptionFilter()来注册新的Top Level Exception Filter(新的Excetion Filter函数中包含异常处理代码）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">00401040  |.  68 00104000   PUSH 00401000                            ; /Filter = DynAD_SUEF.401000</span><br><span class="line">00401045  |.  FF15 00804000 CALL DWORD PTR DS:[&lt;&amp;KERNEL32.SetUnhandl ; \KERNEL32.SetUnhandledExceptionFilter</span><br><span class="line">0040104B  |.  A3 3CCB4000   MOV DWORD PTR DS:[40CB3C],EAX</span><br></pre></td></tr></table></figure>
+<p>2）在Top Level Exception Filter（401000）和Kernel32!UnhandledExceptionFilter()API设置断点 然后强制触发断点，利用相应的异常来触发异常（如尝试向未定义的进程虚拟内存地址（0)写入）然后程序回调用Kernel32!UnhandledExceptionFilter()函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">00401050  |.  33C0          XOR EAX,EAX</span><br><span class="line">00401052  |.  8900          MOV DWORD PTR DS:[EAX],EAX</span><br></pre></td></tr></table></figure>
+<p>若执行401052地址处的指令 程序将向未定义的进程虚拟内存（0）写入值 这会引发无效内存非法访问异常 按下shift+f7 接着程序会在设有断点的Kernel32!UnhandledExceptionFilter()函数内部自动暂停</p>
+<p><img src="4.png" alt=""><br>7c864d79处的CALL ntdll!NtQueryInformationProcess()API指令 其第二个参数传入的值为ProcessDebugPort（7） 这就是前一章节讲的静态反调试技术 用来探测调试器的 为了继续调试 调用该函数后需要将第三个参数的值 修改为0</p>
+<p><strong>破解之法</strong><br>破解的时候首先使用Kernel32!UnhandledExceptionFilter()内部使用的ntdll!NtQueryInformationProcess()API()失效，然后调用SetUnhandledExceptionFilter()API跟踪注册的Exception Filter，在正常运行的时候跳转到那个地址就可以。</p>
+<h1 id="Timing-Check"><a href="#Timing-Check" class="headerlink" title="Timing Check"></a>Timing Check</h1><p>在调试器中逐跟踪程序代码比程序正常运行（非调试运行）耗费的时间要多出很多。Timing Check技术通过计算运行时间的差异来判断进程是否处于被调试状态。</p>
+<p>破解的方法：只要直接操作获取的时间信息获取比较时间的语句就可以。（Timing Checking技术通常用作反模拟技术，程序在模拟器中运行时，运行速度比程序正常运行慢很多，所以Timing Check技术也能用来探测程序是否在模拟器中运行。)</p>
+<h2 id="时间间隔测量方法"><a href="#时间间隔测量方法" class="headerlink" title="时间间隔测量方法"></a>时间间隔测量方法</h2><p>大致方法分为两种，一种事利用CPU计数（Counter),另一类事利用系统的实际时间（Time)</p>
+<h2 id="RDTSC"><a href="#RDTSC" class="headerlink" title="RDTSC"></a>RDTSC</h2><p>x86寄存器有一个名为TSC（Time Stamp Counter,时间戳计数器的64位计数器CPU,CPU对每个Clock Cycle(时终周期）计数，然后保存到TSC.RDTSC是一条汇编指令，用来将TSC值读入EDX:EAX（高位32位保存到EDX寄存器，低32位保存到EAX寄存器）。程序判断的时候会调用两次RDTSC，通过计算两次调用的时间间隔来判断进程是否处于调试状态（只要使用一次f7或f8）命令，时间间隔就会大于0xffffffff。</p>
+<h3 id="练习DynAD-RDTSC-exe"><a href="#练习DynAD-RDTSC-exe" class="headerlink" title="练习DynAD_RDTSC.exe"></a>练习DynAD_RDTSC.exe</h3><p>在OD中打开程序 转到401000处<br><img src="5.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">;第一次执行RDTSC指令一将TSC保存到EDX:EAX (64位)0040101C  RDTSC</span><br><span class="line"></span><br><span class="line">;将结果值放入栈</span><br><span class="line"></span><br><span class="line">0040101E  PUSH EDX0040101F  PUSH EAX</span><br><span class="line"></span><br><span class="line">;用于消耗时间的循环(实际代码相当复杂)00401020  XOR EAX, EAX00401022  MOV ECX,3E800401027  INC EAX</span><br><span class="line"></span><br><span class="line">00401028  LOOPD SHORT 00401027</span><br><span class="line"></span><br><span class="line">;第二次执行RDTSC指令0040102A  RDTSC</span><br><span class="line"></span><br><span class="line">;在栈中输入第一次求得的TSC0040102C  POP ESI0040102D  POP EDI</span><br><span class="line"></span><br><span class="line">;比较1一Count的high order bits ;0040102E  CMP EDX, EDI</span><br><span class="line"></span><br><span class="line">00401030  JA SHORT 0040103E</span><br><span class="line"></span><br><span class="line">;比较2一Count的Low order bits</span><br><span class="line"></span><br><span class="line">;若比特定值(0xFFFFFF) 大，则断定处于调试状态00401032  SUB EAX, ESI</span><br><span class="line"></span><br><span class="line">00401034  MOV DWORD PTR SS: [EBP-4] , EAX00401037  CMP EAX, OFFFFFF0040103C  JB SHORT 00401042</span><br><span class="line"></span><br><span class="line">;在比较语句作用下进入异常触发代码，进程非正常终止0040103E  XOR EAX, EAX</span><br><span class="line"></span><br><span class="line">00401040  MOV DWORD PTR DS: [EAX], EAX  ;异常!!!</span><br><span class="line"></span><br><span class="line">;忽略比较语句，继续运行00401042  POPAD</span><br></pre></td></tr></table></figure></p>
+<p>从上述代码可以看出，2次RDTSC指令调用之间存在一-定的时间间隔，通过计算时间差值( Delta )来判断进程是否处于调试状态。Delta值不固定，一般在0xFFFF~0xFFFFFF之间取值。40101C~40102A地址间的代码区域中，只要执行1次StepInto(F7)或StepOver(F8)命令，Count的间隔就会大于0xFFFFFFFF。</p>
+<p><strong>破解之法</strong><br> 1)不使用跟踪命令，直接使用RUN命令越过相关的代码。<br> 2）操作第二个RDTSC的结果值（EDX:EAX)<br> 3) 操作判断之后的条件分支<br> 4）利用内核模式驱动程序使RDTSC指令无效：利用内核驱动程序可以从根本上使基于RDTSC的动态反调试技术失效（其实OllyAdvanced Plugin就采用了该方法）。</p>
+<h1 id="陷阱标志"><a href="#陷阱标志" class="headerlink" title="陷阱标志"></a>陷阱标志</h1><p>陷阱标志指的是EFLAGS寄存器的第9个比特位</p>
+<h2 id="单步执行"><a href="#单步执行" class="headerlink" title="单步执行"></a>单步执行</h2><p>TF设置为1的时候，CPU将进入单步执行（Single Step)模式。单步执行模式中，CPU执行1条指令后即触发一个EXCEPTION_SINGLE_STEP异常，然后陷阱标志位会清零。该异常可以与SEH技法结合，在反调试技术中用于探测调试器。</p>
+<h3 id="练习DynAD-SingleStep-exe"><a href="#练习DynAD-SingleStep-exe" class="headerlink" title="练习DynAD_SingleStep.exe"></a>练习DynAD_SingleStep.exe</h3><p>我们在OD中打开程序<br><img src="6.png" alt=""><br>对主要代码进行说明<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">注册SEH</span><br><span class="line">00401011  |.  68 36104000   PUSH 00401036</span><br><span class="line">00401016  |.  64:FF35 00000 PUSH DWORD PTR FS:[0]</span><br><span class="line">0040101D  |.  64:8925 00000 MOV DWORD PTR FS:[0],ESP                 ; Installs SE handler 401036</span><br><span class="line">因无法修改EFLAGS 故通过栈修改</span><br><span class="line">00401024  |.  9C            PUSHFD									将EFLAGS寄存器的值压入栈</span><br><span class="line">00401025  |.  36:810C24 000 OR DWORD PTR SS:[ESP],00000100			将TF位置为1</span><br><span class="line">0040102D  |.  9D            POPFD									将修改后的TF标志值存入EFLAGS</span><br><span class="line">执行下列指令后 触发EXCEPTION_SINGLE_STEP异常</span><br><span class="line">若正常运行 则运行前面注册过的SEH</span><br><span class="line">若为调试运行 则继续执行下列指令</span><br><span class="line">0040102E  |.  90            NOP</span><br><span class="line">调试运行时继续运行下列代码</span><br><span class="line">0040102F  |.  B8 FFFFFFFF   MOV EAX,-1</span><br><span class="line">00401034  \.  FFE0          JMP EAX</span><br></pre></td></tr></table></figure></p>
+<p>由于我们不能直接修改EFLAGS寄存器的值，所以使用PUSHFD/POPFD指令与or运算指令修改陷进标志的值。</p>
+<p><img src="7.png" alt=""><br>我们从寄存器窗口可以看到 EFLAGS寄存器（EFL）的值已经被修改为312 陷阱标志已经成功设置为1 从现在开始 CPU进入单步执行模式 下面执行40102E地址处的NOP指令 然后发生了EXCEPTION_SINGLE_STEP异常</p>
+<p><img src="8.png" alt=""><br>发生异常的时候，若进程处于非调试状态，则运行SEH运行正常的代码，若进程处于调试状态的时候，则无法转到对应的SEH，会执行异常的指令（这里在SEH里面，进程会跳转到正常的代码继续执行）</p>
+<p><strong>破解之法</strong><br>OD 的调试选项，option-&gt;debugging options-&gt;exception:选择忽略EXCEPTION_SINGLE_STEP异常），让被调试者直接处理EXCEPTION_SINGLE_STEP异常。<br><img src="9.png" alt=""></p>
+<h2 id="INT-2D"><a href="#INT-2D" class="headerlink" title="INT 2D"></a>INT 2D</h2><p> INT 2D 为内核模式中用来触发断点异常的指令，也可以在用户模式下触发异常。但程序调试运行的时候不会触发异常，只是忽略。这种在正常运行与调试运行中表现出的不同可以很好的利用于反调试技术。下面介绍几个INT2D 的几个特征</p>
+<p> <strong>1.忽略下一条指令的第一个字节</strong><br> 在调试的时候执行完INT 2D指令后，下一条指令的第一个字节将被忽略。后一个字节将会被识别为新的指令继续执行 如图所示</p>
+<p><img src="10.png" alt=""><br>执行完INT 2D后，会重新解析指令。<br><img src="11.png" alt=""><br>使用INT 2D的反调试技术能够形成较强的代码混淆效果，从而在一定程度上防止代码逆向分析人员调试程序。</p>
+<p><strong>2.一直运行到断点处</strong><br>INT 2D指令的另一个特征使，使用F7或者F8,命令跟踪INT 2D指令的时候，程序不会停止在其下条指令开始的地方，而是一直运行程序，就想使用RUN（F9）命令运行程序一样。（这个特性只会在OD中才有，原因在于执行INT 2D 之后原有的代码字节序被改变了，就是说，若程序在执行的过程中改变，则进程不能单步暂停，若想停止跟踪代码，需要事先在相应的地址处设置断点。)</p>
+<h3 id="练习DynAD-INT2D-exe"><a href="#练习DynAD-INT2D-exe" class="headerlink" title="练习DynAD_INT2D.exe"></a>练习DynAD_INT2D.exe</h3><p>用OD打开程序 跳到401000处<br><img src="12.png" alt=""><br>程序正常运行(非调试运行)时，执行完40101E地址处的INT 2D指令后，发生异常，转去运行SEH ( 40102A )。在异常处理器中先把EIP值修改为401044，然后将[EBP-4]变量(局部变量[EBP-4]是BOOL类型变量，用来检测是否存在调试器)的值设置为0 ( FALSE )。然后转到401044地址处继续执行，最后执行40105B地址处的CMP/JE条件分支指令，向控制台输出字符串(“NotDebugging”)。</p>
+<p>程序调试运行时,执行INT 2D指令后不会运行SEH,而是跳过1个字节( 90 ),继续执行401021地址处的MOV指令，将[EBP-4]变量设置为1 ( TRUE ),然后跳转到401044地址处继续执行，向控制台输出“Debugging” 字符串。可用图简单表示上面2个执行过程</p>
+<p><img src="13.png" alt=""><br><strong>破解之法</strong><br>只要简单修改对应的代码就可以破解这种调试技术，但是实际调试过程中，有时必须跟踪SEH逐行调试代码，这个时候就需要另一种方法使程序执行到SEH，利用陷阱标志能够使程序进入SEH标志。（TF=0的时候，跟踪INT 2D指令后，其下条指令的第一个字节会被忽略，程序继续执行；但是TF＝１的时候，其后面的1一个字节不会被忽略，代码仍被正常识别）</p>
+<p>首先让OD忽略EXCEPTION_SINGLE_STEP异常 然后运行到40101E地址处 在SEH处（40102A）设置断点</p>
+<p><img src="14.png" alt=""><br>如下图所示 双击修改TF或EFL值 将TF位置为1 从现在开始 CPU进入单步执行模式 单步执行模式下 CPU执行一条指令即触发异常 然后进入SEH处理 接下来按下F7或者F8键 执行40101E地址处的指令</p>
+<p><img src="15.png" alt=""><br>虽然执行了40101E地址处的INT 2D指令，但并未发生异常，TF的值也未变为0 (在前面的;DynAD_ SingleStep.exe示 例中我们知道，CPU在单步模式下执行1条指令即触发异常，且TF值会清零),如图所示。原因在于，INT 2D指令原为内核指令，在用户模式的调试器中不会被识别为正常指令。因此调试器在401020地址处的NOP指令处暂停。TF=0时，跟踪INT 2D指令后，其下条指令的第-个字节会被忽略，程序继续执行;但TF=1时，其后面的1个字节不会被忽略，代码仍被正常识别。接下来，按F7键( StepInto)或F8键( StepOver)执行NOP指令。</p>
+<p><img src="16.png" alt=""><br>单步执行模式下执行正常指令NOP后 就会触发异常 调试暂停在设有断点的SEH处 同时TF值清零 这样就能进入SEH继续调试了</p>
+<p><img src="17.png" alt=""></p>
+<h1 id="0xCC-探测"><a href="#0xCC-探测" class="headerlink" title="0xCC 探测"></a>0xCC 探测</h1><p>程序调试的时候，会设置很多软件断点，若能够检测到该指令，就能够判断程序处于调试状态。</p>
+<h2 id="API断点"><a href="#API断点" class="headerlink" title="API断点"></a>API断点</h2><p>若想调试某个局部功能的时候，可以直接在要调试的API处设置好断点，再运行程序。这样API代码开始的第一个字节已被设置为0xCC,可以用这个来对程序进行反调试，判断程序是否处于调试状态。</p>
+<p><img src="18.png" alt=""><br><img src="19.png" alt=""></p>
+<h3 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h3><p>我们以保存文件的使用的kernel!32CreatFileW()API为例<br><img src="20.png" alt=""><br>找到之后双击进入在该API代码首地址处设置断点 然后获取kernel!32CreatFileW()API的起始地址检测代码的第一个字节 即可判断进程是否处于调试状态</p>
+<p><img src="21.png" alt=""><br><strong>破解之法</strong><br>针对上面这种反调试技术有效的方法，向系统API设置断点的时候因该尽量避开第一个字节，将它设置在代码的中间部分，此外，使用硬件断点也能够避开上面这种反调试技术。</p>
+<h2 id="比较检验和"><a href="#比较检验和" class="headerlink" title="比较检验和"></a>比较检验和</h2><p>比较特定代码区域的校验和（Checksum)值。比如当在代码调试的时候设置断点，这样，内存的数据就会变成0xcc,这样的话，新的校验和的值和原来的检验和的值就不一样了，这样比较校验和就可以判断进程是否处于调试状态。</p>
+<p><img src="22.png" alt=""></p>
+<h3 id="练习DynAD-Checksum-exe"><a href="#练习DynAD-Checksum-exe" class="headerlink" title="练习DynAD_Checksum.exe"></a>练习DynAD_Checksum.exe</h3><p>在OD中打开程序 转到401000处<br><img src="23.png" alt=""><br>如图所示 程序的核心代码是求校验和值的循环 及其下方的CMP/JE条件分支指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">0040102A  |&gt; /3E:0FB61E     /MOVZX EBX,BYTE PTR DS:[ESI]</span><br><span class="line">0040102E  |. |03C3          |ADD EAX,EBX</span><br><span class="line">00401030  |. |D1C0          |ROL EAX,1</span><br><span class="line">00401032  |. |46            |INC ESI</span><br><span class="line">00401033  |.^\E2 F5         \LOOP SHORT 0040102A</span><br></pre></td></tr></table></figure></p>
+<p>40102A地址处ESI的初始值为401000 (参考40101F地址处的MOV指令),而ECX被用作LoopCount ( 循环计数)，其值为70 (参考401024地址处的SUB指令)。代码中的循环用来计算401000~40106F区域的校验和值，先读取1个字节值，再执行ADD与ROL指令计算，然后将值保存到EAX寄存器(循环次数就是循环计数)。</p>
+<p>像这样求得校验值后 接下来要将和原值比较 并执行条件分支语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">00401035  |.  3B05 C0BD4000 CMP EAX,DWORD PTR DS:[40BDC0]</span><br><span class="line">0040103B  |.  74 07         JE SHORT 00401044</span><br></pre></td></tr></table></figure></p>
+<p>在上面的循环中求得当前校验和值被保存在EAX寄存器 程序开发时计算的校验和值保存在[40BDC0]中 比较它们 则表明401000-40106F代码区域中设有断点 或者代码已经被修改</p>
+<p><strong>破解之法</strong><br>只要不在计算CRC的代码区域中设置断点或者修改其中的代码，基于校验和的反调试几乎是就会失效。最好的办法就是修改CRC的比较语句。与其他反调试技术类似，基于校验和比较的反调试代码会隐藏到程序各处，可能存在很多校验和的代码，这会增加破解的难度。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/09/静态反调试技术/" rel="next" title="静态反调试技术">
+                <i class="fa fa-chevron-left"></i> 静态反调试技术
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">loser</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目的"><span class="nav-number">1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异常"><span class="nav-number">2.</span> <span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SEH"><span class="nav-number">2.1.</span> <span class="nav-text">SEH</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#练习DynAD-SEH-exe"><span class="nav-number">2.1.1.</span> <span class="nav-text">练习DynAD_SEH.exe</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SetUnhandledExceptionFilter"><span class="nav-number">2.2.</span> <span class="nav-text">SetUnhandledExceptionFilter()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#练习DynAD-SUEF-exe"><span class="nav-number">2.2.1.</span> <span class="nav-text">练习DynAD_SUEF.exe</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Timing-Check"><span class="nav-number">3.</span> <span class="nav-text">Timing Check</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#时间间隔测量方法"><span class="nav-number">3.1.</span> <span class="nav-text">时间间隔测量方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDTSC"><span class="nav-number">3.2.</span> <span class="nav-text">RDTSC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#练习DynAD-RDTSC-exe"><span class="nav-number">3.2.1.</span> <span class="nav-text">练习DynAD_RDTSC.exe</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#陷阱标志"><span class="nav-number">4.</span> <span class="nav-text">陷阱标志</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单步执行"><span class="nav-number">4.1.</span> <span class="nav-text">单步执行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#练习DynAD-SingleStep-exe"><span class="nav-number">4.1.1.</span> <span class="nav-text">练习DynAD_SingleStep.exe</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#INT-2D"><span class="nav-number">4.2.</span> <span class="nav-text">INT 2D</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#练习DynAD-INT2D-exe"><span class="nav-number">4.2.1.</span> <span class="nav-text">练习DynAD_INT2D.exe</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0xCC-探测"><span class="nav-number">5.</span> <span class="nav-text">0xCC 探测</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#API断点"><span class="nav-number">5.1.</span> <span class="nav-text">API断点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#练习"><span class="nav-number">5.1.1.</span> <span class="nav-text">练习</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较检验和"><span class="nav-number">5.2.</span> <span class="nav-text">比较检验和</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#练习DynAD-Checksum-exe"><span class="nav-number">5.2.1.</span> <span class="nav-text">练习DynAD_Checksum.exe</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">loser</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
