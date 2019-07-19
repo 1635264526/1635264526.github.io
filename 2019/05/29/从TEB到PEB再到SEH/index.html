@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="TEB概念TEB指线程环境块 该结构体包含进程中运行线程的各种信息 进程中每个线程都对应一个TEB结构体 不同OS中TEB结构体形态略微不同 定义结构体中有非常多的成员，其中用户模式调试中起着重要作用的成员有两个：123+0 NtTib : _NT_TIB...+0X30 ProcessEnvironmentBlock : Ptr32_PEB 偏移0x30处的ProcessEnvironmentB">
+<meta name="description" content="TEB概念TEB指线程环境块 该结构体包含进程中运行线程的各种信息 进程中每个线程都对应一个TEB结构体 不同OS中TEB结构体形态略微不同 定义结构体中有非常多的成员，其中用户模式调试中起着重要作用的成员有两个：123+0 NtTib : _NT_TIB...+0X30 ProcessEnvironmentBlock : Ptr32_PEB 偏移0x30处的ProcessEnvironment">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从TEB到PEB再到SEH">
 <meta property="og:url" content="http://yoursite.com/2019/05/29/从TEB到PEB再到SEH/index.html">
 <meta property="og:site_name" content="loser的博客">
-<meta property="og:description" content="TEB概念TEB指线程环境块 该结构体包含进程中运行线程的各种信息 进程中每个线程都对应一个TEB结构体 不同OS中TEB结构体形态略微不同 定义结构体中有非常多的成员，其中用户模式调试中起着重要作用的成员有两个：123+0 NtTib : _NT_TIB...+0X30 ProcessEnvironmentBlock : Ptr32_PEB 偏移0x30处的ProcessEnvironmentB">
+<meta property="og:description" content="TEB概念TEB指线程环境块 该结构体包含进程中运行线程的各种信息 进程中每个线程都对应一个TEB结构体 不同OS中TEB结构体形态略微不同 定义结构体中有非常多的成员，其中用户模式调试中起着重要作用的成员有两个：123+0 NtTib : _NT_TIB...+0X30 ProcessEnvironmentBlock : Ptr32_PEB 偏移0x30处的ProcessEnvironment">
 <meta property="og:locale" content="chinese">
 <meta property="og:image" content="http://yoursite.com/2019/05/29/从TEB到PEB再到SEH/1.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/29/从TEB到PEB再到SEH/2.png">
@@ -117,10 +117,10 @@
 <meta property="og:image" content="http://yoursite.com/2019/05/29/从TEB到PEB再到SEH/29.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/29/从TEB到PEB再到SEH/30.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/29/从TEB到PEB再到SEH/35.png">
-<meta property="og:updated_time" content="2019-06-03T12:25:56.457Z">
+<meta property="og:updated_time" content="2019-07-19T11:28:10.944Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从TEB到PEB再到SEH">
-<meta name="twitter:description" content="TEB概念TEB指线程环境块 该结构体包含进程中运行线程的各种信息 进程中每个线程都对应一个TEB结构体 不同OS中TEB结构体形态略微不同 定义结构体中有非常多的成员，其中用户模式调试中起着重要作用的成员有两个：123+0 NtTib : _NT_TIB...+0X30 ProcessEnvironmentBlock : Ptr32_PEB 偏移0x30处的ProcessEnvironmentB">
+<meta name="twitter:description" content="TEB概念TEB指线程环境块 该结构体包含进程中运行线程的各种信息 进程中每个线程都对应一个TEB结构体 不同OS中TEB结构体形态略微不同 定义结构体中有非常多的成员，其中用户模式调试中起着重要作用的成员有两个：123+0 NtTib : _NT_TIB...+0X30 ProcessEnvironmentBlock : Ptr32_PEB 偏移0x30处的ProcessEnvironment">
 <meta name="twitter:image" content="http://yoursite.com/2019/05/29/从TEB到PEB再到SEH/1.png">
 
 
@@ -331,7 +331,8 @@
       
 
       
-        <h1 id="TEB"><a href="#TEB" class="headerlink" title="TEB"></a>TEB</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>TEB指线程环境块 该结构体包含进程中运行线程的各种信息 进程中每个线程都对应一个TEB结构体 不同OS中TEB结构体形态略微不同</p>
+        <a id="more"></a>
+<h1 id="TEB"><a href="#TEB" class="headerlink" title="TEB"></a>TEB</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>TEB指线程环境块 该结构体包含进程中运行线程的各种信息 进程中每个线程都对应一个TEB结构体 不同OS中TEB结构体形态略微不同</p>
 <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>结构体中有非常多的成员，其中用户模式调试中起着重要作用的成员有两个：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+0 NtTib : _NT_TIB</span><br><span class="line">...</span><br><span class="line">+0X30 ProcessEnvironmentBlock : Ptr32_PEB</span><br></pre></td></tr></table></figure></p>
 <p>偏移0x30处的ProcessEnvironmentBlock是指向PEB（进程环境块）结构体的指针<br>偏移0处的_NT_TIB结构体内容如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">typedef struct _NT_TIB &#123;</span><br><span class="line">　struct _EXCEPTION_REGISTRATION_RECORD *ExceptionList;</span><br><span class="line">　PVOID StackBase;</span><br><span class="line">　PVOID StackLimit;</span><br><span class="line">　PVOID SubSystemTib;</span><br><span class="line">　union &#123;</span><br><span class="line">　　PVOID FiberData;</span><br><span class="line">　　DWORD Version;</span><br><span class="line">　&#125;;</span><br><span class="line">　PVOID ArbitraryUserPointer;</span><br><span class="line">　struct _NT_TIB *Self;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>ExceptionList成员指向_EXCEPTION_REGISTRATION_RECORD结构体组成的链表，用于Windows OS的SEH（异常处理机制） </p>

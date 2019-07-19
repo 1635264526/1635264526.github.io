@@ -111,7 +111,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/06/09/静态反调试技术/23.png">
 <meta property="og:image" content="http://yoursite.com/2019/06/09/静态反调试技术/24.png">
 <meta property="og:image" content="http://yoursite.com/2019/06/09/静态反调试技术/25.png">
-<meta property="og:updated_time" content="2019-06-10T13:44:48.972Z">
+<meta property="og:updated_time" content="2019-07-19T11:28:12.448Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="静态反调试技术">
 <meta name="twitter:description" content="PEBPEB中与反调试技术密切相关的成员有如下几个1234+0x002 BeingDebugged; UChar+0x00c Ldr          ; Ptr32 _PEB_LDR_DATA+0X018 ProcessHeap  ; Ptr32 Void+0x068 NtGlobalFlag ; Uint4B BeingDebugged成员是一个标志，用来表示进程是否处于被调试状态 Ldr,">
@@ -325,7 +325,8 @@
       
 
       
-        <h1 id="PEB"><a href="#PEB" class="headerlink" title="PEB"></a>PEB</h1><p>PEB中与反调试技术密切相关的成员有如下几个<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">+0x002 BeingDebugged; UChar</span><br><span class="line">+0x00c Ldr          ; Ptr32 _PEB_LDR_DATA</span><br><span class="line">+0X018 ProcessHeap  ; Ptr32 Void</span><br><span class="line">+0x068 NtGlobalFlag ; Uint4B</span><br></pre></td></tr></table></figure></p>
+        <a id="more"></a>
+<h1 id="PEB"><a href="#PEB" class="headerlink" title="PEB"></a>PEB</h1><p>PEB中与反调试技术密切相关的成员有如下几个<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">+0x002 BeingDebugged; UChar</span><br><span class="line">+0x00c Ldr          ; Ptr32 _PEB_LDR_DATA</span><br><span class="line">+0X018 ProcessHeap  ; Ptr32 Void</span><br><span class="line">+0x068 NtGlobalFlag ; Uint4B</span><br></pre></td></tr></table></figure></p>
 <p>BeingDebugged成员是一个标志，用来表示进程是否处于被调试状态</p>
 <p>Ldr, ProcessHeap, NtGloabFlag成员与被调试进程的堆内存特性相关<br><strong>获取PEB结构体的地址</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 第一种方法</span><br><span class="line">MOV EAX, DWORD PTR FS:[0x30]</span><br><span class="line"># 第二种方法</span><br><span class="line">MOV EAX, DWORD PTR FS:[0x18]</span><br><span class="line">MOV EAX, DWORD PTR DS:[EAX+0x30]</span><br></pre></td></tr></table></figure></p>
 <h2 id="BeingDebugged-0x2"><a href="#BeingDebugged-0x2" class="headerlink" title="BeingDebugged(+0x2)"></a>BeingDebugged(+0x2)</h2><p>通过IsDebuggerPresent() API可以获取PEB.BeingDebugged的值，若为1则表示进程处于被调试状态</p>

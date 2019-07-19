@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="练习#1运行练习文件（HelloTls.exe）弹出消息框 单击 确定 结束程序 接下来使用OD打开程序并运行TLS文件 出现如图对话框 我们发现对话框与源程序的内容不同 单击 确定 终止程序 如图 出现这种情况的原因在于程序运行EP代码前先调用了TLS回调函数 而这一函数中含有反调试代码 TLSIMAGE_DATA_DIRECTORY[9]如果在编程中用了TLS回调函数 PE头文件就会设置TLS">
+<meta name="description" content="练习#1运行练习文件（HelloTls.exe）弹出消息框 单击 确定 结束程序 接下来使用OD打开程序并运行TLS文件 出现如图对话框 我们发现对话框与源程序的内容不同 单击 确定 终止程序 如图 出现这种情况的原因在于程序运行EP代码前先调用了TLS回调函数 而这一函数中含有反调试代码 TLSIMAGE_DATA_DIRECTORY[9]如果在编程中用了TLS回调函数 PE头文件就会设置TL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TLS回调函数">
 <meta property="og:url" content="http://yoursite.com/2019/05/26/TLS回调函数/index.html">
 <meta property="og:site_name" content="loser的博客">
-<meta property="og:description" content="练习#1运行练习文件（HelloTls.exe）弹出消息框 单击 确定 结束程序 接下来使用OD打开程序并运行TLS文件 出现如图对话框 我们发现对话框与源程序的内容不同 单击 确定 终止程序 如图 出现这种情况的原因在于程序运行EP代码前先调用了TLS回调函数 而这一函数中含有反调试代码 TLSIMAGE_DATA_DIRECTORY[9]如果在编程中用了TLS回调函数 PE头文件就会设置TLS">
+<meta property="og:description" content="练习#1运行练习文件（HelloTls.exe）弹出消息框 单击 确定 结束程序 接下来使用OD打开程序并运行TLS文件 出现如图对话框 我们发现对话框与源程序的内容不同 单击 确定 终止程序 如图 出现这种情况的原因在于程序运行EP代码前先调用了TLS回调函数 而这一函数中含有反调试代码 TLSIMAGE_DATA_DIRECTORY[9]如果在编程中用了TLS回调函数 PE头文件就会设置TL">
 <meta property="og:locale" content="chinese">
 <meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/1.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/2.png">
@@ -106,10 +106,10 @@
 <meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/17.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/18.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/19.png">
-<meta property="og:updated_time" content="2019-05-27T13:52:40.371Z">
+<meta property="og:updated_time" content="2019-07-19T11:28:11.528Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TLS回调函数">
-<meta name="twitter:description" content="练习#1运行练习文件（HelloTls.exe）弹出消息框 单击 确定 结束程序 接下来使用OD打开程序并运行TLS文件 出现如图对话框 我们发现对话框与源程序的内容不同 单击 确定 终止程序 如图 出现这种情况的原因在于程序运行EP代码前先调用了TLS回调函数 而这一函数中含有反调试代码 TLSIMAGE_DATA_DIRECTORY[9]如果在编程中用了TLS回调函数 PE头文件就会设置TLS">
+<meta name="twitter:description" content="练习#1运行练习文件（HelloTls.exe）弹出消息框 单击 确定 结束程序 接下来使用OD打开程序并运行TLS文件 出现如图对话框 我们发现对话框与源程序的内容不同 单击 确定 终止程序 如图 出现这种情况的原因在于程序运行EP代码前先调用了TLS回调函数 而这一函数中含有反调试代码 TLSIMAGE_DATA_DIRECTORY[9]如果在编程中用了TLS回调函数 PE头文件就会设置TL">
 <meta name="twitter:image" content="http://yoursite.com/2019/05/26/TLS回调函数/1.png">
 
 
@@ -320,7 +320,8 @@
       
 
       
-        <h1 id="练习-1"><a href="#练习-1" class="headerlink" title="练习#1"></a>练习#1</h1><p>运行练习文件（HelloTls.exe）弹出消息框 单击 确定 结束程序</p>
+        <a id="more"></a>
+<h1 id="练习-1"><a href="#练习-1" class="headerlink" title="练习#1"></a>练习#1</h1><p>运行练习文件（HelloTls.exe）弹出消息框 单击 确定 结束程序</p>
 <p><img src="1.png" alt=""><br>接下来使用OD打开程序并运行TLS文件 出现如图对话框</p>
 <p><img src="2.png" alt=""><br>我们发现对话框与源程序的内容不同 单击 确定 终止程序 如图</p>
 <p><img src="3.png" alt=""><br>出现这种情况的原因在于程序运行EP代码前先调用了TLS回调函数 而这一函数中含有反调试代码</p>
