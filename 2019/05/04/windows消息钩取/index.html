@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="chinese">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="windows消息钩取Hook，就是钩子。偷看或截取信息时所用的手段或工具。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows消息钩取">
+<meta property="og:url" content="http://yoursite.com/2019/05/04/windows消息钩取/index.html">
+<meta property="og:site_name" content="loser的博客">
+<meta property="og:description" content="windows消息钩取Hook，就是钩子。偷看或截取信息时所用的手段或工具。">
+<meta property="og:locale" content="chinese">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/14.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/15.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/16.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/17.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/18.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/19.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/20.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/21.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/22.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/23.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/24.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/25.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/26.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/04/windows消息钩取/12.png">
+<meta property="og:updated_time" content="2019-07-19T12:31:18.534Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="windows消息钩取">
+<meta name="twitter:description" content="windows消息钩取Hook，就是钩子。偷看或截取信息时所用的手段或工具。">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/04/windows消息钩取/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/04/windows消息钩取/">
+
+
+
+
+
+  <title>windows消息钩取 | loser的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="chinese">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">loser的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/04/windows消息钩取/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">windows消息钩取</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-04T21:33:15+08:00">
+                2019-05-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="windows消息钩取"><a href="#windows消息钩取" class="headerlink" title="windows消息钩取"></a>windows消息钩取</h1><p>Hook，就是钩子。偷看或截取信息时所用的手段或工具。</p>
+<a id="more"></a>
+<h2 id="简单地说，消息钩取就是偷看、截取信息。"><a href="#简单地说，消息钩取就是偷看、截取信息。" class="headerlink" title="简单地说，消息钩取就是偷看、截取信息。"></a>简单地说，消息钩取就是偷看、截取信息。</h2><h2 id="常规Windows消息流："><a href="#常规Windows消息流：" class="headerlink" title="常规Windows消息流："></a>常规Windows消息流：</h2><p>1、发生键盘输入事件时，WM_KEYDOWN消息被添加到[OS message queue]；</p>
+<p>2、OS判断哪个应用程序中发生了事件，然后从[OS message queue]中取出消息，添加到相应应用程序的[application message queue]中；</p>
+<p>3、应用程序监视自身的[application message queue]，发现新添加的WM_KEYDOWN消息后，调用相应的事件处理程序处理。</p>
+<h2 id="消息钩子："><a href="#消息钩子：" class="headerlink" title="消息钩子："></a>消息钩子：</h2><p>Windows OS向用户提供GUI，其是以事件驱动的方式进行工作的。每当发生这样的事件时，OS会将事先定义好的消息发送给相应的应用程序，应用程序分析收到的信息后执行相应动作。即在敲击键盘时，消息从OS传递到应用程序，此过程中消息钩子可以偷看其中的信息。</p>
+<p>消息钩子是Windows OS提供的基本功能，其中最具代表性的是VS Visual Studio中提供的SPY++，其是一个功能强大的消息钩取程序，能够查看OS中来往的所有消息。</p>
+<p>如下图，OS消息队列和应用程序消息队列之间存在一条钩链（Hook Chain），设置好键盘消息钩子后，处于钩链中的键盘消息钩子会比应用程序先一步看到相应信息。在键盘消息钩子函数的内部，除了可以查看消息之外，还可以修改消息本身，而且还能对消息实施拦截，阻止消息传递。可以同时设置多个相同的键盘消息钩子，按照设置的顺序依次调用，从而组成的链条称为钩链。</p>
+<p><img src="1.jpg" alt=""></p>
+<h2 id="Windows消息钩取的实现——SetWindowsHookEx"><a href="#Windows消息钩取的实现——SetWindowsHookEx" class="headerlink" title="Windows消息钩取的实现——SetWindowsHookEx()"></a>Windows消息钩取的实现——SetWindowsHookEx()</h2><p>在Windows编程中，使用SetWindowsHookEx() API可以简便地实现消息钩子，其用于将指定的钩子注册到钩链中，无论在DLL内部或外部都可调用.</p>
+<p>SetWindowsHookEx() API定义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HHOOK SetWindowsHookEx(</span><br><span class="line">    int idHook,			//hook type</span><br><span class="line">    HOOKPROC lpfn,		//hook procedure</span><br><span class="line">    HINSTANCE hMod,		//hook procedure所属的DLL句柄</span><br><span class="line">    DWORD dwThreadId	//将要挂钩的目标线程ID</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>HHOOK：返回值，钩子句柄，需要保留，等不使用钩子时通过UnhookWindowsHookEx函数卸载钩子。</p>
+<p>idHook：钩子的拦截消息类型，选择钩子程序的拦截范围，具体值参考文章结尾的消息类型。</p>
+<p>Lpfn：消息的回调函数地址，一般是填函数名。</p>
+<p>hMod：钩子函数所在的实例的句柄。对于线程钩子，该参数为NULL；对于系统钩子，该参数为钩子函数所在的DLL句柄。在dll中可通过AfxInitExtensionModule(MousehookDLL, hInstance)获得DLL句柄。</p>
+<p>dwThreadId：钩子所监视的线程的线程号，可通过GetCurrentThreadId()获得线程号。对于全局钩子，该参数为NULL(或0)。</p>
+<h2 id="调试Windows消息钩取"><a href="#调试Windows消息钩取" class="headerlink" title="调试Windows消息钩取"></a>调试Windows消息钩取</h2><h3 id="1、调试HookMain-exe："><a href="#1、调试HookMain-exe：" class="headerlink" title="1、调试HookMain.exe："></a>1、调试HookMain.exe：</h3><p><img src="2.png" alt=""><br>直接拉到401000处可以看到：<br><img src="3.png" alt=""><br>程序先在401006地址处调用LoadLibraryA(KeyHook.dll)，然后在40104B地址处的CALLEBX指令调用KeyHook.HookStart()函数。跟踪进入该函数查看：</p>
+<p><img src="4.png" alt=""><br>在100010EF地址处可以看到，调用了SetWindowsHookExW()函数，其上方两条PUSH指令将该函数的第一、第二两个参数压入栈。其中第一个参数idHook值为2，即WH_KEYBOARD，第二个参数lpfn值为74C21020，该值即为钩子过程的地址。</p>
+<p>返回main()函数之后的代码即为接收用户输入的q后即终止钩取</p>
+<h3 id="2-调试Notepad-exe："><a href="#2-调试Notepad-exe：" class="headerlink" title="2.调试Notepad.exe："></a>2.调试Notepad.exe：</h3><p><img src="5.png" alt=""><br>在调试界面里的事件选择：<br><img src="6.png" alt=""><br>开启后 每当新的DLL被调试时就会自动暂停调试 在从DLL注入调试时开始调试的情况下很有用<br>运行后发现：<br><img src="7.png" alt=""><br>双击HOOK到达HOOK的EP地址处 给此处设置断点 发现每次发生键盘输入事件时 程序就会停在此处</p>
+<h1 id="Dll注入"><a href="#Dll注入" class="headerlink" title="Dll注入"></a>Dll注入</h1><h2 id="用CreateRemoteThread实现DLL注入"><a href="#用CreateRemoteThread实现DLL注入" class="headerlink" title="用CreateRemoteThread实现DLL注入"></a>用CreateRemoteThread实现DLL注入</h2><h3 id="（一）myhack-dll，即要注入的dll程序"><a href="#（一）myhack-dll，即要注入的dll程序" class="headerlink" title="（一）myhack.dll，即要注入的dll程序"></a>（一）myhack.dll，即要注入的dll程序</h3><p>程序流程：<br>（1）当DLL被加载（DLL_PROCESS_ATTACH）时，先输出一个调试字符串，<br>（2）利用CreateThread() 创建一个线程，创建后立即被激活，直接调用ThreadProc函数<br>（3）该函数调用URLDownloadToFile() 下载指定网站的index.html文件<br>首先将InjectDll.exe和myhack.DLl放入一个文件夹<br><img src="13.png" alt=""><br>运行notepad.exe 看到PID是6340<br><img src="14.png" alt=""><br>myhack.dll注入<br><img src="15.png" alt=""><br>结果确认<br><img src="16.png" alt=""><br>发现文件夹里多了文件  打开看看<br><img src="17.png" alt=""><br>虽然看起来与实际主页可能不同 但确实是从该网站下载的index.html文件<br>上述借助创建远程线程的方法可以成功渗透指定进程 进而可以随意操作</p>
+<h3 id="（二）InjectDll-exe，即将myhack-dll注入notepad-exe的程序"><a href="#（二）InjectDll-exe，即将myhack-dll注入notepad-exe的程序" class="headerlink" title="（二）InjectDll.exe，即将myhack.dll注入notepad.exe的程序"></a>（二）InjectDll.exe，即将myhack.dll注入notepad.exe的程序</h3><p>程序流程：<br>（1）首先进行提权，如果不提权，OpenProcess()会报GetlastError[5]的错误，同时拿不到句柄。这是因为在xp环境下，虽然账号是管理员，但是权限默认没有启动。<br>（2）利用OpenProcess() 获得目标进程的句柄。这里指notepad.exe<br>（3）用VirtualAllocEx() 在目标进程空间分配一定的内存空间。用来写入DLL的路径<br>（4）用WriteProcessMemory() 将DLL路径字符串写入刚分配的内存。<br>（5）利用GetModuleHandle() 和GetProcessAddress() 得到LoadLibrary() 的地址。用来加载DLL<br>（6）利用CreateRemoteThread() 使LoadLibrary()加载DLL，实现DLL的注入。<br>给进程提权有三种方法：</p>
+<h4 id="调试："><a href="#调试：" class="headerlink" title="调试："></a>调试：</h4><p>打开记事本，OD attach ，运行；<br>将OD的选项-&gt;调试设置-&gt;事件-&gt;中断在新模块DLL处选中，则程序当加载新的DLL时就会停住；<br>运行命令行，输入参数，运行InjectDll.exe程序。<br>将notepad.exe拖入Od 查看其PID 如图：<br><img src="18.png" alt=""><br>还是myhack.dll注入<br><img src="19.png" alt=""><br>在调试界面里的事件选择：<br><img src="20.png" alt=""><br>F9运行会发现myhack.dll<br><img src="21.png" alt=""><br>双击来到myhack.dll 入口点附近，下断点，接下来，将OD的中断在新的DLL入口处关闭，运行，就可以调试DLL程序了<br><img src="22.png" alt=""><br>下来F9运行 断在了刚才设置断点的地方 接下来F8单步运行 运行到这里发现myhack.dll字符串：<br><img src="23.png" alt=""><br>继续运行发现到了这里：<br><img src="24.png" alt=""><br>执行完后，说明这个函数实现了拷贝，但是……为啥要拷贝？<br><img src="25.png" alt=""><br>最后调用URLDownloadToFile() 函数实现下载。观察参数明白了，原来拷贝函数是为了得到下载存储的路径的呀！<br><img src="26.png" alt=""><br>运行程序：发现注入成功了！</p>
+<h1 id="使用汇编语言编写注入代码"><a href="#使用汇编语言编写注入代码" class="headerlink" title="使用汇编语言编写注入代码"></a>使用汇编语言编写注入代码</h1><h2 id="新的EPI"><a href="#新的EPI" class="headerlink" title="新的EPI"></a>新的EPI</h2><p>在反汇编窗口右键，选择此处为新EIP，可以修改EIP指向选中的位置，与直接通过调试方式转到指定地址不一样的是，寄存器和栈中的内容未改变</p>
+<p><img src="8.png" alt=""></p>
+<h2 id="编写ThreadProc函数"><a href="#编写ThreadProc函数" class="headerlink" title="编写ThreadProc函数"></a>编写ThreadProc函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">PUSH EBP</span><br><span class="line">MOV EBP,ESP                        ; 生成栈桢</span><br><span class="line">MOV ESI,DWORD PTR SS:[EBP+8]       ; ESI = pParam 从栈上获取函数参数       </span><br><span class="line">PUSH 6C6C                      </span><br><span class="line">PUSH 642E3233</span><br><span class="line">PUSH 72657375</span><br><span class="line">PUSH ESP                           ; - &quot;user32.dll&quot;(ESP为字符串首地址)，LoadLibraryA的参数</span><br><span class="line">CALL DWORD PTR DS:[ESI]            ; LoadLibraryA(&quot;user32.dll&quot;)</span><br><span class="line">PUSH 41786F</span><br><span class="line">PUSH 42656761</span><br><span class="line">PUSH 7373654D</span><br><span class="line">PUSH ESP                           ; - &quot;MessageBoxA&quot;(同上&quot;user32.dll&quot;的解释)</span><br><span class="line">PUSH EAX                           ; - hMod(EAX是LoadLibraryA的返回值)</span><br><span class="line">CALL DWORD PTR DS:[ESI+4]          ; GetProcAddress(hMod, &quot;MessageBoxA&quot;)</span><br><span class="line">PUSH 0                             ; - MB_OK (0)</span><br><span class="line">CALL 0040112C</span><br><span class="line">&lt;ASCII&gt;                            ; - &quot;ReverseCore&quot;, 0</span><br><span class="line">CALL 00401145</span><br><span class="line">&lt;ASCII&gt;                            ; - &quot;www.reversecore.com&quot;, 0</span><br><span class="line">PUSH 0                             ; - hWnd (0)</span><br><span class="line">CALL EAX                           ; MessageBoxA(0, &quot;www.reversecore.com&quot;, &quot;ReverseCore&quot;, 0)</span><br><span class="line">XOR EAX,EAX                        </span><br><span class="line">MOV ESP,EBP</span><br><span class="line">POP EBP                            </span><br><span class="line">RETN</span><br></pre></td></tr></table></figure>
+<p>这里有些是字符串的代码 由于OD的原因 才会显示成汇编代码</p>
+<h3 id="使用push指令将字符串数据压栈"><a href="#使用push指令将字符串数据压栈" class="headerlink" title="使用push指令将字符串数据压栈"></a>使用push指令将字符串数据压栈</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUSH 41786F</span><br><span class="line">PUSH 42656761</span><br><span class="line">PUSH 7373654D</span><br></pre></td></tr></table></figure>
+<p>这段代码还是比较好理解的，实际上是将字符串压到栈上</p>
+<p>可以看到运行到call指令前，栈上的情况如下<br><img src="9.png" alt=""><br>字符串’user32.dll‘即为栈上的\x75\x73\x65\x72\x33\x32\x2e\x64\x6c\x6c</p>
+<h3 id="使用call指令将字符串数据压栈"><a href="#使用call指令将字符串数据压栈" class="headerlink" title="使用call指令将字符串数据压栈"></a>使用call指令将字符串数据压栈</h3><p>第二种将字符串保存在代码中的方法为使用call指令</p>
+<p>call func_address指令的本质为push eip+4，jmp func_address<br><img src="10.png" alt=""><br>在03d8002e处执行call 03d8003f实际上是执行了push 03d80033, jmp 03d8003f</p>
+<p>可以在数据窗口中看出从03d80033到03d8003e存储的内容为ReverseCore的字符串，所以push 03d80033实际上是将字符串的首地址压栈</p>
+<p>f7跟进call, 可以看到跳转到的内容如下<br><img src="11.png" alt=""><br>这仍然是一个将字符串压栈的过程，第一行的call指令将首地址为03d90044的字符串“<a href="http://www.reversecore.com”压栈" target="_blank" rel="noopener">www.reversecore.com”压栈</a></p>
+<p>然后跳转到03d90058</p>
+<p><img src="12.png" alt=""><br>该地址的内容如上图，调用了MessageBoxA函数</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/27/周报4-27/" rel="next" title="周报4.27">
+                <i class="fa fa-chevron-left"></i> 周报4.27
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/09/API钩取/" rel="prev" title="API钩取">
+                API钩取 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">loser</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#windows消息钩取"><span class="nav-number">1.</span> <span class="nav-text">windows消息钩取</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单地说，消息钩取就是偷看、截取信息。"><span class="nav-number">1.1.</span> <span class="nav-text">简单地说，消息钩取就是偷看、截取信息。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常规Windows消息流："><span class="nav-number">1.2.</span> <span class="nav-text">常规Windows消息流：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息钩子："><span class="nav-number">1.3.</span> <span class="nav-text">消息钩子：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows消息钩取的实现——SetWindowsHookEx"><span class="nav-number">1.4.</span> <span class="nav-text">Windows消息钩取的实现——SetWindowsHookEx()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调试Windows消息钩取"><span class="nav-number">1.5.</span> <span class="nav-text">调试Windows消息钩取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、调试HookMain-exe："><span class="nav-number">1.5.1.</span> <span class="nav-text">1、调试HookMain.exe：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-调试Notepad-exe："><span class="nav-number">1.5.2.</span> <span class="nav-text">2.调试Notepad.exe：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dll注入"><span class="nav-number">2.</span> <span class="nav-text">Dll注入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用CreateRemoteThread实现DLL注入"><span class="nav-number">2.1.</span> <span class="nav-text">用CreateRemoteThread实现DLL注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（一）myhack-dll，即要注入的dll程序"><span class="nav-number">2.1.1.</span> <span class="nav-text">（一）myhack.dll，即要注入的dll程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（二）InjectDll-exe，即将myhack-dll注入notepad-exe的程序"><span class="nav-number">2.1.2.</span> <span class="nav-text">（二）InjectDll.exe，即将myhack.dll注入notepad.exe的程序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#调试："><span class="nav-number">2.1.2.1.</span> <span class="nav-text">调试：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用汇编语言编写注入代码"><span class="nav-number">3.</span> <span class="nav-text">使用汇编语言编写注入代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#新的EPI"><span class="nav-number">3.1.</span> <span class="nav-text">新的EPI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写ThreadProc函数"><span class="nav-number">3.2.</span> <span class="nav-text">编写ThreadProc函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用push指令将字符串数据压栈"><span class="nav-number">3.2.1.</span> <span class="nav-text">使用push指令将字符串数据压栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用call指令将字符串数据压栈"><span class="nav-number">3.2.2.</span> <span class="nav-text">使用call指令将字符串数据压栈</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">loser</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

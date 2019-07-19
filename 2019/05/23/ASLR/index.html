@@ -95,7 +95,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/05/23/ASLR/6.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/23/ASLR/7.png">
 <meta property="og:image" content="http://yoursite.com/2019/05/23/ASLR/9.png">
-<meta property="og:updated_time" content="2019-05-23T12:59:43.559Z">
+<meta property="og:updated_time" content="2019-07-19T12:17:09.029Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ASLR">
 <meta name="twitter:description" content="概念ASLR是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击者直接定位攻击代码位置，达到阻止溢出攻击的目的的一种技术。 ASLR（Address space layout randomization）是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击">
@@ -311,6 +311,7 @@
       
         <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>ASLR是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击者直接定位攻击代码位置，达到阻止溢出攻击的目的的一种技术。</p>
 <p>ASLR（Address space layout randomization）是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击者直接定位攻击代码位置，达到阻止溢出攻击的目的。据研究表明ASLR可以有效的降低缓冲区溢出攻击的成功率，如今Linux、FreeBSD、Windows等主流操作系统都已采用了该技术。</p>
+<a id="more"></a>
 <h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>用OD载入ASLR和ASLR_no两个程序<br><img src="1.png" alt=""><br><img src="8.png" alt=""><br>看起来基址不一样的 这就是ALSR文件的区别 每次载入都会改变基址 我们用PEView载入程序看看<br><img src="2.png" alt=""><br>节区信息<br>对于普通的EXE文件不存在.reloc文件 只有用了ASLR技术的应用才会有 被加载在内存时 被用作重定位的参考 它不是必须部分 可以删除 </p>
 <p>再来看看这两部分 ASLR的characteristics属性字段并不存在这一段 因为ASLR.exe文件中多出来1个.reloc节区 所以Number of Sections值增1</p>
 <p><img src="3.png" alt=""><br>ASLR文件的DLL Characteristics中设有这一段 这也就是ASLR文件的标志了<br><img src="4.png" alt=""></p>
@@ -339,8 +340,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/20/OD学习5-25/" rel="next" title="OD学习5-25">
-                <i class="fa fa-chevron-left"></i> OD学习5-25
+              <a href="/2019/05/20/高级全局API钩取：IE连接控制/" rel="next" title="高级全局API钩取：IE连接控制">
+                <i class="fa fa-chevron-left"></i> 高级全局API钩取：IE连接控制
               </a>
             
           </div>
