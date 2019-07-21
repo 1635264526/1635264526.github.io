@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="chinese">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="进行示例程序的调试练习 服务进程调试练习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="调试练习1：服务">
+<meta property="og:url" content="http://yoursite.com/2019/07/20/调试练习1：服务/index.html">
+<meta property="og:site_name" content="loser的博客">
+<meta property="og:description" content="进行示例程序的调试练习 服务进程调试练习">
+<meta property="og:locale" content="chinese">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/12.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/14.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/15.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/16.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/17.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/18.png">
+<meta property="og:updated_time" content="2019-07-21T14:23:39.037Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="调试练习1：服务">
+<meta name="twitter:description" content="进行示例程序的调试练习 服务进程调试练习">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/20/调试练习1：服务/">
+
+
+
+
+
+  <title>调试练习1：服务 | loser的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="chinese">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">loser的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/20/调试练习1：服务/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">调试练习1：服务</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-20T21:01:06+08:00">
+                2019-07-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>进行示例程序的调试练习 服务进程调试练习<br><a id="more"></a></p>
+<h1 id="示例讲解"><a href="#示例讲解" class="headerlink" title="示例讲解"></a>示例讲解</h1><p>首先将示例程序移到工作文件夹里 然后执行如图命令<br><img src="1.png" alt=""><br>服务安装成功后 可以在服务列表中看到<br><img src="2.png" alt=""><br>启动服务后 我们可以看服务进程也就运行起来<br><img src="3.png" alt=""><br>需要注意的是 SvcTest服务进程是以services.exe进程的子进程形式进行的 其实 所有服务进程都是以该形式进行的 示例程序的功能非常简单 它经过一定时间间隔输出调试字符串</p>
+<p><img src="4.png" alt=""></p>
+<p>#服务进程的调试<br>要想准确调试服务进程 就不能想对待不同进程那样直接用调试器启动并调试 而需要将调试器附加到SCM运行的服务进程上</p>
+<h2 id="问题在于SCM"><a href="#问题在于SCM" class="headerlink" title="问题在于SCM"></a>问题在于SCM</h2><p>服务进程由SCM运行 这是服务进程调试的核心所在<br>    ○服务进程由SCM运行<br>    ○服务核心代码主要存在于主函数中<br>    ○服务主函数由SCM正常调用<br>我们要调试的是服务主函数 但使用调试器打开服务进程的可执行文件并开始调试时 服务主函数并不运行 所以调试时需要将SCM运行的服务主进程附加到调试器</p>
+<h2 id="调试器无所不能"><a href="#调试器无所不能" class="headerlink" title="调试器无所不能"></a>调试器无所不能</h2><p>使用调试器打开服务可执行文件无法直接调试服务主函数( SvcMain())代码。原因在于，SCM不会调用服务主函数(因非由SCM运行，故不能运行它)。但这并不意味着没有解决方法。因为调试器拥有被调试进程的强大权限，所以可以先将调试位置强制指定为服务主函数(如:OllyDbg的New orign here菜单),然后再调试。使用这种方法调试服务主函数不会有什么大问题，如果这种方法有效，建议各位使用。不过,使用这种方法必须拥有强大的调试器权限才行，服务进程行为比较复杂时，使用该方法就可能无法顺利完成调试</p>
+<h2 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h2><p>调试服务最常用的方法是，先将SCM运行的服务进程附加到调试器后再调试。思路很简单，但执行方法可能有问题。因为SCM运行服务后再进行附加操作的话，此时的核心代码(服务主函数)已开始运行。因此，需要在SCM创建服务进程并运行EP代码前附加到调试器，这需要一定的调试技巧，后面的练习示例中将介绍。</p>
+<h2 id="服务调试练习"><a href="#服务调试练习" class="headerlink" title="服务调试练习"></a>服务调试练习</h2><h3 id="直接调试：强制设置EIP"><a href="#直接调试：强制设置EIP" class="headerlink" title="直接调试：强制设置EIP"></a>直接调试：强制设置EIP</h3><p>首先，使用调试器直接打开服务程序，学习服务程序的调试方法。分析调试服务程序的EP代码与main()函数代码时，采用的调试方法与调试普通应用程序没有什么不同。但一般而言，服务程序的主要代码存在于服务主函数( SvcMain()与服务处理函数( SvcHandler()中。</p>
+<p>由调试器而非SCM运行的服务进程不会调用SvcMain(与SvcHandler()函数。所以需要先得到这两个函数的地址,然后再将调试位置移动到那里。在OllyDbg调试器中打开DebugMel.exe程序,调试运行到main()函数处显示代码，如图所示。</p>
+<p>在40106C地址处可以看到StartServiceCtrlDispatcher() API。对于EXE文件形态的Windows服务程序而言，必须在其EP代码内部调用StartServiceCtrIDispatcher( API,将服务主函数( SvcMain())的地址通知给SCM。所以，查找该API即可获得SvcMain（）地址。</p>
+<p><img src="5.png" alt=""><br>StartServiceCtrlDispatcher() API的pServiceTable参数为SERVICE <em>TABLE</em> ENTRY结构体指针。跟踪该结构体即可得到服务名称字符串(“SvcMain”)与服务主函数( SvcMain() )的地址。</p>
+<p><img src="6.png" alt=""></p>
+<p>上图中,调试运行到40106C地址处的CALL DWORD PTR DS:[StartServiceCtrlDispatcher(]指令后，查看栈，如下图所示</p>
+<p>pServiceTable( 12FD24 )的第一个成员( 40A9CC )为“SvcHost”字符串，第二个成员( 401320 )为SvcMain(函数的地址。</p>
+<p><img src="7.png" alt=""><br>我们使用调试器的Ctrl+G命令 转到SvcMain（）函数地址处<br><img src="8.png" alt=""><br>函数如图<br><img src="9.png" alt=""><br>为了从401320处开始调试 需要先调整调试位置 将EIP调整到此处<br><img src="10.png" alt=""><br>这样 调试位置即被修改为服务主函数（401320） 除EIP寄存器外 其他值都不变 现在开始调试就行</p>
+<h3 id="服务调试的常用方法：“附加”方式"><a href="#服务调试的常用方法：“附加”方式" class="headerlink" title="服务调试的常用方法：“附加”方式"></a>服务调试的常用方法：“附加”方式</h3><p>根据不同情况,我们有时需要将SCM正式运行的服务进程附加到调试器调试。这一过程需要应用一些简单的调试技术。为了帮助各位更好地理解该过程，下面用下图简单描述调试技术的具体操作步骤(以调试EP代码为准)。</p>
+<p><img src="11.png" alt=""><br>以上操作流程的核心是,将服务进程附加到调试器前要进人无限循环，使服务进程的重要代码无法运行。原理非常简单，但具体实施时要充分考虑Service Start Timeout (服务启动超时)这- -因素，确保上述操作在规定时间内(默认为30秒)完成。</p>
+<p>启动服务后，SCM会在一定时间内( Service Start Timeout) 等待服务状态变为STATUS RUNNING。 若规定时间内服务状态未改变，SCM就会引发ERROR_ SERVICE_REQUEST TIMEOUT错误，然后终止相关服务进程</p>
+<p>也就是说，将服务进程附加到调试器后的30秒内，必须把服务进程的状态变更为STATUS RUNNING。而要更改服务状态，必须调用位于服务主函数的SetServiceStatus()API。但30秒内完成以上操作流程相当困难，所以具体操作前需要增加服务启动超时时间。</p>
+<p><strong>(1)安装服务</strong><br>首先将示例程序安装为windows服务    创建ServicesPipeTimeout注册表 路径如图<br><img src="12.png" alt=""><br><strong>(2)增加服务启动时间</strong><br>我自己写的时间。。。<br><strong>(3)修改文件：设置无线云环</strong><br>设置EP地址覆写无限循环 用stud_PE工具 查看文件的EP地址<br><img src="13.png" alt=""><br>偏移量为C24 然后用HxD转到该地址处<br><img src="14.png" alt=""><br>原EP代码的前两个字节为0xEB 0xC0 在调试器中查看该位置 如图所示。<br><img src="15.png" alt=""><br>0xEB 0xC0是CALL指令的一部分 分别修改为0xEB 0xFE 如图所示。<br><img src="16.png" alt=""><br>用OD查看修改后的EP代码<br><img src="17.png" alt=""><br>0xEB 0xFE即为无限循环指令<br>然后启动服务时就出现了错误。。。。<br><img src="18.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/17/高级反调试技术/" rel="next" title="高级反调试技术">
+                <i class="fa fa-chevron-left"></i> 高级反调试技术
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2048/11/30/一些学习计划-置顶/" rel="prev" title="一些学习计划[置顶]">
+                一些学习计划[置顶] <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">loser</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#示例讲解"><span class="nav-number">1.</span> <span class="nav-text">示例讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题在于SCM"><span class="nav-number">1.1.</span> <span class="nav-text">问题在于SCM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调试器无所不能"><span class="nav-number">1.2.</span> <span class="nav-text">调试器无所不能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用方法"><span class="nav-number">1.3.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务调试练习"><span class="nav-number">1.4.</span> <span class="nav-text">服务调试练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接调试：强制设置EIP"><span class="nav-number">1.4.1.</span> <span class="nav-text">直接调试：强制设置EIP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务调试的常用方法：“附加”方式"><span class="nav-number">1.4.2.</span> <span class="nav-text">服务调试的常用方法：“附加”方式</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">loser</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
