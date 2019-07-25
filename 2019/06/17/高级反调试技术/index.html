@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="高级反调试技术PE保护器中使用的高级反调试技术有一些共同特征，如技术难度较高等，令代码逆向分析人员身心俱疲。 应用了这些高级反调试技术的程序包含大量垃圾代码、条件分支语句、循环语句、加密/解密代码以及“深不见底”的调用树( Call-Tree),代码逆向分析人员一旦陷人其中便会迷失方向,根本无法访问到实际要分析的代码，只是在无关紧要的地方徘徊。这些混乱加上代码中动态反调试技术的干扰，使代码逆向分析">
+<meta name="description" content="高级反调试技术应用了这些高级反调试技术的程序包含大量垃圾代码、条件分支语句、循环语句、加密/解密代码以及“深不见底”的调用树( Call-Tree),代码逆向分析人员一旦陷人其中便会迷失方向,根本无法访问到实际要分析的代码，只是在无关紧要的地方徘徊 当然，这并不是说调试全无可能，只是说调试的难度大大增加了。分析PE保护器也是一个非常棘手的问题,需要花费大量的时间与精力。而且，“完美分析”本身就是极">
 <meta property="og:type" content="article">
 <meta property="og:title" content="高级反调试技术">
 <meta property="og:url" content="http://yoursite.com/2019/06/17/高级反调试技术/index.html">
 <meta property="og:site_name" content="loser的博客">
-<meta property="og:description" content="高级反调试技术PE保护器中使用的高级反调试技术有一些共同特征，如技术难度较高等，令代码逆向分析人员身心俱疲。 应用了这些高级反调试技术的程序包含大量垃圾代码、条件分支语句、循环语句、加密/解密代码以及“深不见底”的调用树( Call-Tree),代码逆向分析人员一旦陷人其中便会迷失方向,根本无法访问到实际要分析的代码，只是在无关紧要的地方徘徊。这些混乱加上代码中动态反调试技术的干扰，使代码逆向分析">
+<meta property="og:description" content="高级反调试技术应用了这些高级反调试技术的程序包含大量垃圾代码、条件分支语句、循环语句、加密/解密代码以及“深不见底”的调用树( Call-Tree),代码逆向分析人员一旦陷人其中便会迷失方向,根本无法访问到实际要分析的代码，只是在无关紧要的地方徘徊 当然，这并不是说调试全无可能，只是说调试的难度大大增加了。分析PE保护器也是一个非常棘手的问题,需要花费大量的时间与精力。而且，“完美分析”本身就是极">
 <meta property="og:locale" content="chinese">
 <meta property="og:image" content="http://yoursite.com/2019/06/17/高级反调试技术/1.png">
 <meta property="og:image" content="http://yoursite.com/2019/06/17/高级反调试技术/2.png">
@@ -94,10 +94,10 @@
 <meta property="og:image" content="http://yoursite.com/2019/06/17/高级反调试技术/6.png">
 <meta property="og:image" content="http://yoursite.com/2019/06/17/高级反调试技术/7.png">
 <meta property="og:image" content="http://yoursite.com/2019/06/17/高级反调试技术/8.png">
-<meta property="og:updated_time" content="2019-07-20T04:03:16.218Z">
+<meta property="og:updated_time" content="2019-07-23T12:57:54.748Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="高级反调试技术">
-<meta name="twitter:description" content="高级反调试技术PE保护器中使用的高级反调试技术有一些共同特征，如技术难度较高等，令代码逆向分析人员身心俱疲。 应用了这些高级反调试技术的程序包含大量垃圾代码、条件分支语句、循环语句、加密/解密代码以及“深不见底”的调用树( Call-Tree),代码逆向分析人员一旦陷人其中便会迷失方向,根本无法访问到实际要分析的代码，只是在无关紧要的地方徘徊。这些混乱加上代码中动态反调试技术的干扰，使代码逆向分析">
+<meta name="twitter:description" content="高级反调试技术应用了这些高级反调试技术的程序包含大量垃圾代码、条件分支语句、循环语句、加密/解密代码以及“深不见底”的调用树( Call-Tree),代码逆向分析人员一旦陷人其中便会迷失方向,根本无法访问到实际要分析的代码，只是在无关紧要的地方徘徊 当然，这并不是说调试全无可能，只是说调试的难度大大增加了。分析PE保护器也是一个非常棘手的问题,需要花费大量的时间与精力。而且，“完美分析”本身就是极">
 <meta name="twitter:image" content="http://yoursite.com/2019/06/17/高级反调试技术/1.png">
 
 
@@ -195,6 +195,26 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
           </a>
         </li>
       
@@ -308,9 +328,8 @@
       
 
       
-        <h1 id="高级反调试技术"><a href="#高级反调试技术" class="headerlink" title="高级反调试技术"></a>高级反调试技术</h1><p>PE保护器中使用的高级反调试技术有一些共同特征，如技术难度较高等，令代码逆向分析人员身心俱疲。</p>
-<p>应用了这些高级反调试技术的程序包含大量垃圾代码、条件分支语句、循环语句、加密/解密代码以及“深不见底”的调用树( Call-Tree),代码逆向分析人员一旦陷人其中便会迷失方向,根本无法访问到实际要分析的代码，只是在无关紧要的地方徘徊。这些混乱加上代码中动态反调试技术的干扰，使代码逆向分析人员处于束手无策的尴尬境地。</p>
-<p>当然，这并不是说调试全无可能，只是说调试的难度大大增加了。对于一名经验丰富的代码逆向分析人员而言，分析PE保护器也是一个非常棘手的问题,需要花费大量的时间与精力。而且，“完美分析”本身就是极其艰巨的任务。</p>
+        <h1 id="高级反调试技术"><a href="#高级反调试技术" class="headerlink" title="高级反调试技术"></a>高级反调试技术</h1><p>应用了这些高级反调试技术的程序包含大量垃圾代码、条件分支语句、循环语句、加密/解密代码以及“深不见底”的调用树( Call-Tree),代码逆向分析人员一旦陷人其中便会迷失方向,根本无法访问到实际要分析的代码，只是在无关紧要的地方徘徊</p>
+<p>当然，这并不是说调试全无可能，只是说调试的难度大大增加了。分析PE保护器也是一个非常棘手的问题,需要花费大量的时间与精力。而且，“完美分析”本身就是极其艰巨的任务。</p>
 <a id="more"></a>
 <h1 id="垃圾代码"><a href="#垃圾代码" class="headerlink" title="垃圾代码"></a>垃圾代码</h1><p>向程序添加大量无意义的代码来增加调试的难度，这就是“垃圾代码”反调试技术。尤其是当这些垃圾代码中包含有真正有用的代码或者应用其它反调试技术的时候，调试程序会变得更加困难。</p>
 <p>例如执行具有相同操作数的指令 最终执行的是一些毫无意义的运算 还有就是利用运算指令SUB和ADD设置值等</p>
@@ -450,7 +469,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
