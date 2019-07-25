@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="chinese">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="有些应用在运行过程中可以将自身创建为子进程运行 这种方式称为自我创建 相同的可执行文件在以父进程和子进程运行时分别表现不同的行为特征。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="调试练习2：自我创建">
+<meta property="og:url" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/index.html">
+<meta property="og:site_name" content="loser的博客">
+<meta property="og:description" content="有些应用在运行过程中可以将自身创建为子进程运行 这种方式称为自我创建 相同的可执行文件在以父进程和子进程运行时分别表现不同的行为特征。">
+<meta property="og:locale" content="chinese">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/12.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/14.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/15.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/16.png">
+<meta property="og:updated_time" content="2019-07-22T03:13:34.433Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="调试练习2：自我创建">
+<meta name="twitter:description" content="有些应用在运行过程中可以将自身创建为子进程运行 这种方式称为自我创建 相同的可执行文件在以父进程和子进程运行时分别表现不同的行为特征。">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/22/调试练习2：自我创建/2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/22/调试练习2：自我创建/">
+
+
+
+
+
+  <title>调试练习2：自我创建 | loser的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="chinese">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">loser的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/22/调试练习2：自我创建/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">调试练习2：自我创建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-22T08:40:40+08:00">
+                2019-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>有些应用在运行过程中可以将自身创建为子进程运行 这种方式称为自我创建 相同的可执行文件在以父进程和子进程运行时分别表现不同的行为特征。</p>
+<a id="more"></a>
+<h1 id="自我创建"><a href="#自我创建" class="headerlink" title="自我创建"></a>自我创建</h1><p>自我创建是指进程以自身子进程的形式运行 如图：<br><img src="2.png" alt=""><br>程序以父进程和以子进程运行分别有不同的行为时 自我创建技术才有意义 也就是说 借助该技术可以使同一可执行文件存在两种路径</p>
+<p>如图所示，父进程用来在控制台( Console)窗口中输出字符串“This is a parentprocess!”,并运行子进程。而子进程则不同,在消息窗口中输出字符串“This is a child process!”。就像这样，我们借助自我创建技术可以在同一可执行文件中执行两种形式的行为动作。虽然有多种编程方法可以帮助我们实现这一目的，但为了增加调试难度，这里只介绍动态修改子进程EP地址的方法</p>
+<p><img src="1.png" alt=""></p>
+<h1 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h1><p>原理如图<br><img src="3.png" alt=""></p>
+<h2 id="创建子进程（挂起模式）"><a href="#创建子进程（挂起模式）" class="headerlink" title="创建子进程（挂起模式）"></a>创建子进程（挂起模式）</h2><p>父进程运行时，main()函数 就会被调用执行，以挂起模式创建子进程。子进程以挂起模式创建后，导出DLL被加载进来，但进程的主线程处于暂停状态(也称为“线程休眠”)。主线程是创建进程时默认创建的，其最主要的职能是运行EP代码。所以对处于挂起模式的进程来说,其主线程也处于暂停状态，EP代码未运行，且不会执行任何动作。</p>
+<h2 id="更改EIP"><a href="#更改EIP" class="headerlink" title="更改EIP"></a>更改EIP</h2><p>处于调试状态时 在调试器-被调试者关系中需要这样做 调试器通过修改API可以随意修改被调试进程的代码运行位置</p>
+<p>父进程也采用类似方法随意修改子进程的代码运行地址 当前子进程的主线程处于暂停状态 先获取上下文 然后将EIP成员修改为指定地址即可</p>
+<h2 id="恢复主线程"><a href="#恢复主线程" class="headerlink" title="恢复主线程"></a>恢复主线程</h2><p>最后 恢复运行（处于暂停状态的）子进程的主线程 接下来 主线程就会运行（我们修改过的）新地址的代码</p>
+<h1 id="示例程序源代码"><a href="#示例程序源代码" class="headerlink" title="示例程序源代码"></a>示例程序源代码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">#include &lt;tchar.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void ChildProc()</span><br><span class="line">&#123;</span><br><span class="line">    MessageBox(NULL, L&quot;This is a child process!&quot;, L&quot;DebugMe2&quot;, MB_OK);</span><br><span class="line"></span><br><span class="line">    ExitProcess(0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void _tmain(int argc, TCHAR *argv[]) </span><br><span class="line">&#123;</span><br><span class="line">    TCHAR                   szPath[MAX_PATH] = &#123;0,&#125;;</span><br><span class="line">    STARTUPINFO				si = &#123;sizeof(STARTUPINFO),&#125;;</span><br><span class="line">    PROCESS_INFORMATION		pi = &#123;0,&#125;;</span><br><span class="line">    CONTEXT                 ctx = &#123;0,&#125;;</span><br><span class="line"></span><br><span class="line">    _tprintf(L&quot;This is a parent process!\n&quot;);</span><br><span class="line"></span><br><span class="line">    if( !GetModuleFileName(NULL, szPath, sizeof(TCHAR) * MAX_PATH) )</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;GetModuleFileName() failed! [%d]\n&quot;, GetLastError());</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 创建子进程</span><br><span class="line">    if( !CreateProcess(</span><br><span class="line">            szPath,</span><br><span class="line">            NULL,</span><br><span class="line">            NULL,</span><br><span class="line">            NULL,</span><br><span class="line">            FALSE,</span><br><span class="line">            CREATE_SUSPENDED,</span><br><span class="line">            NULL,</span><br><span class="line">            NULL,</span><br><span class="line">            &amp;si,</span><br><span class="line">            &amp;pi) )</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;CreateProcess() failed! [%d]\n&quot;, GetLastError());</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 更改EIP</span><br><span class="line">    ctx.ContextFlags = CONTEXT_FULL;</span><br><span class="line">    if( !GetThreadContext(pi.hThread, &amp;ctx) )</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;GetThreadContext() failed! [%d]\n&quot;, GetLastError());</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ctx.Eip = (DWORD)ChildProc;</span><br><span class="line"></span><br><span class="line">    if( !SetThreadContext(pi.hThread, &amp;ctx) )</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;SetThreadContext() failed! [%d]\n&quot;, GetLastError());</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Resume Main Thread</span><br><span class="line">    if( -1 == ResumeThread(pi.hThread) )</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;ResumeThread() failed! [%d]\n&quot;, GetLastError());</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    WaitForSingleObject(pi.hProcess, INFINITE);</span><br><span class="line"></span><br><span class="line">    CloseHandle(pi.hProcess);</span><br><span class="line">    CloseHandle(pi.hThread);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>正常运行示例程序后, main（）函数会被调用执行，借助CreateProces（…CREATE SUSPEND,…)API采用挂起模式创建自身。新创建的子进程会加载所有导出DLL文件，但其主线程将处于暂停状态。返回CreateProcess() API后，与新进程相关的信息即被放入最后一个参数pi，变量pi是PROCESS INFORMATION结构体变量。</p>
+<p><img src="4.png" alt=""><br>PROCESS_ INFORMATION结构体的hThread成员就是子进程的主线程句柄,通过该句柄即可随心所欲地控制相应线程。以hThread作 为参数调用GetThreadContext() API，即可获得线程的CONTEXT结构体，线程的所有信息都保存在该CONTEXT结构体中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">typedef struct _CONTEXT</span><br><span class="line">&#123;</span><br><span class="line">    DWORD           ContextFlags    // -|               +00h</span><br><span class="line">    DWORD           Dr0             //  |               +04h</span><br><span class="line">    DWORD           Dr1             //  |               +08h</span><br><span class="line">    DWORD           Dr2             //  &gt;调试寄存器     +0Ch</span><br><span class="line">    DWORD           Dr3             //  |               +10h</span><br><span class="line">    DWORD           Dr6             //  |               +14h</span><br><span class="line">    DWORD           Dr7             // -|               +18h</span><br><span class="line"></span><br><span class="line">    FLOATING_SAVE_AREA FloatSave;   //浮点寄存器区      +1Ch~~~88h</span><br><span class="line"></span><br><span class="line">    DWORD           SegGs           //-|                +8Ch</span><br><span class="line">    DWORD           SegFs           // |\段寄存器       +90h</span><br><span class="line">    DWORD           SegEs           // |/               +94h</span><br><span class="line">    DWORD           SegDs           //-|                +98h</span><br><span class="line"></span><br><span class="line">    DWORD           Edi             //________          +9Ch</span><br><span class="line">    DWORD           Esi             // |  通用          +A0h</span><br><span class="line">    DWORD           Ebx             // |   寄           +A4h</span><br><span class="line">    DWORD           Edx             // |   存           +A8h</span><br><span class="line">    DWORD           Ecx             // |   器           +ACh</span><br><span class="line">    DWORD           Eax             //_|___组_          +B0h</span><br><span class="line"></span><br><span class="line">    DWORD           Ebp             //++++++            +B4h</span><br><span class="line">    DWORD           Eip             // |控制            +B8h</span><br><span class="line">    DWORD           SegCs           // |寄存            +BCh</span><br><span class="line">    DWORD           EFlag           // |器组            +C0h</span><br><span class="line">    DWORD           Esp             // |                +C4h</span><br><span class="line">    DWORD           SegSs           //++++++            +C8h</span><br><span class="line"></span><br><span class="line">    BYTE    ExtendedRegisters[MAXIMUM_SUPPORTED_EXTENSION];</span><br><span class="line">&#125; CONTEXT;</span><br><span class="line">    typedef     CONTEXT     *PCONTEXT;</span><br><span class="line">    #define     MAXIMUM_SUPPORTED_EXTENSION     512</span><br></pre></td></tr></table></figure>
+<p>EIP为CONTEXT结构体的Eip成员(指EIP寄存器),将该值修改为ChildProc()函数的地址,如下所示:</p>
+<p>ctx.Eip = (DWORD ) ChildProc;<br>然后调用SetThreadContext() API,将修改后的CONTEXT结构体设置给子进程的主线程。最后，调用ResumeThread( API唤醒子进程的主线程，执行更改后的EIP指示的指令( =要执行的代码地址=ChildProc())。请注意，更改线程上下文是以上实现方法的核心</p>
+<h1 id="调试练习"><a href="#调试练习" class="headerlink" title="调试练习"></a>调试练习</h1><h2 id="需要注意的事项"><a href="#需要注意的事项" class="headerlink" title="需要注意的事项"></a>需要注意的事项</h2><p>调试应用了自我创建技术的程序时，由于子进程是调试中新创建的，所以必须考虑如何从启动时开始调试。调试时，首先要调试父进程，查看子进程的EP被修改为哪一地址, 然后利用第54章中介绍的方法(在EP地址处设置无限循环)，就能轻松解决这一问题。但是这里我们将采用新的调试方法一JIT ( Just-In-Time )调试法(从学习代码逆向分析技术的角度来说，尽量多接触各种调试方法是非常有好处的)。</p>
+<h2 id="JIT调试"><a href="#JIT调试" class="headerlink" title="JIT调试"></a>JIT调试</h2><p>JIT调试是指 运行中的进程发生异常时 OS会自动运行指定调试器附加发生异常的进程 由于可以从异常发生的位置开始调试 所以采用这种方式很容易把握出现异常的原因</p>
+<p><strong>设置JIT调试器</strong><br>OD有个很方便的功能可以非常方便的将其本身设置为JIT调试器 在菜单栏选择OPtions-Just-in-time debugging </p>
+<p><img src="5.png" alt=""><br>然后在弹出的框中选择：<br><img src="6.png" alt=""><br>这样就成功注册为JIT调试器 从下面注册表的键值也可以看出来<br><img src="7.png" alt=""></p>
+<h2 id="DebudMe2-exe"><a href="#DebudMe2-exe" class="headerlink" title="DebudMe2.exe"></a>DebudMe2.exe</h2><h3 id="调试父进程"><a href="#调试父进程" class="headerlink" title="调试父进程"></a>调试父进程</h3><p>在OD中打开程序 运行到Main（）函数处 如图：<br><img src="8.png" alt=""><br>继续单步跟踪 看到了CreateProcess（）API代码处（位于401102处）<br><img src="9.png" alt=""><br>调用执行完401102地址处的CreateProcessW( API后，子进程即以挂起模式创建。继续调试会遇到调用GetThreadContext()/SetThreadContext() API的代码，如图55-11所示。这部分用来获取子进程的主线程的CONTEXT结构体,并将CONTEXT.Eip的值修改为ChildProcO函数地址。</p>
+<p>需要特别关注下图中401186地址处的MOV [local.264],00401000指令,其中[local.264]地址即为CONTEXT.Eip,而401000是ChildProc()函数 的起始地址。</p>
+<p>然后调用ResumeThread（pi.hThread）API启动子进程的主线程 再调用WaitForSingleObject（pi.hProcess,INFINITE）API进入等待状态 直到子进程终止运行</p>
+<p><img src="10.png" alt=""></p>
+<h3 id="调试子进程"><a href="#调试子进程" class="headerlink" title="调试子进程"></a>调试子进程</h3><p>首先 用Stud_PE将VA形式的401000地址变换为文件偏移形式<br><img src="11.png" alt=""><br>然后用HxD将文件偏移400处的一个字节修改为0xCC（原来为0x6A） 然后将修改后的文件保存<br><img src="12.png" alt=""><br>0xCC是长度为1个字节的IA-32指令，对应于INT3 (断点)指令。文件偏移0x400处的0xCC代码被执行时，就会触发EXCEPTION_ BREAK_ POINT异常。接下来，运行DebugMe2_ CC.exe程序，弹出异常对话框，如图所示。（这里说一下 刚才的以上是在XP环境下运行的 由于XP没得弹框 所以我换到了WIN7下 就ok了）</p>
+<p><img src="13.png" alt=""><br>由于JIT调试器已经被注册到当前系统 所以异常对话框中显示“调试程序”按钮 单击</p>
+<p>因为OD已经被注册为JIT调试器 所以它会被当前系统自动调试运行 并附加到DebugMe2_CC.exe进程 此时OD调试器中即可看到发生异常的代码</p>
+<p><img src="14.png" alt=""><br>接下来 将401000地址处的0xCC代码恢复为原代码（0x6A）<br><img src="15.png" alt=""><br>然后在正常代码中调试就ok了<br><img src="16.png" alt=""></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>介绍了自我创建技术，借助该技术,进程自身能以子进程形式运行，并可以修改起始代码的地址。然后讲解了通过JIT调试器调试这类进程的方法，采用的方法与上一章中介绍过的“设置无限循环”的方法非常类似。该方法相当有用,对付一些难以调试的进程时可以尝试</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/20/调试练习1：服务/" rel="next" title="调试练习1：服务">
+                <i class="fa fa-chevron-left"></i> 调试练习1：服务
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/23/调试练习3：PE映像切换/" rel="prev" title="调试练习3：PE映像切换">
+                调试练习3：PE映像切换 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">loser</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#自我创建"><span class="nav-number">1.</span> <span class="nav-text">自我创建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工作原理"><span class="nav-number">2.</span> <span class="nav-text">工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建子进程（挂起模式）"><span class="nav-number">2.1.</span> <span class="nav-text">创建子进程（挂起模式）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更改EIP"><span class="nav-number">2.2.</span> <span class="nav-text">更改EIP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#恢复主线程"><span class="nav-number">2.3.</span> <span class="nav-text">恢复主线程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#示例程序源代码"><span class="nav-number">3.</span> <span class="nav-text">示例程序源代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调试练习"><span class="nav-number">4.</span> <span class="nav-text">调试练习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#需要注意的事项"><span class="nav-number">4.1.</span> <span class="nav-text">需要注意的事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JIT调试"><span class="nav-number">4.2.</span> <span class="nav-text">JIT调试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DebudMe2-exe"><span class="nav-number">4.3.</span> <span class="nav-text">DebudMe2.exe</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#调试父进程"><span class="nav-number">4.3.1.</span> <span class="nav-text">调试父进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调试子进程"><span class="nav-number">4.3.2.</span> <span class="nav-text">调试子进程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">loser</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

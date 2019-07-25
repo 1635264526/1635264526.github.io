@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="chinese">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="练习#1运行练习文件（HelloTls.exe）弹出消息框 单击 确定 结束程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TLS回调函数">
+<meta property="og:url" content="http://yoursite.com/2019/05/26/TLS回调函数/index.html">
+<meta property="og:site_name" content="loser的博客">
+<meta property="og:description" content="练习#1运行练习文件（HelloTls.exe）弹出消息框 单击 确定 结束程序">
+<meta property="og:locale" content="chinese">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/12.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/14.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/15.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/16.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/17.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/18.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/26/TLS回调函数/19.png">
+<meta property="og:updated_time" content="2019-07-19T12:13:27.004Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TLS回调函数">
+<meta name="twitter:description" content="练习#1运行练习文件（HelloTls.exe）弹出消息框 单击 确定 结束程序">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/26/TLS回调函数/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/26/TLS回调函数/">
+
+
+
+
+
+  <title>TLS回调函数 | loser的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="chinese">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">loser的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/TLS回调函数/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TLS回调函数</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-26T17:11:45+08:00">
+                2019-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="练习-1"><a href="#练习-1" class="headerlink" title="练习#1"></a>练习#1</h1><p>运行练习文件（HelloTls.exe）弹出消息框 单击 确定 结束程序</p>
+<a id="more"></a>
+<p><img src="1.png" alt=""><br>接下来使用OD打开程序并运行TLS文件 出现如图对话框</p>
+<p><img src="2.png" alt=""><br>我们发现对话框与源程序的内容不同 单击 确定 终止程序 如图</p>
+<p><img src="3.png" alt=""><br>出现这种情况的原因在于程序运行EP代码前先调用了TLS回调函数 而这一函数中含有反调试代码</p>
+<h1 id="TLS"><a href="#TLS" class="headerlink" title="TLS"></a>TLS</h1><h2 id="IMAGE-DATA-DIRECTORY-9"><a href="#IMAGE-DATA-DIRECTORY-9" class="headerlink" title="IMAGE_DATA_DIRECTORY[9]"></a>IMAGE_DATA_DIRECTORY[9]</h2><p>如果在编程中用了TLS回调函数 PE头文件就会设置TLS表项目 如下图</p>
+<p><img src="4.png" alt=""></p>
+<h2 id="IMAGE-TLS-DIRECTORY"><a href="#IMAGE-TLS-DIRECTORY" class="headerlink" title="IMAGE_TLS_DIRECTORY"></a>IMAGE_TLS_DIRECTORY</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">IMAGE_DATA_DIRECTORY[9]:IMAGE_TLS_DIRECTOR</span><br><span class="line">Y</span><br><span class="line">typedef struct _IMAGE_TLS_DIRECTORY64 &#123;</span><br><span class="line">ULONGLONG StartAddressOfRawData;</span><br><span class="line">ULONGLONG EndAddressOfRawData;</span><br><span class="line">ULONGLONG AddressOfIndex; // PDWORD</span><br><span class="line">ULONGLONG AddressOfCallBacks; //</span><br><span class="line">PIMAGE_TLS_CALLBACK *;</span><br><span class="line">DWORD SizeOfZeroFill;</span><br><span class="line">DWORD Characteristics;</span><br><span class="line">&#125; IMAGE_TLS_DIRECTORY64;</span><br><span class="line">typedef IMAGE_TLS_DIRECTORY64*PIMAGE_TLS_DIRECTORY64;</span><br><span class="line"></span><br><span class="line">typedef struct_IMAGE_TLS_DIRECTORY32 &#123;</span><br><span class="line">DWORD StartAddressOfRawData;</span><br><span class="line">DWORD EndAddressOfRawData;</span><br><span class="line">DWORD AddressOfIndex; // PDWORD</span><br><span class="line">DWORD AddressOfCallBacks; //</span><br><span class="line">PIMAGE_TLS_CALLBACK *;</span><br><span class="line">DWORD SizeOfZeroFill;</span><br><span class="line">DWORD Characteristics;</span><br><span class="line">&#125; IMAGE_TLS_DIRECTORY32;</span><br><span class="line">typedef IMAGE_TLS_DIRECTORY32*PIMAGE_TLS_DIRECTORY32;</span><br><span class="line">#ifdef _WIN64</span><br><span class="line">typedef IMAGE_TLS_DIRECTORY64	IMAGE_TLS_DIRECTORY;</span><br><span class="line">typedef PIMAGE_TLS_DIRECTORY64	PIMAGE_TLS_DIRECTORY;</span><br><span class="line">#else</span><br><span class="line">typedef IMAGE_TLS_DIRECTORY32	IMAGE_TLS_DIRECTORY;</span><br><span class="line">typedef PIMAGE_TLS_DIRECTORY32	PIMAGE_TLS_DIRECTORY;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p>IMAGE_TLS_DIRECTORY结构体有两种版本 分别为32位版本和64位版本 我们用PEView查看IMAGE_TLS_DIRECTORY结构体 成员如图</p>
+<p><img src="5.png" alt=""><br>代码逆向中最重要的时Address of Callbacks 该值指向含有TLS回调函数地址的数组 这意味着可以向同一程序注册多个TLS回调函数</p>
+<h2 id="回调函数地址数组"><a href="#回调函数地址数组" class="headerlink" title="回调函数地址数组"></a>回调函数地址数组</h2><p>回调函数地址数组<br><img src="6.png" alt=""><br>数组中实际储存的是TLS回调函数的地址 进程启动运行时 逐一调用储存在该数组的函数</p>
+<h1 id="TLS回调函数"><a href="#TLS回调函数" class="headerlink" title="TLS回调函数"></a>TLS回调函数</h1><p>TLS(Thread Local Storage,线程局部储存)，主要用于给线程独立的传值，由于线程不拥有进程的资源，所以几个同一进程的几个线程需要独立赋值时的需要通过TLS技术。每个线程创建时都会分配一个index所以，这个索引index是全局变量，线程根据index来获取其他线程传过来的返回值。TLS有一个特点，就是它通常在程序EP前就要运行，所以起始TLS才是个程序真正的开始。利用这一特点，可以用来进行的程序的反调试。</p>
+<p>创建和终止某线程时 TLS回调函数都会自动调用执行 前后共两次 执行EP代码前 TLS回调函数会先被执行 常用于反调试技术</p>
+<h1 id="练习-2"><a href="#练习-2" class="headerlink" title="练习#2"></a>练习#2</h1><p>TlsTest.exe程序使用VC++编写的 充分展现了TLS回调函数的方法 源代码如图：</p>
+<p><img src="7.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;windows.h&gt;</span><br><span class="line"></span><br><span class="line">#pragma comment(linker, &quot;/INCLUDE:__tls_used&quot;)</span><br><span class="line"></span><br><span class="line">void print_console(char* szMsg)</span><br><span class="line">&#123;</span><br><span class="line">    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);</span><br><span class="line">    </span><br><span class="line">    WriteConsoleA(hStdout, szMsg, strlen(szMsg), NULL, NULL);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void NTAPI TLS_CALLBACK1(PVOID DllHandle, DWORD Reason, PVOID Reserved)</span><br><span class="line">&#123;</span><br><span class="line">    char szMsg[80] = &#123;0,&#125;;</span><br><span class="line">    wsprintfA(szMsg, &quot;TLS_CALLBACK1() : DllHandle = %X, Reason = %d\n&quot;,</span><br><span class="line">                DllHandle, Reason);</span><br><span class="line">    print_console(szMsg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void NTAPI TLS_CALLBACK2(PVOID DllHandle, DWORD Reason, PVOID Reserved)</span><br><span class="line">&#123;</span><br><span class="line">    char szMsg[80] = &#123;0,&#125;;</span><br><span class="line">    wsprintfA(szMsg, &quot;TLS_CALLBACK2() : DllHandle = %X, Reason = %d\n&quot;,</span><br><span class="line">                DllHandle, Reason);</span><br><span class="line">    print_console(szMsg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma data_seg(&quot;.CRT$XLX&quot;)</span><br><span class="line">    PIMAGE_TLS_CALLBACK pTLS_CALLBACKs[] = &#123;TLS_CALLBACK1, TLS_CALLBACK2, 0&#125;;</span><br><span class="line">#pragma data_seg()</span><br><span class="line"></span><br><span class="line">DWORD WINAPI ThreadProc(LPVOID lParam)</span><br><span class="line">&#123;</span><br><span class="line">    print_console(&quot;ThreadProc() start\n&quot;);</span><br><span class="line">    </span><br><span class="line">    print_console(&quot;ThreadProc() end\n&quot;);</span><br><span class="line">    </span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    HANDLE hThread = NULL;</span><br><span class="line">    print_console(&quot;main() start\n&quot;);</span><br><span class="line">    </span><br><span class="line">    hThread = CreateThread(NULL, 0, ThreadProc, NULL, 0, NULL);</span><br><span class="line">    WaitForSingleObject(hThread, 60*1000);</span><br><span class="line">    CloseHandle(hThread);</span><br><span class="line">    </span><br><span class="line">    print_console(&quot;main() end\n&quot;);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>TlsTest.cpp源代码中注册了2个TLS回调函数（TLS_CALLBACK1 TLS_CALLBACK2）他们也非常简单 只是将DllHandle与Reason这2个参数输出到控制台 然后终止退出 mian（）函数也是 创建用户线程（ThreadProc）后终止 main{}函数与ThreadProc（）内部分别将函数分开/终止日志输出到控制台 程序运行画面</p>
+<p><img src="7.png" alt=""><br>接下来时各函数调用顺序</p>
+<h2 id="DLL-PROCESS-ATTACH"><a href="#DLL-PROCESS-ATTACH" class="headerlink" title="DLL_PROCESS_ATTACH"></a>DLL_PROCESS_ATTACH</h2><p>进程的主线程调用main()函数前 已经注册的TLS回调函数（TLS_CALLBACK1 TLS_CALLBACK2）会先被执行 此时Reason的值为1（DLL_PROCESS_ATTACH）</p>
+<h2 id="DLL-THREAD-ATTACH"><a href="#DLL-THREAD-ATTACH" class="headerlink" title="DLL_THREAD_ATTACH"></a>DLL_THREAD_ATTACH</h2><p>所有TLS回调函数完成调用后 mian（）函数开始执行 创建用户线程（ThreadProc）前 TLS回调函数会被再次执行 此时此时Reason的值为2（DLL_THREAD_ATTACH）</p>
+<h2 id="DLL-THREAD-DETACH"><a href="#DLL-THREAD-DETACH" class="headerlink" title="DLL_THREAD_DETACH"></a>DLL_THREAD_DETACH</h2><p>TLS回调函数全部被执行完毕后 ThreadProc（）线程函数开始调用执行 执行完毕后Reason=3（DLL_THREAD_DETACH） TLS回调函数被调用执行</p>
+<h2 id="DLL-PROCESS-DETACH"><a href="#DLL-PROCESS-DETACH" class="headerlink" title="DLL_PROCESS_DETACH"></a>DLL_PROCESS_DETACH</h2><p>ThreadProc（）线程函数执行完毕后 一直在等待线程终止的main（）函数也会终止 此时Reason的值为0（DLL_PROCESS_DETACH）TLS回调函数最后一次被调用执行 以上TlsTest.exe中 2个TLS回调函数分别被调用了4次 总共为8次 接下来看看调试方法</p>
+<h1 id="调式TLS回调函数"><a href="#调式TLS回调函数" class="headerlink" title="调式TLS回调函数"></a>调式TLS回调函数</h1><p>若直接在调试器中打开有TLS回调函数的程序 则无法打开TLS函数 因为在EP代码执行之前就被调用执行了 使用特定插件存在一个“暂停在TLS回调函数”的选项 使用起来更加方便</p>
+<p><img src="10.png" alt=""><br>这样就可以调试TLS回调函数了 这个函数很简单 运行的代码也不多</p>
+<h1 id="手动添加TLS回调函数"><a href="#手动添加TLS回调函数" class="headerlink" title="手动添加TLS回调函数"></a>手动添加TLS回调函数</h1><p>首先确定IMAGE_TLS_DIRECTORY结构体与TLS回调函数要放在哪个位置 向某个PE文件添加代码或数据时 有3种方法</p>
+<p>1）添加到节区末尾的空白区域<br>2）增加最后一个节区的大小<br>3）在最后添加新节区<br>这里我们采用第二种方法 使用PEView查看Hello.exe文件的最后一个节区（.rsrc）的节区头<br><img src="9.png" alt=""><br>可以看到最后一个节区（.rsrc）的Pointer to Raw Data=9000 Size of Raw Data=200 所以 PE头中定义的文件整体大小为9200 考虑到要添加代码和数据的大小 我们将最后一个节区的大小增加200 使用HXD工具打开文件 光标移至最后一个节区的菜单栏选择编辑-插入字节 如图所示 向字节数中输入200 单击ok后 就可以看到增加了200个字节<br><img src="10.png" alt=""><br><img src="11.png" alt=""></p>
+<h2 id="编辑PE文件头"><a href="#编辑PE文件头" class="headerlink" title="编辑PE文件头"></a>编辑PE文件头</h2><h3 id="rsrc节区头"><a href="#rsrc节区头" class="headerlink" title=".rsrc节区头"></a>.rsrc节区头</h3><p>对比图9 分别修改.rsrc节区头中的Size of Raw Data和Characteristics的值 即Size of Raw Data=400 Characteristics=E0000060 如下图<br><img src="12.png" alt=""><br>Characteristics=E0000060的含义如图<br><img src="13.png" alt=""><br>在原有的属性上增加了这三个属性</p>
+<h3 id="IMAGE-DATA-DIRECTORY-9-1"><a href="#IMAGE-DATA-DIRECTORY-9-1" class="headerlink" title="IMAGE_DATA_DIRECTORY[9]"></a>IMAGE_DATA_DIRECTORY[9]</h3><p>接下来设置TLS表（IMAGE_NT_HEADERS—IMAGE_OPTIONAL_HEADER—IMAGE_DATA_DIRECTORY[9]）的值 我们可以从图9中看到扩展程序的起始地址为9200（文件偏移） 在PEView在查看该地址为C200 我们将在该地址处创建IMAGE_TLS_DIRECTORY结构体 因此修改PE头中的IMAGE_DATA_DIRECTORY[9] 如图所示</p>
+<p><img src="14.png" alt=""><br>完成后保存文件用PEView查看文件<br><img src="15.png" alt=""></p>
+<h2 id="设置IMAGE-TLS-DIRECTORY结构体"><a href="#设置IMAGE-TLS-DIRECTORY结构体" class="headerlink" title="设置IMAGE_TLS_DIRECTORY结构体"></a>设置IMAGE_TLS_DIRECTORY结构体</h2><p>接下来设置IMAGE_TLS_DIRECTORY结构体 只要把TLS回调函数注册其中即可 编辑结构体<br><img src="16.png" alt=""><br>我们在文件偏移9200地址处创建了IMAGE_TLS_DIRECTORY结构体 AddressOfCallBacks成员的值为40c224 他是TLS回调函数数组的起始地址 只要把TLS回调函数的地址放入该数组 即可注册成功 使用PEView查看<br><img src="17.png" alt=""></p>
+<h2 id="编写TLS回调函数"><a href="#编写TLS回调函数" class="headerlink" title="编写TLS回调函数"></a>编写TLS回调函数</h2><p>上述工作全部完成后 下来开始编写函数 我们在OD中编写如图代码 从40c230处开始<br><img src="18.png" alt=""><br>完成后保存修改都文件即可</p>
+<h2 id="最终完成"><a href="#最终完成" class="headerlink" title="最终完成"></a>最终完成</h2><p>打开刚才的文件 就会发现已经ok了 表明已经成功（虽然我这个出了点小差错 但表明TLS回调函数添加成功了哈哈哈哈）<br><img src="19.png" alt=""><br>反正我成功了哈哈哈哈哈哈哈哈哈 我不管！！！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/26/内核6中的DLL注入/" rel="next" title="内核6中的DLL注入">
+                <i class="fa fa-chevron-left"></i> 内核6中的DLL注入
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/29/从TEB到PEB再到SEH/" rel="prev" title="从TEB到PEB再到SEH">
+                从TEB到PEB再到SEH <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">loser</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#练习-1"><span class="nav-number">1.</span> <span class="nav-text">练习#1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TLS"><span class="nav-number">2.</span> <span class="nav-text">TLS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IMAGE-DATA-DIRECTORY-9"><span class="nav-number">2.1.</span> <span class="nav-text">IMAGE_DATA_DIRECTORY[9]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IMAGE-TLS-DIRECTORY"><span class="nav-number">2.2.</span> <span class="nav-text">IMAGE_TLS_DIRECTORY</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回调函数地址数组"><span class="nav-number">2.3.</span> <span class="nav-text">回调函数地址数组</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TLS回调函数"><span class="nav-number">3.</span> <span class="nav-text">TLS回调函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#练习-2"><span class="nav-number">4.</span> <span class="nav-text">练习#2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DLL-PROCESS-ATTACH"><span class="nav-number">4.1.</span> <span class="nav-text">DLL_PROCESS_ATTACH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DLL-THREAD-ATTACH"><span class="nav-number">4.2.</span> <span class="nav-text">DLL_THREAD_ATTACH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DLL-THREAD-DETACH"><span class="nav-number">4.3.</span> <span class="nav-text">DLL_THREAD_DETACH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DLL-PROCESS-DETACH"><span class="nav-number">4.4.</span> <span class="nav-text">DLL_PROCESS_DETACH</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调式TLS回调函数"><span class="nav-number">5.</span> <span class="nav-text">调式TLS回调函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#手动添加TLS回调函数"><span class="nav-number">6.</span> <span class="nav-text">手动添加TLS回调函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑PE文件头"><span class="nav-number">6.1.</span> <span class="nav-text">编辑PE文件头</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#rsrc节区头"><span class="nav-number">6.1.1.</span> <span class="nav-text">.rsrc节区头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IMAGE-DATA-DIRECTORY-9-1"><span class="nav-number">6.1.2.</span> <span class="nav-text">IMAGE_DATA_DIRECTORY[9]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置IMAGE-TLS-DIRECTORY结构体"><span class="nav-number">6.2.</span> <span class="nav-text">设置IMAGE_TLS_DIRECTORY结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写TLS回调函数"><span class="nav-number">6.3.</span> <span class="nav-text">编写TLS回调函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最终完成"><span class="nav-number">6.4.</span> <span class="nav-text">最终完成</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">loser</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
