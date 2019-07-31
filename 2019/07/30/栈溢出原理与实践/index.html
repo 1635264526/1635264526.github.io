@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="chinese">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="0day安全,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="缓冲区溢出是一种非常普遍、非常危险的漏洞，在各种操作系统、应用软件中广泛存在。利用缓冲区溢出攻击，可以导致程序运行失败、系统宕机、重新启动等后果。更为严重的是，可以利用它执行非授权指令，甚至可以取得系统特权，进而进行各种非法操作。">
+<meta name="keywords" content="0day安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="栈溢出原理与实践">
+<meta property="og:url" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/index.html">
+<meta property="og:site_name" content="loser的博客">
+<meta property="og:description" content="缓冲区溢出是一种非常普遍、非常危险的漏洞，在各种操作系统、应用软件中广泛存在。利用缓冲区溢出攻击，可以导致程序运行失败、系统宕机、重新启动等后果。更为严重的是，可以利用它执行非授权指令，甚至可以取得系统特权，进而进行各种非法操作。">
+<meta property="og:locale" content="chinese">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/12.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/13.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/15.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/16.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/17.png">
+<meta property="og:updated_time" content="2019-07-31T01:06:10.694Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="栈溢出原理与实践">
+<meta name="twitter:description" content="缓冲区溢出是一种非常普遍、非常危险的漏洞，在各种操作系统、应用软件中广泛存在。利用缓冲区溢出攻击，可以导致程序运行失败、系统宕机、重新启动等后果。更为严重的是，可以利用它执行非授权指令，甚至可以取得系统特权，进而进行各种非法操作。">
+<meta name="twitter:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/30/栈溢出原理与实践/">
+
+
+
+
+
+  <title>栈溢出原理与实践 | loser的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="chinese">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">loser的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/30/栈溢出原理与实践/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">栈溢出原理与实践</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-30T11:35:33+08:00">
+                2019-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>缓冲区溢出是一种非常普遍、非常危险的漏洞，在各种操作系统、应用软件中广泛存在。利用缓冲区溢出攻击，可以导致程序运行失败、系统宕机、重新启动等后果。更为严重的是，可以利用它执行非授权指令，甚至可以取得系统特权，进而进行各种非法操作。</p>
+<a id="more"></a>
+<h1 id="系统栈的工作原理"><a href="#系统栈的工作原理" class="headerlink" title="系统栈的工作原理"></a>系统栈的工作原理</h1><h2 id="内存的不同用途"><a href="#内存的不同用途" class="headerlink" title="内存的不同用途"></a>内存的不同用途</h2><p>缓冲区溢出就是在大缓冲区中的数据向小缓冲区复制的过程中，由于没有注意小缓冲区的边界，“撑爆”了较小的缓冲区，从而冲掉了和小缓冲区相邻内存区域的其他数据而引起的内存问题</p>
+<p>成功地利用缓冲区溢出漏洞可以修改内存中变量的值，甚至可以劫持进程，执行恶意代码，最终获得主机的控制权</p>
+<p>内存的功能：<br>（1）代码区：这个区域存储着被装入执行的二进制机器代码，处理器会到这个区域取指并执行。<br>（2）数据区：用于存储全局变量等。<br>（3）堆区：进程可以在堆区动态地请求一定大小的内存，并在用完之后归还给堆区。动态分配和回收是堆区的特点。<br>（4）栈区：用于动态地存储函数之间的调用关系，以保证被调用函数在返回时恢复到母函数中继续执行。</p>
+<h2 id="栈与系统栈"><a href="#栈与系统栈" class="headerlink" title="栈与系统栈"></a>栈与系统栈</h2><p>从计算机科学的角度来看，栈指的是一种数据结构，是一种先进后出的数据表。栈的最常见操作有两种：压栈（PUSH）、弹栈（POP）；用于标识栈的属性也有两个：栈顶（TOP）、栈底（BASE）。</p>
+<p>内存的栈区实际上指的就是系统栈。系统栈由系统自动维护，它用于实现高级语言中函数的调用</p>
+<h2 id="寄存器与函数栈帧"><a href="#寄存器与函数栈帧" class="headerlink" title="寄存器与函数栈帧"></a>寄存器与函数栈帧</h2><p>每一个函数独占自己的栈帧空间。当前正在运行的函数的栈帧总是在栈顶。Win32 系统提供两个特殊的寄存器用于标识位于系统栈顶端的栈</p>
+<p>（1）ESP：栈指针寄存器(extended stack pointer)，其内存放着一个指针，该指针永远指向系统栈最上面一个栈帧的栈顶。</p>
+<p>（2）EBP：基址指针寄存器(extended base pointer)，其内存放着一个指针，该指针永远指向系统栈最上面一个栈帧的底部。</p>
+<p>函数栈帧：ESP 和EBP 之间的内存空间为当前栈帧，EBP 标识了当前栈帧的底部，ESP标识了当前栈帧的顶部。</p>
+<p>在函数栈帧中，一般包含以下几类重要信息。<br>（1）局部变量：为函数局部变量开辟的内存空间。<br>（2）栈帧状态值：保存前栈帧的顶部和底部（实际上只保存前栈帧的底部，前栈帧的顶部可以通过堆栈平衡计算得到），用于在本帧被弹出后恢复出上一个栈帧。</p>
+<p>（3）函数返回地址：保存当前函数调用前的“断点”信息，也就是函数调用前的指令位置，以便在函数返回时能够恢复到函数被调用前的代码区中继续执行指令。</p>
+<p>除了与栈相关的寄存器外，您还需要记住另一个至关重要的寄存器。<br>EIP：指令寄存器(Extended Instruction Pointer)，其内存放着一个指针，该指针永远指向下一条等待执行的指令地址。</p>
+<h2 id="函数调用约定与相关指令"><a href="#函数调用约定与相关指令" class="headerlink" title="函数调用约定与相关指令"></a>函数调用约定与相关指令</h2><p>函数调用约定描述了函数传递参数方式和栈协同工作的技术细节。不同的操作系统、不同的语言、不同的编译器在实现函数调用时的原理虽然基本相同，但具体的调用约定还是有差别的。</p>
+<p><img src="1.png" alt=""><br>这里说一下从右到左的意思 以C语言为例：<br>看下面这句话 printf（”%d %d %d”,1,2,3），在采用从右向左的参数入栈顺序时，参数出栈顺序时”%d %d %d”，1,2,3。</p>
+<p>如果采用从左向右的入栈顺序，则出栈顺序变为3,2,1，”%d %d %d”。</p>
+<p>当然，不管是采用哪种顺序，printf的功能都可以实现的。但是，如果采用后者，当处理printf（”%d %d %d”,1,2,3,4,5,6）时，就会造成不必要的工作，因为如果按照这个顺序，就需要先存储所有六个参数（1,2.3，4,5,6），而后才能根据“%d %d %d”来判断出4,5,6,是不需要的。如果按照这个顺序，其实问题也可以解决，方法就是把printf的参数顺序设计成这样printf（6,5,4,3,2，1，“%d %d %d”），这样处理效率就会提高。但这样就不太合理了 所以 还是选择从右到左更为合理</p>
+<p>函数调用大致包括以下几个步骤。<br>（1）参数入栈：将参数从右向左依次压入系统栈中。<br>（2）返回地址入栈：将当前代码区调用指令的下一条指令地址压入栈中，供函数返回时继续执行。<br>（3）代码区跳转：处理器从当前代码区跳转到被调用函数的入口处。<br>（4）栈帧调整：具体包括。<br>保存当前栈帧状态值，已备后面恢复本栈帧时使用（EBP 入栈）；将当前栈帧切换到新栈帧（将ESP 值装入EBP，更新栈帧底部）；给新栈帧分配空间（把ESP 减去所需空间的大小，抬高栈顶）；</p>
+<p>对于__stdcall 调用约定，函数调用时用到的指令序列大致如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">;调用前</span><br><span class="line">push 参数3 ;假设该函数有3 个参数，将从右向左依次入栈</span><br><span class="line">push 参数2</span><br><span class="line">push 参数1</span><br><span class="line">call 函数地址;call 指令将同时完成两项工作：a）向栈中压入当前指令在内存</span><br><span class="line">;中的位置，即保存返回地址。b）跳转到所调用函数的入口地址函</span><br><span class="line">;数入口处</span><br><span class="line">push ebp ;保存旧栈帧的底部</span><br><span class="line">mov ebp，esp ;设置新栈帧的底部（栈帧切换）</span><br><span class="line">sub esp，xxx ;设置新栈帧的顶部（抬高栈顶，为新栈帧开辟空间）</span><br></pre></td></tr></table></figure></p>
+<p>类似地，函数返回的步骤如下。<br>（1）保存返回值：通常将函数的返回值保存在寄存器EAX 中<br>（2）弹出当前栈帧，恢复上一个栈帧。<br>具体包括：<br>􀁺 在堆栈平衡的基础上，给ESP 加上栈帧的大小，降低栈顶，回收当前栈帧的空间。<br>􀁺 将当前栈帧底部保存的前栈帧EBP 值弹入EBP 寄存器，恢复出上一个栈帧。<br>􀁺 将函数返回地址弹给EIP 寄存器。<br><img src="2.png" alt=""><br>（3）跳转：按照函数返回地址跳回母函数中继续执行。<br>还是以C 语言和Win32 平台为例，函数返回时的相关的指令序列如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">addesp, xxx ;降低栈顶，回收当前的栈帧</span><br><span class="line">pop ebp;将上一个栈帧底部位置恢复到ebp，</span><br><span class="line">retn;这条指令有两个功能：a)弹出当前栈顶元素，即弹出栈帧中的返回地址。至此，;栈帧恢复工作完成。</span><br><span class="line">						 b)让处理器跳转到弹出的返回地址，恢复调用前的代码区.</span><br></pre></td></tr></table></figure></p>
+<h1 id="修改邻接变量"><a href="#修改邻接变量" class="headerlink" title="修改邻接变量"></a>修改邻接变量</h1><p>将用一个非常简单的例子来说明破坏栈内局部变量对程序的安全性有何种影响。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#define PASSWORD &quot;1234567&quot;</span><br><span class="line">int verify_password (char *password)</span><br><span class="line">&#123;</span><br><span class="line">int authenticated;</span><br><span class="line">char buffer[8];// add local buffto be overflowed</span><br><span class="line">authenticated=strcmp(password,PASSWORD);</span><br><span class="line">strcpy(buffer,password);//over flowed here!</span><br><span class="line">return authenticated;</span><br><span class="line">&#125;</span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">	int valid_flag=0;</span><br><span class="line">	char password[1024];</span><br><span class="line">	while(1)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;please input password: &quot;);</span><br><span class="line">		scanf(&quot;%s&quot;,password);</span><br><span class="line">		valid_flag = verify_password(password);</span><br><span class="line">		if(valid_flag)</span><br><span class="line">		&#123;</span><br><span class="line">			printf(&quot;incorrect password!\n\n&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		else</span><br><span class="line">		&#123;</span><br><span class="line">			printf(&quot;Congratulation! You have passed theverification!\n&quot;);</span><br><span class="line">			break;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果我们输入的密码超过了7 个字符（注意：字符串截断符NULL 将占用一个字节），则越界字符的ASCII 码会修改掉authenticated 的值。如果这段溢出数据恰好把authenticated 改为0，则程序流程将被改变。</p>
+<h2 id="突破密码验证程序"><a href="#突破密码验证程序" class="headerlink" title="突破密码验证程序"></a>突破密码验证程序</h2><p>我们输入错误的密码7个q strcmp应该返回1 即authenticated的值为1</p>
+<p><img src="3.png" alt=""><br>下来输入超过7个字符 输入qqqqqqqrst<br><img src="4.png" alt=""><br>栈中的情况和我们分析的一样，从输入的第9 个字符开始，将依次写入authenticated 变量。按照我们的输入“qqqqqqqqrst”，最终authenticated 的值应该是字符‘r’、‘s’、‘t’和用于截断字符串的null 所对应的ASCII 码0x00747372。</p>
+<p>authenticated 变量的值来源于strcmp 函数的返回值，之后会返回给main 函数作为密码验证成功与否的标志变量。当authenticated 为0 时，表示验证成功；反之，验证不成功。</p>
+<p>那我们将溢出从数据刚好改为0 试试能不能成 也就是说 你输入8个任意数值后 再输入4个空格（ascall码为0）的值 将该区域覆盖</p>
+<p><img src="5.png" alt=""><br>然后就成功了</p>
+<h1 id="修改函数返回地址"><a href="#修改函数返回地址" class="headerlink" title="修改函数返回地址"></a>修改函数返回地址</h1><h2 id="返回地址与程序流程"><a href="#返回地址与程序流程" class="headerlink" title="返回地址与程序流程"></a>返回地址与程序流程</h2><p>我们输入太长的字符会导致栈溢出让程序奔溃<br><img src="6.png" alt=""><br>溢出前栈中的布局<br><img src="7.png" alt=""><br>下来继续执行 程序返回到了323334处 就是刚才栈溢出导致的</p>
+<p><img src="8.png" alt=""><br>然后程序不知道如何让处理指令 报错了<br><img src="9.png" alt=""></p>
+<h2 id="控制程序的执行流程"><a href="#控制程序的执行流程" class="headerlink" title="控制程序的执行流程"></a>控制程序的执行流程</h2><p>然而键盘输入的ascl有限 我们将程序改成从文件中读取字符串<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#define PASSWORD &quot;1234567&quot;</span><br><span class="line">int verify_password (char *password)</span><br><span class="line">&#123;</span><br><span class="line">int authenticated;</span><br><span class="line">char buffer[8];</span><br><span class="line">authenticated=strcmp(password,PASSWORD);</span><br><span class="line">strcpy(buffer,password);//over flowed here!</span><br><span class="line">return authenticated;</span><br><span class="line">&#125;</span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">int valid_flag=0;</span><br><span class="line">char password[1024];</span><br><span class="line">FILE * fp;</span><br><span class="line">if(!(fp=fopen(&quot;password.txt&quot;,&quot;rw+&quot;)))</span><br><span class="line">&#123;</span><br><span class="line">exit(0);</span><br><span class="line">&#125;</span><br><span class="line">fscanf(fp,&quot;%s&quot;,password);</span><br><span class="line">valid_flag = verify_password(password);</span><br><span class="line">if(valid_flag)</span><br><span class="line">&#123;</span><br><span class="line">printf(&quot;incorrect password!\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">printf(&quot;Congratulation! You have passed the verification!\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line">fclose(fp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>加载进OD看到  401102处的函数调用的就是verify_password 函数 之后在0x0040110A 处将EAX 中的函数返回值取出，在0x0040110D 处与0 比较，然后在401122处验证分支。<br><img src="10.png" alt=""><br>提示验证通过的分支从0x00401122 处的参数压栈开始。如果我们把返回地址覆盖成这个地址，那么在0x00401102 处的函数调用返回后，程序将跳转到验证通过的分支，而不是进入0x00401107 处分支判断代码。</p>
+<p>仍然出于字节对齐、容易辨认的目的，我们将“4321”作为一个输入单元。<br>buffer[8]共需要两个这样的单元。<br>第3 个输入单元将authenticated 覆盖；第4 个输入单元将前栈帧EBP 值覆盖；第5 个输入单元将返回地址覆盖。</p>
+<p>我们将第五个单元的ascll码34333231改成401122 用UltraEdit_32打开 切换到16进制模式 改成如图：</p>
+<p><img src="11.png" alt=""><br><img src="12.png" alt=""><br>然后运行程序发现成功返回<br><img src="13.png" alt=""><br>由于栈内EBP 等被覆盖为无效值，使得程序在退出时堆栈无法平衡，导致崩溃。虽然如此，我们已经成功地淹没了返回地址，并让处理器如我们设想的那样，在函数返回时直接跳转到了提示验证通过的分支</p>
+<h1 id="代码植入"><a href="#代码植入" class="headerlink" title="代码植入"></a>代码植入</h1><h2 id="代码植入的原理"><a href="#代码植入的原理" class="headerlink" title="代码植入的原理"></a>代码植入的原理</h2><p><img src="13.png" alt=""></p>
+<h2 id="向进程中植入代码"><a href="#向进程中植入代码" class="headerlink" title="向进程中植入代码"></a>向进程中植入代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">#define PASSWORD &quot;1234567&quot;</span><br><span class="line">int verify_password (char *password)</span><br><span class="line">&#123;</span><br><span class="line">int authenticated;</span><br><span class="line">char buffer[44];</span><br><span class="line">authenticated=strcmp(password,PASSWORD);</span><br><span class="line">strcpy(buffer,password);//over flowed here!</span><br><span class="line">return authenticated;</span><br><span class="line">&#125;</span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">int valid_flag=0;</span><br><span class="line">char password[1024];</span><br><span class="line">FILE * fp;</span><br><span class="line">LoadLibrary(&quot;user32.dll&quot;);//prepare for messagebox</span><br><span class="line">if(!(fp=fopen(&quot;password.txt&quot;,&quot;rw+&quot;)))</span><br><span class="line">&#123;</span><br><span class="line">exit(0);</span><br><span class="line">&#125;</span><br><span class="line">fscanf(fp,&quot;%s&quot;,password);</span><br><span class="line">valid_flag = verify_password(password);</span><br><span class="line">if(valid_flag)</span><br><span class="line">&#123;</span><br><span class="line">printf(&quot;incorrect password!\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">printf(&quot;Congratulation! You have passed the verification!\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line">fclose(fp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而这次缓冲区共4个字节 意味着要输入11组4321<br><img src="15.png" alt=""><br>然后打开程序 发现通过验证<br><img src="16.png" alt=""><br><img src="17.png" alt=""><br>动态调试的结果证明了前边分析的正确性。从这次调试中，我们可以得到以下信息。<br>（1）buffer 数组的起始地址为0x0012FAF0。<br>（2）password.txt 文件中第53～56 个字符的ASCII 码值将写入栈帧中的返回地址，成为函数返回后执行的指令地址。<br>也就是说，将buffer 的起始地址0x0012FAF0 写入password.txt 文件中的第53～56 个字节，在verify_password 函数返回时会跳到我们输入的字串开始取指执行。</p>
+<p>下来需要调用API函数MessageBox 用汇编语言调用MessageboxA需要3个步骤：<br>（1）装载动态链接库user32.dll。MessageBoxA 是动态链接库user32.dll 的导出函数。虽然大多数有图形化操作界面的程序都已经装载了这个库，但是我们用来实验的consol 版并没有默认加载它。</p>
+<p>（2）在汇编语言中调用这个函数需要获得这个函数的入口地址。<br>（3）在调用前需要向栈中按从右向左的顺序压入MessageBoxA 的4 个参数。<br>然后编写汇编代码就ok</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/0day安全/" rel="tag"># 0day安全</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/29/Linux下的一些安装/" rel="next" title="Linux下的一些安装">
+                <i class="fa fa-chevron-left"></i> Linux下的一些安装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/31/开发shellcode的艺术/" rel="prev" title="开发shellcode的艺术">
+                开发shellcode的艺术 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">loser</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#系统栈的工作原理"><span class="nav-number">1.</span> <span class="nav-text">系统栈的工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存的不同用途"><span class="nav-number">1.1.</span> <span class="nav-text">内存的不同用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栈与系统栈"><span class="nav-number">1.2.</span> <span class="nav-text">栈与系统栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#寄存器与函数栈帧"><span class="nav-number">1.3.</span> <span class="nav-text">寄存器与函数栈帧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数调用约定与相关指令"><span class="nav-number">1.4.</span> <span class="nav-text">函数调用约定与相关指令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改邻接变量"><span class="nav-number">2.</span> <span class="nav-text">修改邻接变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#突破密码验证程序"><span class="nav-number">2.1.</span> <span class="nav-text">突破密码验证程序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改函数返回地址"><span class="nav-number">3.</span> <span class="nav-text">修改函数返回地址</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#返回地址与程序流程"><span class="nav-number">3.1.</span> <span class="nav-text">返回地址与程序流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制程序的执行流程"><span class="nav-number">3.2.</span> <span class="nav-text">控制程序的执行流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码植入"><span class="nav-number">4.</span> <span class="nav-text">代码植入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码植入的原理"><span class="nav-number">4.1.</span> <span class="nav-text">代码植入的原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#向进程中植入代码"><span class="nav-number">4.2.</span> <span class="nav-text">向进程中植入代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">loser</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
