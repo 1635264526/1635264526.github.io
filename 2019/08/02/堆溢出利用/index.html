@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="chinese">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="0day,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="堆溢出利用就是用数据去溢出下一个堆块的块首，改写块首中的前向指针（flink）和后向指针（blink），然后在分配、释放、合并等操作发生时伺机获得一次向内存任意地址写入任意数据的机会。">
+<meta name="keywords" content="0day">
+<meta property="og:type" content="article">
+<meta property="og:title" content="堆溢出利用">
+<meta property="og:url" content="http://yoursite.com/2019/08/02/堆溢出利用/index.html">
+<meta property="og:site_name" content="loser的博客">
+<meta property="og:description" content="堆溢出利用就是用数据去溢出下一个堆块的块首，改写块首中的前向指针（flink）和后向指针（blink），然后在分配、释放、合并等操作发生时伺机获得一次向内存任意地址写入任意数据的机会。">
+<meta property="og:locale" content="chinese">
+<meta property="og:image" content="http://yoursite.com/2019/08/02/堆溢出利用/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/02/堆溢出利用/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/02/堆溢出利用/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/02/堆溢出利用/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/02/堆溢出利用/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/02/堆溢出利用/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/02/堆溢出利用/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/02/堆溢出利用/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/02/堆溢出利用/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/08/02/堆溢出利用/10.png">
+<meta property="og:updated_time" content="2019-08-05T12:53:45.765Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="堆溢出利用">
+<meta name="twitter:description" content="堆溢出利用就是用数据去溢出下一个堆块的块首，改写块首中的前向指针（flink）和后向指针（blink），然后在分配、释放、合并等操作发生时伺机获得一次向内存任意地址写入任意数据的机会。">
+<meta name="twitter:image" content="http://yoursite.com/2019/08/02/堆溢出利用/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/02/堆溢出利用/">
+
+
+
+
+
+  <title>堆溢出利用 | loser的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="chinese">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">loser的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/02/堆溢出利用/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">堆溢出利用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-02T08:57:18+08:00">
+                2019-08-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>堆溢出利用就是用数据去溢出下一个堆块的块首，改写块首中的前向指针（flink）和后向指针（blink），然后在分配、释放、合并等操作发生时伺机获得一次向内存任意地址写入任意数据的机会。</p>
+<a id="more"></a>
+<h1 id="堆的工作原理"><a href="#堆的工作原理" class="headerlink" title="堆的工作原理"></a>堆的工作原理</h1><h2 id="堆与栈的区别"><a href="#堆与栈的区别" class="headerlink" title="堆与栈的区别"></a>堆与栈的区别</h2><p>栈空间是在程序设计时已经规定好怎么使用 使用多少内存空间 典型的栈变量包括函数内部的普通变量、数组等。栈变量在使用的时候不需要额外的申请操作，系统栈会根据函数中的变量声明自动在函数栈帧中给其预留空间。栈空间由系统维护，它的分配（如sub esp ，xx ;）和回收（如 add esp，xxx）都由系统来完成，最终达到栈平衡</p>
+<p>堆的特性：<br>（1）堆是一种在程序运行时动态分配的内存。所谓动态是指所需内存的大小在程序设计时不能预先决定，需要在程序运行时参考用户的反馈。</p>
+<p>（2）堆在使用时需要程序员用专用函数进行申请，如C 语言中的malloc 等函数、C++中的new 函数等都是最常见的分配堆内存的函数。堆内存申请有可能成功，也有可能失败，这与申请内存的大小、机器性能和当前运行环境有关。</p>
+<p>（3）一般用一个堆指针来使用申请得到的内存，读、写、释放都通过这个指针来完成。</p>
+<p>（4）使用完毕后需要把堆指针传给堆释放函数回收这片内存，否则会造成内存泄露。典型的释放函数包括free、delete 等。</p>
+<p>栈只有pop 和push 两种操作，总是在“线性”变化，其管理机制也相对简单，所以，栈溢出的利用很容易掌握。与“整齐”的栈不同，堆往往显得“杂乱无章”，所以堆溢出的利用是内存利用技术的一个转折点</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">堆内存</th>
+<th style="text-align:center">栈内存</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">典型用例</td>
+<td style="text-align:center">动态增长的链表等数据结构</td>
+<td style="text-align:center">函数局部数组</td>
+</tr>
+<tr>
+<td style="text-align:center">申请方式</td>
+<td style="text-align:center">需要用函数申请，通过返回的指针使用。如p=malloc(8);</td>
+<td style="text-align:center">在程序中直接声明即可，如char buffer[8]；</td>
+</tr>
+<tr>
+<td style="text-align:center">释放方式</td>
+<td style="text-align:center">需要把指针传给专用的释放函数，如free</td>
+<td style="text-align:center">函数返回时，由系统自动回收</td>
+</tr>
+<tr>
+<td style="text-align:center">管理方式</td>
+<td style="text-align:center">需要程序员处理申请与释放</td>
+<td style="text-align:center">申请后直接使用，申请与释放由系统自动完成，最后达到栈区平衡</td>
+</tr>
+<tr>
+<td style="text-align:center">所处位置</td>
+<td style="text-align:center">变化范围很大 0x0012XXXX</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">增长方向</td>
+<td style="text-align:center">由内存低址向高址排列（不考虑碎片等情况）</td>
+<td style="text-align:center">由内存高址向低址增加</td>
+</tr>
+</tbody>
+</table>
+<h2 id="堆的数据结构与管理策略"><a href="#堆的数据结构与管理策略" class="headerlink" title="堆的数据结构与管理策略"></a>堆的数据结构与管理策略</h2><p>使用堆：申请一定大小的内存，使用内存，释放内存。<br>对于堆管理系统来说，响应程序的内存使用申请就意味着要在“杂乱”的堆区中“辨别”出哪些内存是正在被使用的，哪些内存是空闲的，并最终“寻找”到一片“恰当”的空闲内存区域，以指针形式返回给程序。</p>
+<p>（1）“杂乱”是指堆区经过反复的申请、释放操作之后，原本大片连续的空闲内存区可能呈现出大小不等且空闲块、占用块相间隔的凌乱状态。</p>
+<p>（2）“辨别”是指堆管理程序必须能够正确地识别哪些内存区域是正在被程序使用的占用块，哪些区域是可以返回给当前请求的空闲块。</p>
+<p>（3）“恰当”是指堆管理程序必须能够比较“经济”地分配空闲内存块。如果用户申请使用8 个字节，而返回给用户一片512 字节的连续内存区域并将其标记成占用状态，这将造成大量的内存浪费，以致出现明明有内存却无法满足申请请求的情况。</p>
+<p>操作系统的堆数据结构一般包括堆块和堆表两类：<br><strong>堆块</strong>：出于性能的考虑，堆区的内存按不同大小组织成块，以堆块为单位进行标识，而不是传统的按字节标识。一个堆块包括两个部分：块首和块身。块首是一个堆块头部的几个字节，用来标识这个堆块自身的信息，例如，本块的大小、本块空闲还是占用等信息；块身是紧跟在块首后面的部分，也是最终分配给用户使用的数据区。</p>
+<p><strong>堆表</strong>：堆表一般位于堆区的起始位置，用于索引堆区中所有堆块的重要信息，包括堆块的位置、堆块的大小、空闲还是占用等。堆表的数据结构决定了整个堆区的组织方式，是快速检索空闲块、保证堆分配效率的关键。堆表在设计时可能会考虑采用平衡二叉树等高级数据结构用于优化查找效率。现代操作系统的堆表往往不止一种数据结构。</p>
+<p><img src="1.png" alt=""><br>在Windows 中，占用态的堆块被使用它的程序索引，而堆表只索引所有空闲态的堆块。其中，最重要的堆表有两种：空闲双向链表Freelist和快速单向链表Lookaside</p>
+<p><strong>1．空表</strong><br>空闲堆块的块首中包含一对重要的指针，这对指针用于将空闲堆块组织成双向链表。按照堆块的大小不同，空表总共被分为128 条。</p>
+<p>堆区一开始的堆表区中有一个128 项的指针数组，被称做空表索引（Freelist array）。该数组的每一项包括两个指针，用于标识一条空表。</p>
+<p>如图所示，空表索引的第二项（free[1]）标识了堆中所有大小为8 字节的空闲堆块，之后每个索引项指示的空闲堆块递增8 字节，例如，free[2]标识大小为16 字节的空闲堆块，free[3]标识大小为24 字节的空闲堆块，free[127]标识大小为1016 字节的空闲堆块。因此有：</p>
+<pre><code>空闲堆块的大小＝索引项（ID）×8（字节）
+</code></pre><p>把空闲堆块按照大小的不同链入不同的空表，可以方便堆管理系统高效检索指定大小的空闲堆块。需要注意的是，空表索引的第一项（free[0]）所标识的空表相对比较特殊。这条双向链表链入了所有大于等于1024 字节的堆块（小于512KB）。这些堆块按照各自的大小在零号空表中升序地依次排列下去</p>
+<p><img src="2.png" alt=""><br><strong>2．快表</strong><br>快表是 Windows 用来加速堆块分配而采用的一种堆表。这里之所以把它叫做“快表”是因为这类单向链表中从来不会发生堆块合并（其中的空闲块块首被设置为占用态，用来防止堆块合并）。</p>
+<p>快表也有128 条，组织结构与空表类似，只是其中的堆块按照单链表组织。快表总是被初始化为空，而且每条快表最多只有 4 个结点，故很快就会被填满。</p>
+<p><img src="3.png" alt=""><br>堆中的操作可以分为堆块分配、堆块释放和堆块合并（Coalesce）三种。其中，“分配”和“释放”是在程序提交申请和执行的，而堆块合并则是由堆管理系统自动完成的。</p>
+<p><strong>1．堆块分配</strong><br>堆块分配可以分为三类：快表分配、普通空表分配和零号空表（free[0]）分配。</p>
+<p>从快表中分配堆块比较简单，包括寻找到大小匹配的空闲堆块、将其状态修改为占用态、把它从堆表中“卸下”、最后返回一个指向堆块块身的指针给程序使用。</p>
+<p>普通空表分配时首先寻找最优的空闲块分配，若失败，则寻找次优的空闲块分配，即最小的能够满足要求的空闲块。</p>
+<p>零号空表中按照大小升序链着大小不同的空闲块，故在分配时先从free[0]反向查找最后一个块（即表中最大块），看能否满足要求，如果能满足要求，再正向搜索最小能够满足要求的空闲堆块进行分配（这就明白为什么零号空表要按照升序排列了）。</p>
+<p>堆块分配中的“找零钱”现象：当空表中无法找到匹配的“最优”堆块时，一个稍大些的块会被用于分配。这种次优分配发生时，会先从大块中按请求的大小精确地“割”出一块进行分配，然后给剩下的部分重新标注块首，链入空表。这里体现的就是堆管理系统的“节约”原则：买东西的时候用最合适的钞票，如果没有，就要找零钱，决不会玩大方。</p>
+<p>由于快表只有在精确匹配时才会分配，故不存在“找钱”现象。</p>
+<p><strong>2．堆块释放</strong><br>释放堆块的操作包括将堆块状态改为空闲，链入相应的堆表。所有的释放块都链入堆表的末尾，分配的时候也先从堆表末尾拿。</p>
+<p>另外需要强调，快表最多只有4 项。<br><strong>3．堆块合并</strong><br>经过反复的申请与释放操作，堆区很可能变得“千疮百孔”，产生很多内存碎片。为了合理有效地利用内存，堆管理系统还要能够进行堆块合并操作，如图所示。</p>
+<p><img src="4.png" alt=""><br>当堆管理系统发现两个空闲堆块彼此相邻的时候，就会进行堆块合并操作。</p>
+<p>堆块合并包括将两个块从空闲链表中“卸下”、合并堆块、调整合并后大块的块首信息（如大小等）、将新块重新链入空闲链表。</p>
+<p>在具体进行堆块分配和释放时，根据操作内存大小的不同，Windows 采取的策略也会有所不同。可以把内存块按照大小分为三类：</p>
+<p>小块：SIZE&lt;1KB<br>大块：1KB≤SIZE&lt;512KB<br>巨块：SIZE≥512KB<br>对应的分配和释放算法也有三类:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">分配</th>
+<th style="text-align:center">释放</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">小块</td>
+<td style="text-align:center">首先进行快表分配；若快表分配失败，进行普通空表分配；若普通空表分配失败，使用堆缓存（heap cache）分配；若堆缓存分配失败，尝试零号空表分配（freelist[0]）若零号空表分配失败，进行内存紧缩后再尝试分配；若仍无法分配，返回NULL</td>
+<td style="text-align:center">优先链入快表（只能链入4 个空闲块）；如果快表满，则将其链入相应的空表</td>
+</tr>
+<tr>
+<td style="text-align:center">大块</td>
+<td style="text-align:center">首先使用堆缓存进行分配；若堆缓存分配失败，使用free[0]中的大块进行分配</td>
+<td style="text-align:center">优先将其放入堆缓存若堆缓存满，将链入freelists[0]</td>
+</tr>
+<tr>
+<td style="text-align:center">巨块</td>
+<td style="text-align:center">一般说来，巨块申请非常罕见，要用到虚分配方法（实际上并不是从堆区分配的）。</td>
+<td style="text-align:center">直接释放，没有堆表操作</td>
+</tr>
+</tbody>
+</table>
+<p>最后，再强调一下Windows 堆管理的几个要点。<br>（1）快表中的空闲块被设置为占用态，故不会发生堆块合并操作。<br>（2）快表只有精确匹配时才会分配，不存在“搜索次优解”和“找零钱”现象。<br>（3）快表是单链表，操作比双链表简单，插入删除都少用很多指令。<br>（4）综上所述，快表很“快”，故在分配和释放时总是优先使用快表，失败时才用空表。<br>（5）快表只有4 项，很容易被填满，因此空表也是被频繁使用的。</p>
+<h1 id="在堆中漫游"><a href="#在堆中漫游" class="headerlink" title="在堆中漫游"></a>在堆中漫游</h1><h2 id="堆分配函数之间的调用关系"><a href="#堆分配函数之间的调用关系" class="headerlink" title="堆分配函数之间的调用关系"></a>堆分配函数之间的调用关系</h2><p>所有的堆分配函数最终都将使用位于ntdll.dll 中的RtlAllocateHeap()函数进行分配，这个函数也是在用户态能够看到的最底层的堆分配函数。所谓万变不离其宗，这个“宗”就是RtlAllocateHeap()。因此，研究Windows 堆只要研究这个函数即可。</p>
+<p><img src="5.png" alt=""></p>
+<h2 id="堆的调试方法"><a href="#堆的调试方法" class="headerlink" title="堆的调试方法"></a>堆的调试方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">	HLOCAL h1,h2,h3,h4,h5,h6;</span><br><span class="line">	HANDLE hp;</span><br><span class="line">	hp = HeapCreate(0,0x1000,0x10000);</span><br><span class="line">	__asm int 3</span><br><span class="line">	h1 = HeapAlloc(hp,HEAP_ZERO_MEMORY,3);</span><br><span class="line">	h2 = HeapAlloc(hp,HEAP_ZERO_MEMORY,5);</span><br><span class="line">	h3 = HeapAlloc(hp,HEAP_ZERO_MEMORY,6);</span><br><span class="line">	h4 = HeapAlloc(hp,HEAP_ZERO_MEMORY,8);</span><br><span class="line">	h5 = HeapAlloc(hp,HEAP_ZERO_MEMORY,19);</span><br><span class="line">	h6 = HeapAlloc(hp,HEAP_ZERO_MEMORY,24);</span><br><span class="line">	</span><br><span class="line">	//free block and prevent coaleses</span><br><span class="line">	HeapFree(hp,0,h1); //free to freelist[2]</span><br><span class="line">	HeapFree(hp,0,h3); //free to freelist[2]</span><br><span class="line">	HeapFree(hp,0,h5); //free to freelist[4]</span><br><span class="line">	HeapFree(hp,0,h4); //coalese h3,h4,h5,link the large block to</span><br><span class="line">						//freelist[8]</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调试堆不能直接用调试器来加载 否则堆管理函数会检测到当前进程处于调试状态，而使用调试态堆管理策略。</p>
+<p>调试态堆管理策略和常态堆管理策略有很大差异，集中体现在：<br>（1）调试堆不使用快表，只用空表分配。</p>
+<p>（2）所有堆块都被加上了多余的16 字节尾部用来防止溢出（防止程序溢出而不是堆溢出攻击），这包括8 个字节的0xAB 和8 个字节的0x00。</p>
+<p>（3）块首的标志位不同。</p>
+<p>调试态的堆和常态堆的区别就好像debug 版本的PE 和release 版本的PE 一样。如果您做堆溢出实验，发现在调试器中能够正常执行shellcode，但单独运行程序却发生错误，那很可能就是因为调试堆和常态堆之间的差异造成的。</p>
+<p>为了避免程序检测出调试器而使用调试堆管理策略，我们可以在创建堆之后加入一个人工断点：_asm int 3，然后让程序单独执行。当程序把堆初始化完后，断点会中断程序，这时再用调试器attach 进程，就能看到真实的堆了。</p>
+<p>运行程序后 将中断的程序进程附加到调试器</p>
+<p>查看内存中的值：<br><img src="6.png" alt=""><br>进程中存在着多个堆</p>
+<h2 id="识别堆表"><a href="#识别堆表" class="headerlink" title="识别堆表"></a>识别堆表</h2><p>在程序初始化过程中，malloc 使用的堆和进程堆都已经经过了若干次分配和释放操作，里边的堆块相对比较“凌乱”。因此，我们在程序中使用HeapCreate()函数创建一个新的堆，通过调试这个比较“整齐”的堆来理解前边介绍的堆管理策略。</p>
+<p>当HeapCreate()成功地创建了堆区之后，会把整个堆区的起始地址返回给EAX，在这里是0x00520000。</p>
+<p>我们需要关注的时偏移0x178处的空表索引区 其余的一般与堆溢出关系不大</p>
+<p>当一个堆刚刚被初始化时，它的堆块状况是非常简单的。<br>（1）只有一个空闲态的大块，这个块被称做“尾块”。<br>（2）位于堆偏移0x0688 处（启用快表后这个位置将是快表），这里算上堆基址就是0x00520688。<br>（3）Freelist[0]指向“尾块”。<br>（4）除零号空表索引外，其余各项索引都指向自己，这意味着其余所有的空闲链表中都没有空闲块。</p>
+<p><img src="7.png" alt=""><br>我们去520688处看看尾块的状态：<br><img src="8.png" alt=""><br>我们得到以下信息：<br>（1）这个堆块开始于0x00520680，一般引用堆块的指针都会跃过8字节的块首，直接指向数据区。<br>（2）尾块目前的大小为0x0130，计算单位是8 个字节<br>（3）注意：堆块的大小是包含块首在内的。</p>
+<h2 id="堆块的分配"><a href="#堆块的分配" class="headerlink" title="堆块的分配"></a>堆块的分配</h2><p>经过调试，对于堆块的分配我们应该了解以下细节。<br>（1）堆块的大小包括了块首在内，即如果请求32 字节，实际会分配的堆块为40 字节：8字节块首＋32 字节块身。</p>
+<p>（2）堆块的单位是8 字节，不足8 字节的部分按8 字节分配。</p>
+<p>（3）初始状态下，快表和空表都为空，不存在精确分配。请求将使用“次优块”进行分配。这个“次优块”就是位于偏移0x0688 处的尾块。</p>
+<p>（4）由于次优分配的发生，分配函数会陆续从尾块中切走一些小块，并修改尾块块首中的size 信息，最后把freelist[0]指向新的尾块位置。</p>
+<p><img src="9.png" alt=""><br>实际分配的情况和我们预料的完全一致。“找零钱”现象使得尾块的大小由0x130 被削减为0x120。如果您去0x00520178 查看freelist[0]中的空表指针，会发现现在已经指向新尾块的位置，而不是从前的0x00520688 了。</p>
+<h2 id="堆块的释放"><a href="#堆块的释放" class="headerlink" title="堆块的释放"></a>堆块的释放</h2><p>由于前三次释放的堆块在内存中不连续，因此不会发生合并。按照其大小，h1 和h3 所指向的堆块应该被链入freelist[2]的空表，h5 则被链入freelist[4]</p>
+<p><img src="10.png" alt=""></p>
+<h2 id="堆块的合并"><a href="#堆块的合并" class="headerlink" title="堆块的合并"></a>堆块的合并</h2><p>当第 4 次释放操作结束后，h3、h4、h5 这3 个空闲块彼此相邻，这时会发生堆块合并操作。<br>首先这3 个空闲块都将从空表中摘下，然后重新计算合并后新堆块的大小，最后按照合并后的大小把新块链入空表。</p>
+<p>在这里，h3、h4 的大小都是2 个堆单位（8 字节），h5 是4 个堆单位，合并后的新块为8个堆单位，将被链入freelist[8]。</p>
+<h1 id="堆溢出利用（上）——DWORD-SHOOT"><a href="#堆溢出利用（上）——DWORD-SHOOT" class="headerlink" title="堆溢出利用（上）——DWORD SHOOT"></a>堆溢出利用（上）——DWORD SHOOT</h1><p>堆管理系统的三类操作：堆块分配、堆块释放和堆块合并归根结底都是对链表的修改。例如，分配就是将堆块从空表中“卸下”；释放是把堆块“链入”空表；合并稍微复杂点，但也可以看成是把若干个堆块先从空表中“卸下”，修改块首信息（大小），之后把更新后的新块“链入”空表。</p>
+<p>所有“卸下”和“链入”堆块的工作都发生在链表中，如果我们能伪造链表结点的指针，在“卸下”和“链入”的过程中就有可能获得一次读写内存的机会。</p>
+<p>堆溢出利用的精髓就是用精心构造的数据去溢出下一个堆块的块首，改写块首中的前向指针（flink）和后向指针（blink），然后在分配、释放、合并等操作发生时伺机获得一次向内存任意地址写入任意数据的机会。</p>
+<p>我们把这种能够向内存任意位置写入任意数据的机会称为“DWORD SHOOT”</p>
+<h2 id="在调试中体会“DWORD-SHOOT”"><a href="#在调试中体会“DWORD-SHOOT”" class="headerlink" title="在调试中体会“DWORD SHOOT”"></a>在调试中体会“DWORD SHOOT”</h2><p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">HLOCAL h1, h2,h3,h4,h5,h6;</span><br><span class="line">HANDLE hp;</span><br><span class="line">hp = HeapCreate(0,0x1000,0x10000);</span><br><span class="line">h1 = HeapAlloc(hp,HEAP_ZERO_MEMORY,8);</span><br><span class="line">h2 = HeapAlloc(hp,HEAP_ZERO_MEMORY,8);</span><br><span class="line">h3 = HeapAlloc(hp,HEAP_ZERO_MEMORY,8);</span><br><span class="line">h4 = HeapAlloc(hp,HEAP_ZERO_MEMORY,8);</span><br><span class="line">h5 = HeapAlloc(hp,HEAP_ZERO_MEMORY,8);</span><br><span class="line">h6 = HeapAlloc(hp,HEAP_ZERO_MEMORY,8);</span><br><span class="line">_asm int 3//used to break the process</span><br><span class="line">//free the odd blocks to prevent coalesing</span><br><span class="line">HeapFree(hp,0,h1);</span><br><span class="line">HeapFree(hp,0,h3);</span><br><span class="line">HeapFree(hp,0,h5); //now freelist[2] got 3 entries</span><br><span class="line">//will allocate from freelist[2] which means unlink the last entry</span><br><span class="line">//(h5)</span><br><span class="line">h1 = HeapAlloc(hp,HEAP_ZERO_MEMORY,8);</span><br><span class="line">return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/0day/" rel="tag"># 0day</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/01/用-MetaSploit-开发Exploit/" rel="next" title="用MetaSploit开发Exploit">
+                <i class="fa fa-chevron-left"></i> 用MetaSploit开发Exploit
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2049/11/30/C-学习笔记/" rel="prev" title="C++学习笔记">
+                C++学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">loser</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#堆的工作原理"><span class="nav-number">1.</span> <span class="nav-text">堆的工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#堆与栈的区别"><span class="nav-number">1.1.</span> <span class="nav-text">堆与栈的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆的数据结构与管理策略"><span class="nav-number">1.2.</span> <span class="nav-text">堆的数据结构与管理策略</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在堆中漫游"><span class="nav-number">2.</span> <span class="nav-text">在堆中漫游</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#堆分配函数之间的调用关系"><span class="nav-number">2.1.</span> <span class="nav-text">堆分配函数之间的调用关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆的调试方法"><span class="nav-number">2.2.</span> <span class="nav-text">堆的调试方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#识别堆表"><span class="nav-number">2.3.</span> <span class="nav-text">识别堆表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆块的分配"><span class="nav-number">2.4.</span> <span class="nav-text">堆块的分配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆块的释放"><span class="nav-number">2.5.</span> <span class="nav-text">堆块的释放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆块的合并"><span class="nav-number">2.6.</span> <span class="nav-text">堆块的合并</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#堆溢出利用（上）——DWORD-SHOOT"><span class="nav-number">3.</span> <span class="nav-text">堆溢出利用（上）——DWORD SHOOT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在调试中体会“DWORD-SHOOT”"><span class="nav-number">3.1.</span> <span class="nav-text">在调试中体会“DWORD SHOOT”</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">loser</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

