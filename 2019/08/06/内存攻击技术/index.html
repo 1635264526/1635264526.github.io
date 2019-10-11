@@ -100,7 +100,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/08/06/内存攻击技术/11.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/06/内存攻击技术/12.png">
 <meta property="og:image" content="http://yoursite.com/2019/08/06/内存攻击技术/13.png">
-<meta property="og:updated_time" content="2019-08-08T03:26:08.184Z">
+<meta property="og:updated_time" content="2019-08-12T01:00:02.074Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="内存攻击技术">
 <meta name="twitter:description" content="近些年来的一些新型漏洞利用思路和攻击技巧">
@@ -392,7 +392,8 @@
 <p><strong>3．攻击U.E.F</strong><br>U.E.F（UnhandledExceptionFilter()）即系统默认的异常处理函数，是系统处理异常的最<br>后一个环节。如果能够利用堆溢出产生的DWORD SHOOT 把这个“终极异常处理函数”的调用句柄覆盖为shellcode 的入口地址，再制造一个其他异常处理都无法解决的异常，那么当系统使用U.E.F 作为最后一根救命稻草来解决异常时，shellcode 就可以堂而皇之地得到执行。</p>
 <p>确定U.E.F 句柄的具体方法，那就是反汇编kernel32.dll 中的导出函数SetUnhandledExceptionFilter()<br><strong>4.攻击PEB 中的函数指针</strong><br>当U.E.F 被使用后，将最终调用ExitProcess()来结束程序。ExitProcess()在清理现场的时候需要进入临界区以同步线程，因此会调用RtlEnterCriticalSection()和RtlLeaveCriticalSection()。</p>
 <p>ExitProcess()是通过存放在PEB 中的一对指针来调用这两个函数的，如果能够在DWORDSHOOT 时把PEB 中的这对指针修改成shellcode 的入口地址，那么，在程序最终结束时，ExitProcess()将启动shellcode。</p>
-<h1 id="“off-by-one”的利用"><a href="#“off-by-one”的利用" class="headerlink" title="“off by one”的利用"></a>“off by one”的利用</h1><p>Halvar Flake 在“Third Generation Exploitation”中，按照攻击的难度把漏洞利用技术分成3<br>个层次。<br>（1）第一类是基础的栈溢出利用。攻击者可以利用返回地址等轻松劫持进程，植入<br>shellcode，例如，对strcpy、strcat 等函数的攻击等。<br>（2）第二类是高级的栈溢出利用。这时，栈中有诸多的限制因素，溢出数据往往只能淹没部分的EBP，而无法抵达返回地址的位置。因此，直接淹没返回地址获得EIP 的控制权是不可能的。这种漏洞利用的典型例子就是对strncpy 函数误用时产生的“off by one”漏洞的利用。</p>
+<h1 id="“off-by-one”的利用"><a href="#“off-by-one”的利用" class="headerlink" title="“off by one”的利用"></a>“off by one”的利用</h1><p>Halvar Flake 在“Third Generation Exploitation”中，按照攻击的难度把漏洞利用技术分成3个层次。<br>（1）第一类是基础的栈溢出利用。攻击者可以利用返回地址等轻松劫持进程，植入shellcode，例如，对strcpy、strcat 等函数的攻击等。</p>
+<p>（2）第二类是高级的栈溢出利用。这时，栈中有诸多的限制因素，溢出数据往往只能淹没部分的EBP，而无法抵达返回地址的位置。因此，直接淹没返回地址获得EIP 的控制权是不可能的。这种漏洞利用的典型例子就是对strncpy 函数误用时产生的“off by one”漏洞的利用。</p>
 <p>（3）第三类攻击则是堆溢出利用及格式化串漏洞的利用.</p>
 <h1 id="攻击C-的虚函数"><a href="#攻击C-的虚函数" class="headerlink" title="攻击C++的虚函数"></a>攻击C++的虚函数</h1><p>简单地把虚函数和虚表理解为以下几个要点。<br>（1）C++类的成员函数在声明时，若使用关键字virtual 进行修饰，则被称为虚函数。<br>（2）一个类中可能有很多个虚函数。<br>（3）虚函数的入口地址被统一保存在虚表（Vtable）中。<br>（4）对象在使用虚函数时，先通过虚表指针找到虚表，然后从虚表中取出最终的函数入口地址进行调用。<br>（5）虚表指针保存在对象的内存空间中，紧接着虚表指针的是其他成员变量。<br>（6）虚函数只有通过对象指针的引用才能显示出其动态调用的特性。</p>
 <p>如果对象中的成员变量发生了溢出，有机会修改对象中的虚表指针或修改虚表中的虚函数指针，那么在程序调用虚函数时就会跑去执行shellcode。</p>
@@ -447,8 +448,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2049/11/30/C-学习笔记/" rel="prev" title="C++学习笔记">
-                C++学习笔记 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/12/手脱Yoda-s-Protector/" rel="prev" title="手脱Yoda's Protector">
+                手脱Yoda's Protector <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -526,7 +527,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -539,7 +540,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>

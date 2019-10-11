@@ -104,7 +104,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/16.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/17.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/20/调试练习1：服务/18.png">
-<meta property="og:updated_time" content="2019-07-21T14:23:39.037Z">
+<meta property="og:updated_time" content="2019-08-13T02:01:09.788Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="调试练习1：服务">
 <meta name="twitter:description" content="进行示例程序的调试练习 服务进程调试练习">
@@ -341,7 +341,7 @@
         <p>进行示例程序的调试练习 服务进程调试练习<br><a id="more"></a></p>
 <h1 id="示例讲解"><a href="#示例讲解" class="headerlink" title="示例讲解"></a>示例讲解</h1><p>首先将示例程序移到工作文件夹里 然后执行如图命令<br><img src="1.png" alt=""><br>服务安装成功后 可以在服务列表中看到<br><img src="2.png" alt=""><br>启动服务后 我们可以看服务进程也就运行起来<br><img src="3.png" alt=""><br>需要注意的是 SvcTest服务进程是以services.exe进程的子进程形式进行的 其实 所有服务进程都是以该形式进行的 示例程序的功能非常简单 它经过一定时间间隔输出调试字符串</p>
 <p><img src="4.png" alt=""></p>
-<p>#服务进程的调试<br>要想准确调试服务进程 就不能想对待不同进程那样直接用调试器启动并调试 而需要将调试器附加到SCM运行的服务进程上</p>
+<h1 id="服务进程的调试"><a href="#服务进程的调试" class="headerlink" title="服务进程的调试"></a>服务进程的调试</h1><p>要想准确调试服务进程 就不能想对待不同进程那样直接用调试器启动并调试 而需要将调试器附加到SCM运行的服务进程上</p>
 <h2 id="问题在于SCM"><a href="#问题在于SCM" class="headerlink" title="问题在于SCM"></a>问题在于SCM</h2><p>服务进程由SCM运行 这是服务进程调试的核心所在<br>    ○服务进程由SCM运行<br>    ○服务核心代码主要存在于主函数中<br>    ○服务主函数由SCM正常调用<br>我们要调试的是服务主函数 但使用调试器打开服务进程的可执行文件并开始调试时 服务主函数并不运行 所以调试时需要将SCM运行的服务主进程附加到调试器</p>
 <h2 id="调试器无所不能"><a href="#调试器无所不能" class="headerlink" title="调试器无所不能"></a>调试器无所不能</h2><p>使用调试器打开服务可执行文件无法直接调试服务主函数( SvcMain())代码。原因在于，SCM不会调用服务主函数(因非由SCM运行，故不能运行它)。但这并不意味着没有解决方法。因为调试器拥有被调试进程的强大权限，所以可以先将调试位置强制指定为服务主函数(如:OllyDbg的New orign here菜单),然后再调试。使用这种方法调试服务主函数不会有什么大问题，如果这种方法有效，建议各位使用。不过,使用这种方法必须拥有强大的调试器权限才行，服务进程行为比较复杂时，使用该方法就可能无法顺利完成调试</p>
 <h2 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h2><p>调试服务最常用的方法是，先将SCM运行的服务进程附加到调试器后再调试。思路很简单，但执行方法可能有问题。因为SCM运行服务后再进行附加操作的话，此时的核心代码(服务主函数)已开始运行。因此，需要在SCM创建服务进程并运行EP代码前附加到调试器，这需要一定的调试技巧，后面的练习示例中将介绍。</p>
@@ -471,7 +471,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -484,7 +484,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
@@ -517,7 +517,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#示例讲解"><span class="nav-number">1.</span> <span class="nav-text">示例讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题在于SCM"><span class="nav-number">1.1.</span> <span class="nav-text">问题在于SCM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调试器无所不能"><span class="nav-number">1.2.</span> <span class="nav-text">调试器无所不能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用方法"><span class="nav-number">1.3.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务调试练习"><span class="nav-number">1.4.</span> <span class="nav-text">服务调试练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接调试：强制设置EIP"><span class="nav-number">1.4.1.</span> <span class="nav-text">直接调试：强制设置EIP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务调试的常用方法：“附加”方式"><span class="nav-number">1.4.2.</span> <span class="nav-text">服务调试的常用方法：“附加”方式</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#示例讲解"><span class="nav-number">1.</span> <span class="nav-text">示例讲解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服务进程的调试"><span class="nav-number">2.</span> <span class="nav-text">服务进程的调试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题在于SCM"><span class="nav-number">2.1.</span> <span class="nav-text">问题在于SCM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调试器无所不能"><span class="nav-number">2.2.</span> <span class="nav-text">调试器无所不能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用方法"><span class="nav-number">2.3.</span> <span class="nav-text">常用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务调试练习"><span class="nav-number">2.4.</span> <span class="nav-text">服务调试练习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接调试：强制设置EIP"><span class="nav-number">2.4.1.</span> <span class="nav-text">直接调试：强制设置EIP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务调试的常用方法：“附加”方式"><span class="nav-number">2.4.2.</span> <span class="nav-text">服务调试的常用方法：“附加”方式</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
