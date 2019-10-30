@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="加密与解密4,">
 
 
 
@@ -79,33 +79,20 @@
 
 
 
-<meta name="description" content="OD学习记录（真难啊~~~QAQ）这次学习IAT的修复 是按照《OD从零开始》这本书上来学习的 主要是按着书上都操作自己实践一遍。">
+<meta name="description" content="好久没写过博客了 因为在一直看底层的东西 不知道怎么写 程序都是由不同的函数组成的 逆向分析函数的识别及其参数的传递是很有用的">
+<meta name="keywords" content="加密与解密4">
 <meta property="og:type" content="article">
-<meta property="og:title" content="手动修复IAT">
-<meta property="og:url" content="http://yoursite.com/2019/04/27/手动修复IAT/index.html">
+<meta property="og:title" content="函数">
+<meta property="og:url" content="http://yoursite.com/2019/10/29/汇编中函数参数的传递/index.html">
 <meta property="og:site_name" content="loser的博客">
-<meta property="og:description" content="OD学习记录（真难啊~~~QAQ）这次学习IAT的修复 是按照《OD从零开始》这本书上来学习的 主要是按着书上都操作自己实践一遍。">
+<meta property="og:description" content="好久没写过博客了 因为在一直看底层的东西 不知道怎么写 程序都是由不同的函数组成的 逆向分析函数的识别及其参数的传递是很有用的">
 <meta property="og:locale" content="chinese">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/1.jpg">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/13.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/14.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/1.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/2.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/3.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/4.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/5.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/6.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/7.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/8.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/9.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/10.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/11.png">
-<meta property="og:image" content="http://yoursite.com/2019/04/27/手动修复IAT/12.png">
-<meta property="og:updated_time" content="2019-07-20T04:10:00.537Z">
+<meta property="og:image" content="http://yoursite.com/2019/10/29/汇编中函数参数的传递/1.png">
+<meta property="og:updated_time" content="2019-10-30T12:28:10.110Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="手动修复IAT">
-<meta name="twitter:description" content="OD学习记录（真难啊~~~QAQ）这次学习IAT的修复 是按照《OD从零开始》这本书上来学习的 主要是按着书上都操作自己实践一遍。">
-<meta name="twitter:image" content="http://yoursite.com/2019/04/27/手动修复IAT/1.jpg">
+<meta name="twitter:title" content="函数">
+<meta name="twitter:description" content="好久没写过博客了 因为在一直看底层的东西 不知道怎么写 程序都是由不同的函数组成的 逆向分析函数的识别及其参数的传递是很有用的">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/29/汇编中函数参数的传递/1.png">
 
 
 
@@ -135,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/27/手动修复IAT/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/29/汇编中函数参数的传递/">
 
 
 
 
 
-  <title>手动修复IAT | loser的博客</title>
+  <title>函数 | loser的博客</title>
   
 
 
@@ -268,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/27/手动修复IAT/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/29/汇编中函数参数的传递/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="loser">
@@ -285,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">手动修复IAT</h1>
+          <h1 class="post-title" itemprop="name headline">函数</h1>
         
 
         <div class="post-meta">
@@ -297,8 +284,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-27T20:18:19+08:00">
-                2019-04-27
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-29T18:27:20+08:00">
+                2019-10-29
               </time>
             
 
@@ -335,12 +322,19 @@
       
 
       
-        <h1 id="OD学习记录（真难啊-QAQ）"><a href="#OD学习记录（真难啊-QAQ）" class="headerlink" title="OD学习记录（真难啊~~~QAQ）"></a>OD学习记录（真难啊~~~QAQ）</h1><p>这次学习IAT的修复 是按照《OD从零开始》这本书上来学习的 主要是按着书上都操作自己实践一遍。</p>
+        <p>好久没写过博客了 因为在一直看底层的东西 不知道怎么写 程序都是由不同的函数组成的 逆向分析函数的识别及其参数的传递是很有用的</p>
 <a id="more"></a>
-<h2 id="手动修复IAT"><a href="#手动修复IAT" class="headerlink" title="手动修复IAT"></a>手动修复IAT</h2><p>开始修复IAT。<br>第一步还是先找到OEP，到达OEP后，OD和进程本身不能关掉。脱壳过程中不能把程序关掉。<br>操作过程和之前相同，先选进程，右键，完整转存，脱壳完毕。<br>双击脱壳后的程序，无法打开。<br>第二步：使用importrec修复IAT。不是选择dump后的程序，而是到达OEP的加壳程序。为什么不选择脱壳后的程序呢？<br>因为我们需要提取源文件里的信息，放到脱壳后的文件里。然后放到脱壳后的程序 附件进程后，里面有个选项</p>
-<p>如何使用填写这几个数字呢：<br>第一个选项是OEP栏：这里填写OEP的相对偏移地址就行<br>第二个选项是RVA：虚拟内存地址，这里填IAT的起始位置<br>大小：填写导入表大小，需要用IAT的末地址减去首地址。哪个是首地址，哪个是尾部地址？<br>有一个小技巧，能帮我们快速定位到IAT的开始和末尾。怎么做呢，在数据窗口右击-长型-地址，那么它的起始位置<br>就非常直观了：<br><img src="1.jpg" alt=""><br>OEP：10000<br>RVA：3184<br>大小：尾部一定得是00000000才行。而且得是最后一个00000000。<br>接下来就是修复PE头了</p>
-<h2 id="打补丁"><a href="#打补丁" class="headerlink" title="打补丁"></a>打补丁</h2><p>程序很简单，只有两个窗口<br><img src="13.png" alt=""><img src="14.png" alt=""><br>（一）、使用OD载入程序，按F9跳转到入口点<br><img src="1.png" alt=""><br>（二）步入第一个call调用<br><img src="2.png" alt=""><br>（三）按f8步进来到40109B处<br>仔细分析这段代码，会发现这段代码的是第一轮解密代码，对004010F5到00401249（004010F5+0x154）这个区段的数据异或0x44<br><img src="3.png" alt=""><br>（四）继续按f8步进来到40109B处，可以发现两个循环，这个两个循环都负责解密<br><img src="4.png" alt=""><br>（五）继续按f8步进程序会返回到00401038处，此处需要主意的校验和计算和比较校验和的值。<br><img src="5.png" alt=""><br>（六）继续运行程序，会发现OEP，如下图<br><img src="6.png" alt=""><br>还有下面的跳转表的啦。。。。<br><img src="7.png" alt=""><br>（七）通过查找DialogBoxParamA的api手册，会发现4010F5是指向对话框的指针，跳转到4010F5这个地址之后，在往下滚动，发现字符串（x32dbg将这个区段解析为指令了，ascii码对的上，只能在内存窗口中查看）。</p>
-<p><img src="8.png" alt=""><br>通过分析pe结构，我们会发现.text头会有很多代码洞空白区域<br><img src="9.png" alt=""><br>插入代码。.。。<br><img src="10.png" alt=""><br>修改JMP指令<br>修改前：<br><img src="11.png" alt=""><br>修改后：<br><img src="12.png" alt=""><br>然后就成功了。。。。。。不晓得我为啥有点问题QAQ。。。<br>中途想过之前的方法是直接修改数据窗口的内容来让实现修改  尝试以后发现程序有检测的  不能用 就只能用打补丁的方法咯</p>
+<h1 id="函数的识别"><a href="#函数的识别" class="headerlink" title="函数的识别"></a>函数的识别</h1><p>调用函数的代码中保存了一个返回地址，该地址会与参数一起传递给被调用的函数 使用call和ret指令来调用函数</p>
+<p>call指令和jmp指令不同的是 call指令保存返回的信息 将其之后的指令压入栈的顶部 当遇到ret指令时返回到这个地址</p>
+<p>因此 我们可以通过call和ret来判断函数的开始和结束</p>
+<h1 id="参数的传递"><a href="#参数的传递" class="headerlink" title="参数的传递"></a>参数的传递</h1><h2 id="利用栈传递参数"><a href="#利用栈传递参数" class="headerlink" title="利用栈传递参数"></a>利用栈传递参数</h2><p>栈是“先进后出”的储存区 调用函数时 调用者依次把参数压栈 然后调用函数 调用完函数后 再使栈恢复原样 </p>
+<p>传参时当参数多于1个时 按照什么方式入栈 如何平衡栈 不同的语言有不同的约定 如图：</p>
+<p><img src="1.png" alt=""><br>函数对参数的存取及局部变量都是通过栈来定义的 非优化编译器用一个专门的寄存器（ebp）对阐述进行寻址 c c++ pascal等高级语言的函数执行过程基本一致：</p>
+<p><strong>调用者将函数执行完毕时应返回的地址 参数压入栈</strong><br><strong>子程序使用“ebp指针+偏移量”对栈中的参数进行寻址取出 完成操作</strong><br><strong>子程序使用ret或retf指令返回 此时 cpu将eip置为栈中返回的地址 完成操作</strong></p>
+<h2 id="利用寄存器传递参数"><a href="#利用寄存器传递参数" class="headerlink" title="利用寄存器传递参数"></a>利用寄存器传递参数</h2><p>寄存器传参为每一个参数分配一个寄存器 默认情况下第一个用eax 第二个用edx 第三个用ebx 第四个用ecx。如果用完的的话 就用栈传参</p>
+<h2 id="名称修饰约定"><a href="#名称修饰约定" class="headerlink" title="名称修饰约定"></a>名称修饰约定</h2><p>像c++和java这种语言允许使用操作符和函数重载 即允许相同函数名的出现 编译器将每个唯一的方法和参数列表组合编码成一个对链接器唯一的名字</p>
+<h1 id="函数的返回值"><a href="#函数的返回值" class="headerlink" title="函数的返回值"></a>函数的返回值</h1><h2 id="用return操作符返回值"><a href="#用return操作符返回值" class="headerlink" title="用return操作符返回值"></a>用return操作符返回值</h2><p>一般境况下 函数的返回值存放在eax中返回 如果处理结果大小超过eax寄存器的容量 其高32位就会放到edx寄存器中</p>
+<h2 id="通过参数按传引方式返回值"><a href="#通过参数按传引方式返回值" class="headerlink" title="通过参数按传引方式返回值"></a>通过参数按传引方式返回值</h2><p>给函数传递参数的方式有两种， 分别是传值和传引用。进行传值调用时， 会建立参数的一份复本， 并把它传给调用函数， 在调用函数中修改参数值的复本不会影响原始的变量值。传引用调用允许调用函数修改原始变最的值。调用某个函数， 当把变量的地址传递给函数时，可以在函数中用间 接引用运算符修改调用函数内存单元中该变量的值。例如， 在调用函数max时， 需要用两个地址 （或者两个指向整数的指针）作为参数，函数会将结果较大的数放到参数a所在的内存单元地址中返回</p>
 
       
     </div>
@@ -356,6 +350,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/加密与解密4/" rel="tag"># 加密与解密4</a>
+          
+        </div>
+      
 
       
       
@@ -365,8 +365,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/19/插入图片/" rel="next" title="插入图片">
-                <i class="fa fa-chevron-left"></i> 插入图片
+              <a href="/2019/10/11/flag/" rel="next" title="充钱才是王道！">
+                <i class="fa fa-chevron-left"></i> 充钱才是王道！
               </a>
             
           </div>
@@ -375,8 +375,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05/04/windows消息钩取/" rel="prev" title="windows消息钩取">
-                windows消息钩取 <i class="fa fa-chevron-right"></i>
+              <a href="/2049/11/30/C-学习笔记/" rel="prev" title="C++学习笔记">
+                C++学习笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -500,7 +500,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OD学习记录（真难啊-QAQ）"><span class="nav-number">1.</span> <span class="nav-text">OD学习记录（真难啊~~~QAQ）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#手动修复IAT"><span class="nav-number">1.1.</span> <span class="nav-text">手动修复IAT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打补丁"><span class="nav-number">1.2.</span> <span class="nav-text">打补丁</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#函数的识别"><span class="nav-number">1.</span> <span class="nav-text">函数的识别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参数的传递"><span class="nav-number">2.</span> <span class="nav-text">参数的传递</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#利用栈传递参数"><span class="nav-number">2.1.</span> <span class="nav-text">利用栈传递参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用寄存器传递参数"><span class="nav-number">2.2.</span> <span class="nav-text">利用寄存器传递参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#名称修饰约定"><span class="nav-number">2.3.</span> <span class="nav-text">名称修饰约定</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数的返回值"><span class="nav-number">3.</span> <span class="nav-text">函数的返回值</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用return操作符返回值"><span class="nav-number">3.1.</span> <span class="nav-text">用return操作符返回值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过参数按传引方式返回值"><span class="nav-number">3.2.</span> <span class="nav-text">通过参数按传引方式返回值</span></a></li></ol></li></ol></div>
             
 
           </div>
