@@ -89,7 +89,8 @@
 <meta property="og:locale" content="chinese">
 <meta property="og:image" content="http://yoursite.com/2019/07/29/Linux下的一些安装/1.png">
 <meta property="og:image" content="http://yoursite.com/2019/07/29/Linux下的一些安装/2.png">
-<meta property="og:updated_time" content="2019-08-06T02:06:46.151Z">
+<meta property="og:image" content="http://yoursite.com/2019/07/29/Linux下的一些安装/2.png">
+<meta property="og:updated_time" content="2019-11-18T14:21:27.123Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下的一些安装">
 <meta name="twitter:description" content="记录一下自己安装Linux下一些软件的过程 也怕自己给忘了">
@@ -327,7 +328,7 @@
 <h1 id="Pwntools"><a href="#Pwntools" class="headerlink" title="Pwntools"></a>Pwntools</h1><p>首先是权限问题 先让系统又root权限 但是需要输入密码 在网上找了一下 才知道每次系统开机都会随机更新root密码 然后执行下列命令自己更改密码</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo passwd</span><br></pre></td></tr></table></figure>
 <p><img src="1.png" alt=""><br>下来切换用户 输入刚才更改的密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su -</span><br></pre></td></tr></table></figure></p>
-<p>![<a href="2.png"></a><br>下来就是正式进入安装 安装pip<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential</span><br><span class="line">pip install --upgrade pip</span><br></pre></td></tr></table></figure></p>
+<p><img src="2.png" alt=""><br>下来就是正式进入安装 安装pip<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential</span><br><span class="line">pip install --upgrade pip</span><br></pre></td></tr></table></figure></p>
 <p>安装pwntools<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install --upgrade pwntools</span><br><span class="line">apt-get install python-dev</span><br></pre></td></tr></table></figure></p>
 <h1 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h1><h2 id="安装gdb"><a href="#安装gdb" class="headerlink" title="安装gdb"></a>安装gdb</h2><p>在root权限下进行 一步一步来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install gdb</span><br></pre></td></tr></table></figure></p>
 <h2 id="简单练习"><a href="#简单练习" class="headerlink" title="简单练习"></a>简单练习</h2><p>编写了一个简单的c程序练习了一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">        int a=1,b=2;</span><br><span class="line">        b=a+b;</span><br><span class="line">        printf(&quot;%d&quot;,b);</span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -457,7 +458,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
